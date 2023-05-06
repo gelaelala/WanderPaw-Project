@@ -1,3 +1,5 @@
+![linkleap logo](https://user-images.githubusercontent.com/92629668/236639699-b6549170-afb9-4e49-a5af-44331f336e04.png)
+
 **Group Name:** Link-Leap
 
 **Members:**
