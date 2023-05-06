@@ -2,7 +2,7 @@
 
 <p align = "center"><b><i> This will be the repository of all documentations and codes for the WanderPaw application, the final requirement in Computer Engineering Technology 4</p>
 
-**Group Name:** Link-Leap
+<b> Group Name: Link-Leap
 
 **Members:**
  - Corpuz, Angela E.
