@@ -22,5 +22,5 @@ https://trello.com/w/wanderpawmobileapplicationcet4
  **Work Breakdown Structure Diagram Link:**
  https://drive.google.com/file/d/1cF9VMWQ-xaHnJfQJk7Vs3U2Y1G40n70R/view?usp=share_link
  
-<p align = "center"> **Image of Work Breakdown Structure**
+<p align = "center"> Image of Work Breakdown Structure
  ![Work Breakdown Schedule (version 2) drawio](https://github.com/gelaelala/WanderPaw-Project/assets/92629668/f9574583-8a38-4a26-a3a6-b6d1422bcc4b)
