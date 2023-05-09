@@ -18,3 +18,6 @@ https://github.com/gelaelala/WanderPaw-Project.git
 
 **Trello Workspace Link:**
 https://trello.com/w/wanderpawmobileapplicationcet4
+
+ **_Work Breakdown Structure Diagram Link:_**
+ https://drive.google.com/file/d/1cF9VMWQ-xaHnJfQJk7Vs3U2Y1G40n70R/view?usp=share_link
