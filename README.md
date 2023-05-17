@@ -18,10 +18,21 @@ https://github.com/gelaelala/WanderPaw-Project.git
 
 **Trello Workspace Link:**
 https://trello.com/w/wanderpawmobileapplicationcet4
+ 
+ **Project Proposal Link:**
+https://docs.google.com/document/d/1wnxdRry_sEX7x5jdT1CoOFLvYvccAp6E3uQhnjar8e8/edit?usp=sharing
 
  **Work Breakdown Schedule Diagram Link:**
  https://drive.google.com/file/d/1cF9VMWQ-xaHnJfQJk7Vs3U2Y1G40n70R/view?usp=share_link
  
+ **Flowchart Link:**
+https://lucid.app/lucidspark/dd3a4920-5719-4c72-9f67-cd44aea70b0c/edit?viewport_loc=-1909%2C-1067%2C5711%2C2713%2C0_0&invitationId=inv_33b5f9ed-64ed-48ad-b7c7-b3f187c032e3
+ 
 **Work Breakdown Schedule (Image)**
 ![Work Breakdown Schedule (version 2) drawio](https://github.com/gelaelala/WanderPaw-Project/assets/92629668/159f18d9-b57b-4ba6-851f-26414333d53f)
+ 
+**Flowchart (Image)**
+![Flowchart (Transparent BG)](https://github.com/gelaelala/WanderPaw-Project/assets/92629668/fbbc7677-61e8-4646-87fd-87af94055689)
+
+
  
