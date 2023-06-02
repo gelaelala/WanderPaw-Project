@@ -6,7 +6,7 @@
 
 **Members:**
  - Corpuz, Angela E.
- - Lasco, 	Lasco, Ivonne Glynn P.
+ - Lasco, Ivonne Glynn P.
  - Robles, Rex-Imman H.
  - Susa, Mary Gwen G.
 
