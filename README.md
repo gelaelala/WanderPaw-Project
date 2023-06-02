@@ -6,6 +6,8 @@
 
 **Members:**
  - Corpuz, Angela E.
+ - Lasco, 	Lasco, Ivonne Glynn P.
+ - Robles, Rex-Imman H.
  - Susa, Mary Gwen G.
 
 **Project Name:** WanderPaw
