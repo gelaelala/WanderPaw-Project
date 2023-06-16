@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">LoginAndSignUp</string>
+    <string name="app_name">WanderPaw</string>
+    <string name="email_text">Email</string>
+    <string name="pwd_text">Password</string>
+    <string name="log_in">Log In</string>
+
+
+
 </resources>

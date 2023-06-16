@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1065689910430",
+    "project_id": "wanderpaw-e02b0",
+    "storage_bucket": "wanderpaw-e02b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065689910430:android:ffb0b4e97c51f1dc003f8f",
+        "android_client_info": {
+          "package_name": "com.codingstuff.loginandsignup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5_TfYFYn4DFu2ur3v0NjQ54UucIpbf3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
