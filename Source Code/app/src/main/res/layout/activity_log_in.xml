@@ -4,7 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".LogInActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/line_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/rectangle_round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/line_half" >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button"
+            android:layout_width="400dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="302dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="197dp"
+            android:background="@drawable/roundedbutton"
+            android:text="@string/log_in"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="395dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -37,7 +73,6 @@
         android:layout_height="60sp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="30dp"
         app:boxStrokeColor="@color/palomino"
         app:hintTextColor="@color/palomino"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,31 +90,16 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="50sp"
-        android:layout_marginHorizontal="16dp"
-        android:background="@color/palomino"
-        android:text="@string/log_in"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
-        app:layout_constraintVertical_bias="0.204" />
-
-<!--    <TextView-->
-<!--        android:id="@+id/textView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:text="Not Registered Yet , Sign Up !"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/button" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:text="Not Registered Yet , Sign Up !"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/button" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
