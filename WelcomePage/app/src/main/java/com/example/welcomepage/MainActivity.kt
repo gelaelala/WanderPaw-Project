@@ -8,5 +8,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-
+    val loginActbtn = findViewById<Button>(R.id.login_btn)
+    val signupActbtn = findViewById<Button>(R.id.signup_btn)
 }
