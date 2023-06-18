@@ -20,12 +20,14 @@ class MainActivity : AppCompatActivity() {
             val i = Intent(this, Login::class.java )
             startActivity(i)
             i.putExtra("key", "loginBTN")
+            overridePendingTransition(R.anim.slide_up, R.anim.push_out)
         }
 
         signupActbtn.setOnClickListener{
             val i = Intent(this, Login::class.java )
             i.putExtra("key", "signupBTN")
             startActivity(i)
+            overridePendingTransition(R.anim.slide_up, R.anim.push_out)
         }
     }
 
