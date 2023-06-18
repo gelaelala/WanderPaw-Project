@@ -2,13 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.LoginAndSignUp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/dirty_white</item>
-        <item name="colorPrimaryVariant">@color/dirty_white</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/dark_brown</item>
+        <item name="colorPrimaryVariant">@color/dark_brown</item>
+        <item name="colorOnPrimary">@color/dark_brown</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/neutral_green</item>
         <item name="colorSecondaryVariant">@color/neutral_green</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/neutral_green</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/light_brown</item>
         <!-- Customize your theme here. -->
@@ -24,10 +24,11 @@
     <style name="LoginTextInputInnerFieldStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/black</item>
+        <item name="android:textColor">@color/light_brown</item>
+        <item name="android:textColorHint">@color/light_brown</item>
         <item name="android:maxLines">1</item>
         <item name="android:textSize">14sp</item>
         <item name="android:singleLine">true</item>
+        <item name="colorPrimary">@color/black</item>
     </style>
 </resources>
