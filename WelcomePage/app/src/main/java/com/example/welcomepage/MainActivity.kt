@@ -16,10 +16,12 @@ class MainActivity : AppCompatActivity() {
 
         loginActbtn.setOnClickListener{
             val Intent = Intent(this, Login::class.java )
+            startActivity(Intent)
         }
 
         signupActbtn.setOnClickListener{
             val Intent = Intent(this, Login::class.java )
+            startActivity(Intent)
         }
     }
 
