@@ -13,6 +13,7 @@
         android:layout_marginTop="560dp"
         android:width="300dp"
         android:text="Log in"
+        android:id="@+id/login_button"
         />
 
     <Button
@@ -22,6 +23,7 @@
         android:layout_marginTop="620dp"
         android:width="300dp"
         android:text="Sign up"
+        android:id="@+id/signup_button"
         />
 
 </RelativeLayout>
