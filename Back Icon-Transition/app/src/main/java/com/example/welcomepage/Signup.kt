@@ -9,4 +9,7 @@ class Signup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
     }
+    fun onBackButtonClicked(view: View) {
+        onBackPressedDispatcher.onBackPressed()
+    }
 }
