@@ -19,10 +19,12 @@ class MainActivity : AppCompatActivity() {
         loginActbtn.setOnClickListener{
             val i = Intent(this, Login::class.java )
             startActivity(i)
+            i.putExtra("key", "loginBTN")
         }
 
         signupActbtn.setOnClickListener{
             val i = Intent(this, Login::class.java )
+            i.putExtra("key", "signupBTN")
             startActivity(i)
         }
     }
