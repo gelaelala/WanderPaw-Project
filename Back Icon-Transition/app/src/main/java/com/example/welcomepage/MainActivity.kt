@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.view.animation.AnimationUtils
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,14 +17,15 @@ class MainActivity : AppCompatActivity() {
         val signupActbtn = findViewById<Button>(R.id.signup_button)
 
         loginActbtn.setOnClickListener{
-            val Intent = Intent(this, Login::class.java )
-            startActivity(Intent)
+            val i = Intent(this, Login::class.java )
+            startActivity(i)
         }
 
         signupActbtn.setOnClickListener{
-            val Intent = Intent(this, Login::class.java )
-            startActivity(Intent)
+            val i = Intent(this, Login::class.java )
+            startActivity(i)
         }
     }
 
 }
+
