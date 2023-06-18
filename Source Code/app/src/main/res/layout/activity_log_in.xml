@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,28 +21,26 @@
         android:layout_height="0dp"
         android:background="@drawable/rectangle_round"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/line_half" >
+        app:layout_constraintTop_toTopOf="@id/line_half" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-            android:layout_width="400dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="302dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="197dp"
-            android:background="@drawable/roundedbutton"
-            android:text="@string/log_in"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_conversion_absoluteHeight="50dp"
-            tools:layout_conversion_absoluteWidth="395dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="302dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="197dp"
+        android:background="@drawable/roundedbutton"
+        android:text="@string/log_in"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="50dp"
+        tools:layout_conversion_absoluteWidth="395dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
@@ -50,8 +49,8 @@
         android:layout_height="60sp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="280dp"
-        app:boxStrokeColor="@color/palomino"
-        app:hintTextColor="@color/palomino"
+        app:boxStrokeColor="@color/light_brown"
+        app:hintTextColor="@color/light_brown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="10"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,8 +72,8 @@
         android:layout_height="60sp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="12dp"
-        app:boxStrokeColor="@color/palomino"
-        app:hintTextColor="@color/palomino"
+        app:boxStrokeColor="@color/light_brown"
+        app:hintTextColor="@color/light_brown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
