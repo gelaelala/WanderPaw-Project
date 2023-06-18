@@ -2,6 +2,7 @@ package com.codingstuff.loginandsignup
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivitySignUpBinding
@@ -20,11 +21,9 @@ class SignUpActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.textView.setOnClickListener {
-            val intent = Intent(this, LogInActivity::class.java)
-            startActivity(intent)
-        }
         binding.button.setOnClickListener {
+            val firstName = binding.firstNameET.text.toString()
+            val lastName = binding.lastNameET.text.toString()
             val email = binding.emailEt.text.toString()
             val pass = binding.passET.text.toString()
             val confirmPass = binding.confirmPassEt.text.toString()
@@ -49,5 +48,9 @@ class SignUpActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    fun onBackButtonClicked(view: View) {
+        onBackPressedDispatcher.onBackPressed()
     }
 }
