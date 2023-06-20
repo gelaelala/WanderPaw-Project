@@ -58,7 +58,6 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/light_brown"
-                android:textStyle="bold"
                 android:typeface="normal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,7 +98,6 @@
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textColor="@color/light_brown"
-                android:textStyle="bold"
                 android:typeface="normal" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,6 +124,34 @@
             tools:layout_conversion_absoluteWidth="395dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="73dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/wanderpaw_logo__main_" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="274dp"
+        android:layout_height="103dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="31dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/welcome_back" />
 
     <!--    <TextView-->
     <!--        android:id="@+id/textView"-->
