@@ -21,10 +21,12 @@ class SignUpActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+
         binding.button.setOnClickListener {
             val firstName = binding.firstNameET.text.toString()
             val lastName = binding.lastNameET.text.toString()
-            val email = binding.emailEt.text.toString()
+            val emailInput = binding.emailEt.text.toString()
+            val email = "$emailInput.com"
             val pass = binding.passET.text.toString()
             val confirmPass = binding.confirmPassEt.text.toString()
 
