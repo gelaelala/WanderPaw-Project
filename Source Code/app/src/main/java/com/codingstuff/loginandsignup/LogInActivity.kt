@@ -2,6 +2,7 @@ package com.codingstuff.loginandsignup
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityLogInBinding
@@ -53,5 +54,9 @@ class LogInActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    fun onBackButtonClicked(view: View) {
+        onBackPressedDispatcher.onBackPressed()
     }
 }

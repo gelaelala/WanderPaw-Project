@@ -25,17 +25,17 @@ class SignUpActivity : AppCompatActivity() {
         binding.button.setOnClickListener {
             val firstName = binding.firstNameET.text.toString()
             val lastName = binding.lastNameET.text.toString()
-            val emailInput = binding.emailEt.text.toString()
-            val email = "$emailInput.com"
+            val email = binding.emailEt.text.toString()
             val pass = binding.passET.text.toString()
             val confirmPass = binding.confirmPassEt.text.toString()
+
 
             if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
                 if (pass == confirmPass) {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val intent = Intent(this, LogInActivity::class.java)
+                            val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()

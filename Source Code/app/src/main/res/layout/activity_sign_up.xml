@@ -151,8 +151,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:suffixText=".com">
+        app:layout_constraintTop_toTopOf="parent">
         <!--modify the suffix text on be-->
 
         <com.google.android.material.textfield.TextInputEditText
