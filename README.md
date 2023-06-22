@@ -1,6 +1,6 @@
 ![linkleap logo](https://user-images.githubusercontent.com/92629668/236639699-b6549170-afb9-4e49-a5af-44331f336e04.png)
 
-<p align = "center">This will be the repository of all documentations and codes for the WanderPaw application, the final requirement in Computer Engineering Technology 4.
+<p align = "center">This will be the repository of all documentation and codes for the WanderPaw application, the final requirement in Computer Engineering Technology 4 and Software Design.
 
 **Group Name**: Link-Leap
 
