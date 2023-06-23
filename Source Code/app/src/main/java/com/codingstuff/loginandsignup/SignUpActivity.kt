@@ -107,6 +107,8 @@ class SignUpActivity : AppCompatActivity() {
             if (!confirmPassword.equals(password)){
                 //check if value in confirmPassword equals value in password
                 Toast.makeText(this, "Password does not match", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless the password is match
             }
             registerFirebase(email,password)
         }
