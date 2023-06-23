@@ -30,22 +30,11 @@ class SignUpActivity : AppCompatActivity() {
             val password = binding.passET.text.toString()
             val confirmPassword = binding.confirmPassEt.text.toString()
 
-            if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
-                if (password == confirmPassword){
-
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
-                        if(it.isSuccessful){
-                            val i = Intent(this, WelcomePage::class.java)
-                            startActivity(i)
-                        }else {
-                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }else {
-                    Toast.makeText(this, "Password does not matched", Toast.LENGTH_SHORT).show()
-                }
-            }else{
+            if (firstName.isEmpty()) {
+                //check if first name is empty.
                 Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless the first name editText field has been filled
             }
         }
         binding.backIcon.setOnClickListener{
