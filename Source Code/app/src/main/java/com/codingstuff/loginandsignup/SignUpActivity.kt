@@ -43,6 +43,14 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless the lastname editText field has been filled
             }
+            
+            if (email.isEmpty()) {
+                //check if email is empty.
+                Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
+                binding.emailEt.requestFocus()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless the email editText field has been filled
+            }
         }
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
