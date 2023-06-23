@@ -88,6 +88,13 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless password editText filled has a lowercase letter
             }
+
+            if (!password.matches(".*[@#\$%^&+=].*".toRegex())){
+                //check if the password editText filled has a special character
+                Toast.makeText(this, " Password must have special case character", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless password editText filled has a special character
+            }
         }
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
