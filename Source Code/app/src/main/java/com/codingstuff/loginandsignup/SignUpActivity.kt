@@ -117,6 +117,10 @@ class SignUpActivity : AppCompatActivity() {
     private fun registerFirebase(email: String, password: String) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this){
             //This line signifies that we use the firebase instance to create user with email and password
+            if(it.isSuccessful) {
+                // User creation successful
+                Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
