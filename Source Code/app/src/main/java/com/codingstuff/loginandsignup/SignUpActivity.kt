@@ -67,6 +67,13 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless the password editText field has been filled
             }
+
+            if(password.length<6){
+                //check if the value in password editText filed is less than 6 characters
+                Toast.makeText(this, " Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless the value in password editText field is more than 6 characters
+            }
         }
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
