@@ -95,6 +95,13 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless password editText filled has a special character
             }
+
+            if (confirmPassword.isEmpty()){
+                //check if the confirm password editText filled has a special character
+                Toast.makeText(this, "Confirm password has to be provided", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless the confirm password editText field is filled
+            }
         }
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
