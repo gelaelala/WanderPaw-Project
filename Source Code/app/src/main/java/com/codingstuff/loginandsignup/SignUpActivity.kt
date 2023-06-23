@@ -129,6 +129,8 @@ class SignUpActivity : AppCompatActivity() {
                     // Email already in use
                     Toast.makeText(applicationContext, "Email already taken!", Toast.LENGTH_SHORT).show()
                 }
+                // User creation failed
+                Toast.makeText(this, "Sign Up Failed!", Toast.LENGTH_SHORT).show()
             }
         }
     }
