@@ -9,7 +9,7 @@
     tools:context=".LogInActivity">
 
     <ImageView
-        android:id="@+id/back_icon2"
+        android:id="@+id/back_icon"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="12dp"

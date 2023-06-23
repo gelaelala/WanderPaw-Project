@@ -2,7 +2,6 @@ package com.codingstuff.loginandsignup
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityLogInBinding
@@ -18,12 +17,7 @@ class LogInActivity : AppCompatActivity() {
         binding = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         firebaseAuth = FirebaseAuth.getInstance()
-//        binding.textView.setOnClickListener {
-//            val intent = Intent(this, SignUpActivity::class.java)
-//            startActivity(intent)
-//        }
 
         binding.button.setOnClickListener{
             val email = binding.emailEt.text.toString()
@@ -33,19 +27,43 @@ class LogInActivity : AppCompatActivity() {
 
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                     if(it.isSuccessful) {
-                        val i = Intent(this, MainActivity::class.java)
-                        startActivity(i)
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }else{
                         Toast.makeText(this,it.exception.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
             }else{
-                Toast.makeText(this,"Fields cannot be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Fields cannot be empty!", Toast.LENGTH_SHORT).show()
             }
         }
-        binding.backIcon2.setOnClickListener {
-            val backIntent = Intent(this, WelcomePage::class.java)
-            startActivity(backIntent)
+        binding.backIcon.setOnClickListener {
+            val intent = Intent(this, WelcomePage::class.java)
+            startActivity(intent)
         }
+
     }
+    override fun onStart() {
+        super.onStart()
+//        val actArray = arrayOf(WelcomePage::class.java, LogInActivity::class.java)
+//        if(firebaseAuth.currentUser == null){
+//            if (WelcomePage.LauncherSigning.indexAct == 1) {
+//                val intent = Intent(this, actArray[WelcomePage.LauncherSigning.indexAct])
+//                startActivity(intent)
+//                finish()
+//            } else {
+//                break
+//            }
+//        } else {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//        }
+        if (firebaseAuth.currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+        }
+
+    }
+
 }

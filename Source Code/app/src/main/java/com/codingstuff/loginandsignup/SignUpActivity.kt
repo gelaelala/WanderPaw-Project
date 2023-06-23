@@ -35,8 +35,9 @@ class SignUpActivity : AppCompatActivity() {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
                         if(it.isSuccessful){
-                            val i = Intent(this, WelcomePage::class.java)
-                            startActivity(i)
+                            val intent = Intent(this, WelcomePage::class.java)
+                            startActivity(intent)
+                            finish()
                         }else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                         }
@@ -49,8 +50,8 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
         binding.backIcon.setOnClickListener{
-            val backIntent = Intent(this, WelcomePage::class.java)
-            startActivity(backIntent)
+            val intent = Intent(this, WelcomePage::class.java)
+            startActivity(intent)
         }
     }
 }
