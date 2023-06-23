@@ -120,6 +120,8 @@ class SignUpActivity : AppCompatActivity() {
             if(it.isSuccessful) {
                 // User creation successful
                 Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
+                val backToWelcomePage = Intent(this, WelcomePage::class.java)
+                startActivity(backToWelcomePage)
             }
         }
     }
