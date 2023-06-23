@@ -108,6 +108,7 @@ class SignUpActivity : AppCompatActivity() {
                 //check if value in confirmPassword equals value in password
                 Toast.makeText(this, "Password does not match", Toast.LENGTH_SHORT).show()
             }
+            registerFirebase(email,password)
         }
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
