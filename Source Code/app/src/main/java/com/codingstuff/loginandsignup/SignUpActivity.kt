@@ -122,6 +122,13 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Successfully Signed Up", Toast.LENGTH_SHORT).show()
                 val backToWelcomePage = Intent(this, WelcomePage::class.java)
                 startActivity(backToWelcomePage)
+            }else{
+                try {
+                    throw it.getException()!!
+                } catch (e:FirebaseAuthUserCollisionException){
+                    // Email already in use
+                    Toast.makeText(applicationContext, "Email already taken!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
