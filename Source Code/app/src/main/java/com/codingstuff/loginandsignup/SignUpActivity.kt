@@ -2,6 +2,7 @@ package com.codingstuff.loginandsignup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -43,13 +44,21 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless the lastname editText field has been filled
             }
-            
+
             if (email.isEmpty()) {
                 //check if email is empty.
                 Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
                 binding.emailEt.requestFocus()
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless the email editText field has been filled
+            }
+
+            if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                //check if the email entered matches a normal email address pattern
+                Toast.makeText(this, "Email Invalid", Toast.LENGTH_SHORT).show()
+                binding.emailEt.requestFocus()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless the value in email editText matches an email address pattern
             }
         }
         binding.backIcon.setOnClickListener{
