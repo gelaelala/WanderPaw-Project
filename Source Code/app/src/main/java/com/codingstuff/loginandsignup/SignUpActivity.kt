@@ -22,37 +22,35 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
 
-        binding.button.setOnClickListener {
+        firebaseAuth = FirebaseAuth.getInstance()
+        binding.button.setOnClickListener{
             val firstName = binding.firstNameET.text.toString()
             val lastName = binding.lastNameET.text.toString()
             val email = binding.emailEt.text.toString()
-            val pass = binding.passET.text.toString()
-            val confirmPass = binding.confirmPassEt.text.toString()
+            val password = binding.passET.text.toString()
+            val confirmPassword = binding.confirmPassEt.text.toString()
 
+            if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
+                if (password == confirmPassword){
 
-            if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
-                if (pass == confirmPass) {
-
-                    firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                        } else {
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
+                        if(it.isSuccessful){
+                            val i = Intent(this, WelcomePage::class.java)
+                            startActivity(i)
+                        }else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
-
                         }
                     }
-                } else {
-                    Toast.makeText(this, "Password is not matching", Toast.LENGTH_SHORT).show()
+                }else {
+                    Toast.makeText(this, "Password does not matched", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
-
+            }else{
+                Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    fun onBackButtonClicked(view: View) {
-        onBackPressedDispatcher.onBackPressed()
+        binding.backIcon.setOnClickListener{
+            val backIntent = Intent(this, WelcomePage::class.java)
+            startActivity(backIntent)
+        }
     }
 }

@@ -25,38 +25,27 @@ class LogInActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
-        binding.button.setOnClickListener {
+        binding.button.setOnClickListener{
             val email = binding.emailEt.text.toString()
-            val pass = binding.passET.text.toString()
+            val password = binding.passET.text.toString()
 
-            if (email.isNotEmpty() && pass.isNotEmpty()) {
+            if(email.isNotEmpty() && password.isNotEmpty()){
 
-                firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
-
+                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
+                    if(it.isSuccessful) {
+                        val i = Intent(this, MainActivity::class.java)
+                        startActivity(i)
+                    }else{
+                        Toast.makeText(this,it.exception.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
-            } else {
-                Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
-
+            }else{
+                Toast.makeText(this,"Fields cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        if(firebaseAuth.currentUser != null){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        binding.backIcon2.setOnClickListener {
+            val backIntent = Intent(this, WelcomePage::class.java)
+            startActivity(backIntent)
         }
-    }
-
-    fun onBackButtonClicked(view: View) {
-        onBackPressedDispatcher.onBackPressed()
     }
 }
