@@ -74,6 +74,13 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless the value in password editText field is more than 6 characters
             }
+
+            if (!password.matches(".*[a-z].*".toRegex())){
+                //check if the password editText filled has a lowercase letter
+                Toast.makeText(this, " Password must have lowercase letter", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless password editText filled has a lowercase letter
+            }
         }
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
