@@ -21,8 +21,6 @@ class SignUpActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-
-        firebaseAuth = FirebaseAuth.getInstance()
         binding.button.setOnClickListener{
             val firstName = binding.firstNameET.text.toString()
             val lastName = binding.lastNameET.text.toString()

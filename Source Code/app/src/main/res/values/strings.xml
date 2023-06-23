@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">WanderPaw</string>
-    <string name="email_text">Email</string>
-    <string name="pwd_text">Password</string>
     <string name="log_in">Log In</string>
+    <string name="sign_up">Sign Up</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="confirm_pwd">Confirm your password</string>
+
+
 
 
 </resources>

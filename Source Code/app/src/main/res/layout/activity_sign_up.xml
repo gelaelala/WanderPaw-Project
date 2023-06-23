@@ -7,7 +7,6 @@
     android:background="@drawable/gradient_background"
     tools:context=".SignUpActivity">
 
-<!--make the on click value a string-->
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="60dp"
@@ -60,7 +59,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/roundedbutton"
         android:fontFamily="@font/inter"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -90,7 +89,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/firstNameET"
             style="@style/LoginTextInputInnerFieldStyle"
@@ -98,14 +96,14 @@
             android:layout_height="wrap_content"
             android:background="@drawable/input_field"
             android:fontFamily="@font/inter"
-            android:hint="First Name"
+            android:hint="@string/first_name"
             android:inputType="textPersonName"
             android:textSize="14sp"
             android:typeface="normal" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/laststnameLayout"
+        android:id="@+id/lastnameLayout"
         style="@style/LoginTextInputOuterFieldStyle"
         android:layout_width="320dp"
         android:layout_height="60sp"
@@ -129,7 +127,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/input_field"
             android:fontFamily="@font/inter"
-            android:hint="Last Name"
+            android:hint="@string/last_name"
             android:inputType="textPersonName"
             android:textSize="14sp"
             android:typeface="normal" />
@@ -152,7 +150,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        <!--modify the suffix text on be-->
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEt"
@@ -225,7 +222,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/input_field"
             android:fontFamily="@font/inter"
-            android:hint="Confirm your password"
+            android:hint="@string/confirm_pwd"
             android:inputType="textPassword"
             android:textSize="14sp"
             android:typeface="normal" />
