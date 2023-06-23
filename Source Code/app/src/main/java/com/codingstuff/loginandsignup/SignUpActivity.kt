@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -111,6 +112,11 @@ class SignUpActivity : AppCompatActivity() {
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
             startActivity(backIntent)
+        }
+    }
+    private fun registerFirebase(email: String, password: String) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this){
+            //This line signifies that we use the firebase instance to create user with email and password
         }
     }
 }
