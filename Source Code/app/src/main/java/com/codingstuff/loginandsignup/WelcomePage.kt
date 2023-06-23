@@ -21,26 +21,23 @@ class WelcomePage : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener {
             val intent = Intent(this, LogInActivity::class.java)
-            LauncherSigning.indexAct = 1
             startActivity(intent)
             overridePendingTransition(R.anim.slide_up, R.anim.push_out)
         }
 
-        binding.signupButton.setOnClickListener{
+        binding.signupButton.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_up, R.anim.push_out)
         }
     }
 
-    object LauncherSigning {
-        var indexAct: Int = 0
+    override fun onStart() {
+        super.onStart()
+
+        if (firebaseAuth.currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
-
-//    override fun onStart() {
-//        super.onStart()
-//
-//        if (c)
-//    }
-
 }
