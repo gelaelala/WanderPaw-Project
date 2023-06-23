@@ -60,6 +60,13 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
                 //this line simply states that no other action should happen unless the value in email editText matches an email address pattern
             }
+
+            if(password.isEmpty()){
+                //check if the password editText field is empty
+                Toast.makeText(this, "Enter a password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+                //this line simply states that no other action should happen unless the password editText field has been filled
+            }
         }
         binding.backIcon.setOnClickListener{
             val backIntent = Intent(this, WelcomePage::class.java)
