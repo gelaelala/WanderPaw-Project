@@ -53,6 +53,8 @@
             android:cursorVisible="true"
             android:gravity="center"
             android:textColorHint="@color/light_brown"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/light_brown"
             app:boxStrokeColor="@color/light_brown"
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
