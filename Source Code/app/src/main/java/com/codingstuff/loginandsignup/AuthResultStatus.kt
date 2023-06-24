@@ -30,5 +30,18 @@ object AuthExceptionHandler {
         return status
     }
 
-
+//  the generateExceptionMessage function generates user-friendly error messages based on the provided exception codes
+    fun generateExceptionMessage(exceptionCode: AuthResultStatus): String {
+        val errorMessage: String = when (exceptionCode) {
+            AuthResultStatus.INVALID_EMAIL -> "Invalid email address!"
+            AuthResultStatus.WRONG_PASSWORD -> "Invalid password!"
+            AuthResultStatus.USER_NOT_FOUND -> "User with this email doesn't exist."
+            AuthResultStatus.USER_DISABLED -> "User with this email has been disabled."
+            AuthResultStatus.TOO_MANY_REQUESTS -> "Too many requests. Try again later."
+            AuthResultStatus.OPERATION_NOT_ALLOWED -> "Signing in with Email and Password is not enabled."
+            AuthResultStatus.EMAIL_ALREADY_EXISTS -> "The email has already been registered. Please log in or reset your password."
+            else -> "An undefined error happened."
+        }
+        return errorMessage
+    }
 }
