@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityLogInBinding
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 
@@ -35,6 +37,14 @@ class LogInActivity : AppCompatActivity() {
                         if (exception is FirebaseAuthException) {
                             val errorMessage = AuthExceptionHandler.handleException(exception)
                             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                        } else if (exception is FirebaseNetworkException) {
+                            Toast.makeText(
+                                this,
+                                "There is network connectivity issue. Please check your network.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else if (exception is FirebaseTooManyRequestsException){
+                            Toast.makeText(this, "Too many requests. Try again later.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
