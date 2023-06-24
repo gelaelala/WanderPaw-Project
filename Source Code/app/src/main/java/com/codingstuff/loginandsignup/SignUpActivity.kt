@@ -4,9 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.codingstuff.loginandsignup.AuthExceptionHandler.handleException
 import com.codingstuff.loginandsignup.AuthExceptionHandler.validatePassword
 import com.codingstuff.loginandsignup.databinding.ActivitySignUpBinding
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -36,15 +40,26 @@ class SignUpActivity : AppCompatActivity() {
                         firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener {
                                 if (it.isSuccessful) {
-                                    val intent = Intent(this, WelcomePage::class.java)
+                                    val intent = Intent(this, MainActivity::class.java)
                                     startActivity(intent)
                                     finish()
                                 } else {
-                                    Toast.makeText(
-                                        this,
-                                        it.exception.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    when (val exception = it.exception) {
+                                        is FirebaseAuthException -> {
+                                            val errorMessage = handleException(exception)
+                                            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                                        }
+                                        is FirebaseNetworkException -> {
+                                            Toast.makeText(
+                                                this,
+                                                "There is a network connectivity issue. Please check your network.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                        is FirebaseTooManyRequestsException -> {
+                                            Toast.makeText(this, "Too many requests. Try again later.", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
                                 }
                             }
                     } else {
