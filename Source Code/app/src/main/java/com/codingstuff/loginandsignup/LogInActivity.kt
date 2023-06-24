@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.codingstuff.loginandsignup.AuthExceptionHandler.handleException
 import com.codingstuff.loginandsignup.databinding.ActivityLogInBinding
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -27,7 +28,6 @@ class LogInActivity : AppCompatActivity() {
             val password = binding.passET.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
                         val intent = Intent(this, MainActivity::class.java)
@@ -35,7 +35,7 @@ class LogInActivity : AppCompatActivity() {
                     } else {
                         when (val exception = it.exception) {
                             is FirebaseAuthException -> {
-                                val errorMessage = AuthExceptionHandler.handleException(exception)
+                                val errorMessage = handleException(exception)
                                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                             }
                             is FirebaseNetworkException -> {
