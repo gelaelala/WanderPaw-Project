@@ -30,8 +30,8 @@ class SignUpActivity : AppCompatActivity() {
             val missingConditions = validatePassword(password)
 
             if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
-//                if (missingConditions.isEmpty()) {
-                    if (password == confirmPassword) {
+                if (password == confirmPassword) {
+                    if (missingConditions.isEmpty()) {
 
                         firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener {
@@ -48,12 +48,12 @@ class SignUpActivity : AppCompatActivity() {
                                 }
                             }
                     } else {
-                        Toast.makeText(this, "Password does not match!", Toast.LENGTH_SHORT).show()
+                        val weakPwd = "Weak password. The following conditions are missing: ${missingConditions.joinToString(", ")}"
+                        Toast.makeText(this, weakPwd, Toast.LENGTH_SHORT).show()
                     }
-//                } else {
-//                    val weakPwd = "Weak password. The following conditions are missing: ${missingConditions.joinToString(", ")}"
-//                    Toast.makeText(this, weakPwd, Toast.LENGTH_SHORT).show()
-//                }
+                } else {
+                    Toast.makeText(this, "Password does not match!", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
             }
