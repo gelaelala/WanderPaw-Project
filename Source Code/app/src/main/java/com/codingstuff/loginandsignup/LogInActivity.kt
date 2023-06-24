@@ -33,18 +33,21 @@ class LogInActivity : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     } else {
-                        val exception = it.exception
-                        if (exception is FirebaseAuthException) {
-                            val errorMessage = AuthExceptionHandler.handleException(exception)
-                            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-                        } else if (exception is FirebaseNetworkException) {
-                            Toast.makeText(
-                                this,
-                                "There is network connectivity issue. Please check your network.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else if (exception is FirebaseTooManyRequestsException){
-                            Toast.makeText(this, "Too many requests. Try again later.", Toast.LENGTH_SHORT).show()
+                        when (val exception = it.exception) {
+                            is FirebaseAuthException -> {
+                                val errorMessage = AuthExceptionHandler.handleException(exception)
+                                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                            }
+                            is FirebaseNetworkException -> {
+                                Toast.makeText(
+                                    this,
+                                    "There is a network connectivity issue. Please check your network.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            is FirebaseTooManyRequestsException -> {
+                                Toast.makeText(this, "Too many requests. Try again later.", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 }
