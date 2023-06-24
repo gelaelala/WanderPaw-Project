@@ -24,10 +24,10 @@ class AuthToastLess (private val context: Context) {
         toast?.show()
     }
 
-//    fun cancelToast() {
-//        toastCount = 0
-//        toast?.cancel()
-//    }
+    fun cancelToast() {
+        toastCount = 0
+        toast?.cancel()
+    }
 
 
 }

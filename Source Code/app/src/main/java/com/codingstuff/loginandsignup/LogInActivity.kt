@@ -68,6 +68,7 @@ class LogInActivity : AppCompatActivity() {
 
     // strips firebase exception errors
     private fun handleLoginFailure(exception: Exception?) {
+        authToastLess.cancelToast() // Cancel any active Toast message since empty fields is determined first before auth exceptions
         when (exception) {
             is FirebaseAuthException -> {
                 val errorMessage = handleException(exception)
