@@ -15,6 +15,7 @@ class LogInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLogInBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private val authToastLess = AuthToastLess(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,24 +71,20 @@ class LogInActivity : AppCompatActivity() {
         when (exception) {
             is FirebaseAuthException -> {
                 val errorMessage = handleException(exception)
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                authToastLess.showToast(errorMessage)
             }
             is FirebaseNetworkException -> {
-                Toast.makeText(
-                    this,
-                    "There is a network connectivity issue. Please check your network.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                authToastLess.showToast("There is a network connectivity issue. Please check your network.")
             }
             is FirebaseTooManyRequestsException -> {
-                Toast.makeText(this, "Too many requests. Try again later.", Toast.LENGTH_SHORT).show()
+                authToastLess.showToast("Too many requests. Try again later.")
             }
         }
     }
 
     // response for empty fields
     private fun showEmptyFieldsMessage() {
-        Toast.makeText(this, "Fields cannot be empty!", Toast.LENGTH_SHORT).show()
+        authToastLess.showToast("Fields cannot be empty!")
     }
 
     // start welcome page
