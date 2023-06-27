@@ -2,9 +2,8 @@ package com.codingstuff.loginandsignup
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.codingstuff.loginandsignup.AuthExceptionHandler.handleException
+import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
 import com.codingstuff.loginandsignup.databinding.ActivityLogInBinding
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException

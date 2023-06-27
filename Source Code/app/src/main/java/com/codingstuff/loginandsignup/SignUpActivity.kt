@@ -2,10 +2,9 @@ package com.codingstuff.loginandsignup
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.codingstuff.loginandsignup.AuthExceptionHandler.handleException
-import com.codingstuff.loginandsignup.AuthExceptionHandler.validatePassword
+import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
+import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.validatePassword
 import com.codingstuff.loginandsignup.databinding.ActivitySignUpBinding
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -86,7 +85,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     // function for stripping firebase exceptions
-    private fun handleSignUpFailure(exception: Exception?) {
+    fun handleSignUpFailure(exception: Exception?) {
         authToastLess.cancelToast() // Cancel any active Toast message since empty fields and password mismatch are determined first before auth exceptions
         when (exception) {
             is FirebaseAuthException -> {
