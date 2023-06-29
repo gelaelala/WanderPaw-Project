@@ -95,7 +95,7 @@ class LogInActivity : AppCompatActivity() {
 
     // start logged in act
     private fun navigateToMainActivity() {
-        val intent = Intent(this, SettingsAccountTab::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 }

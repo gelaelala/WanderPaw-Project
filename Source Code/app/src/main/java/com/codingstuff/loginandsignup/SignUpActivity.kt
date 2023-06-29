@@ -10,14 +10,11 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseRef : DatabaseReference
     private val authToastLess = AuthToastLess(this)
 
 
@@ -27,8 +24,6 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        firebaseRef = FirebaseDatabase.getInstance().reference
-
 
         setupClickListener()
     }
@@ -55,7 +50,6 @@ class SignUpActivity : AppCompatActivity() {
         if (areFieldsNotEmpty(firstName, lastName, email, password, confirmPassword)) {
             if (isPasswordMatch(password, confirmPassword)) {
                 if (missingConditions.isEmpty()) {
-//                    createUserWithEmailAndPassword(email, password, firstName, lastName)
                     createUserWithEmailAndPassword(email, password)
                 } else {
                     showWeakPasswordMessage(missingConditions)
@@ -90,39 +84,8 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-//    private fun createUserWithEmailAndPassword(email: String, password: String, firstName: String, lastName: String) {
-//        firebaseAuth.createUserWithEmailAndPassword(email, password)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    val currentUser = firebaseAuth.currentUser
-//                    val userId = currentUser?.uid
-//
-//                    // Create a HashMap to store user data
-//                    val userData = HashMap<String, String>()
-//                    userData["First Name:"] = firstName
-//                    userData["Last Name:"] = lastName
-//
-//                    // Push the user data to the "Users" node
-//                    if (userId != null) {
-//                        firebaseRef.child("Users").child(userId).setValue(userData)
-//                            .addOnCompleteListener { databaseTask ->
-//                                if (databaseTask.isSuccessful) {
-//                                    navigateToMainActivity()
-//                                }
-//                                else {
-//                                    // Handle database write failure
-//                                }
-//                            }
-//                    }
-//                } else {
-//                    handleSignUpFailure(task.exception)
-//                }
-//            }
-//    }
-
-
     // function for stripping firebase exceptions
-    private fun handleSignUpFailure(exception: Exception?) {
+    fun handleSignUpFailure(exception: Exception?) {
         authToastLess.cancelToast() // Cancel any active Toast message since empty fields and password mismatch are determined first before auth exceptions
         when (exception) {
             is FirebaseAuthException -> {
@@ -164,7 +127,7 @@ class SignUpActivity : AppCompatActivity() {
 
     // starting logged in page code
     private fun navigateToMainActivity() {
-        val intent = Intent(this, SettingsAccountTab::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
