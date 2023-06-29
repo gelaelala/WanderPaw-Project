@@ -27,7 +27,7 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".SettingsAccountTab"
             android:exported="false">
 
         </activity>
