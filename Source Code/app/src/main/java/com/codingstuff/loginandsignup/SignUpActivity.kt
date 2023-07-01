@@ -10,11 +10,14 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
 
 
@@ -23,6 +26,7 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
 
         setupClickListener()
@@ -40,17 +44,17 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun handleSignUp() {
-        val firstName = binding.firstNameET.text.toString()
-        val lastName = binding.lastNameET.text.toString()
-        val email = binding.emailEt.text.toString()
-        val password = binding.passET.text.toString()
-        val confirmPassword = binding.confirmPassEt.text.toString()
+        val firstName = binding.firstNameET.text.toString().trim()
+        val lastName = binding.lastNameET.text.toString().trim()
+        val email = binding.emailEt.text.toString().trim()
+        val password = binding.passET.text.toString().trim()
+        val confirmPassword = binding.confirmPassEt.text.toString().trim()
         val missingConditions = validatePassword(password)
 
         if (areFieldsNotEmpty(firstName, lastName, email, password, confirmPassword)) {
             if (isPasswordMatch(password, confirmPassword)) {
                 if (missingConditions.isEmpty()) {
-                    createUserWithEmailAndPassword(email, password)
+                    createUserWithEmailAndPassword(email, password, firstName, lastName)
                 } else {
                     showWeakPasswordMessage(missingConditions)
                 }
@@ -72,17 +76,36 @@ class SignUpActivity : AppCompatActivity() {
         return password == confirmPassword
     }
 
-    // function for account creation
-    private fun createUserWithEmailAndPassword(email: String, password: String) {
+    // Function for account creation
+    private fun createUserWithEmailAndPassword(email: String, password: String, firstName: String, lastName: String) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    navigateToMainActivity()
+//                    val currentUser = firebaseAuth.currentUser
+//                    val userId = currentUser?.uid
+
+                    // Create a HashMap to store user data
+                    val userData = HashMap<String, Any>()
+                    userData["First Name"] = firstName
+                    userData["Last Name"] = lastName
+
+                    // Push the user data to the "Users" node
+//                    userId?.let {
+//                        databaseRef.child("Users").child(it).updateChildren(userData)
+//                            .addOnCompleteListener { databaseTask ->
+//                                if (databaseTask.isSuccessful) {
+//                                    navigateToMainActivity()
+//                                } else {
+//                                    // Handle database write failure
+//                                }
+//                            }
+//                    }
                 } else {
                     handleSignUpFailure(task.exception)
                 }
             }
     }
+
 
     // function for stripping firebase exceptions
     fun handleSignUpFailure(exception: Exception?) {
