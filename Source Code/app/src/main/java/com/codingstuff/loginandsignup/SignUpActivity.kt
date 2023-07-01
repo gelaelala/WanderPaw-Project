@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.Locale
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -44,7 +45,9 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun handleSignUp() {
-        val firstName = binding.firstNameET.text.toString().trim()
+//        val firstName = binding.firstNameET.text.toString()
+//            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+//            .trim()
         val lastName = binding.lastNameET.text.toString().trim()
         val email = binding.emailEt.text.toString().trim()
         val password = binding.passET.text.toString().trim()
@@ -95,8 +98,6 @@ class SignUpActivity : AppCompatActivity() {
                             .addOnCompleteListener { databaseTask ->
                                 if (databaseTask.isSuccessful) {
                                     navigateToMainActivity()
-                                } else {
-                                    // Handle database write failure
                                 }
                             }
                     }
