@@ -42,8 +42,8 @@ class ProfilePage : AppCompatActivity() {
                         val userName = snapshot.value?.toString()
                         displayName += if (displayName.isNotEmpty()) " $userName" else userName
                     }
-//                    val displayNameTextView = binding.displayNameTextView
-//                    displayNameTextView.text = displayName
+                    val displayNameTextView = binding.displayNameTextView
+                    displayNameTextView.text = displayName
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
