@@ -36,8 +36,9 @@ class WelcomePage : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+//        temporary page
         if (firebaseAuth.currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ProfilePage::class.java)
             startActivity(intent)
         }
     }

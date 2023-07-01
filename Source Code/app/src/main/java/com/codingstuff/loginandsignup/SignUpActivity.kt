@@ -46,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    fun formatStringWithCapital(input: String): String {
+    private fun formatStringWithCapital(input: String): String {
         return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
             .trim()
     }
@@ -102,7 +102,7 @@ class SignUpActivity : AppCompatActivity() {
                         databaseRef.child("Users").child(it).updateChildren(userData)
                             .addOnCompleteListener { databaseTask ->
                                 if (databaseTask.isSuccessful) {
-                                    navigateToMainActivity()
+                                    navigateToHomePage()
                                 }
                             }
                     }
@@ -155,8 +155,8 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     // starting logged in page code
-    private fun navigateToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun navigateToHomePage() {
+        val intent = Intent(this, ProfilePage::class.java)
         startActivity(intent)
         finish()
     }

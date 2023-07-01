@@ -58,7 +58,7 @@ class LogInActivity : AppCompatActivity() {
     private fun signInWithEmailAndPassword(email: String, password: String) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                navigateToMainActivity()
+                navigateToHomePage()
             } else {
                 handleLoginFailure(task.exception)
             }
@@ -94,8 +94,8 @@ class LogInActivity : AppCompatActivity() {
     }
 
     // start logged in act
-    private fun navigateToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun navigateToHomePage() {
+        val intent = Intent(this, ProfilePage::class.java)
         startActivity(intent)
     }
 }
