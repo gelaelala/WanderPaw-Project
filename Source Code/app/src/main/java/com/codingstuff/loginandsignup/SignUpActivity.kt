@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Locale
 
+
+
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
@@ -44,11 +46,14 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    fun formatStringWithCapital(input: String): String {
+        return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+            .trim()
+    }
+
     private fun handleSignUp() {
-//        val firstName = binding.firstNameET.text.toString()
-//            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
-//            .trim()
-        val lastName = binding.lastNameET.text.toString().trim()
+        val firstName = formatStringWithCapital(binding.firstNameET.text.toString())
+        val lastName = formatStringWithCapital(binding.lastNameET.text.toString())
         val email = binding.emailEt.text.toString().trim()
         val password = binding.passET.text.toString().trim()
         val confirmPassword = binding.confirmPassEt.text.toString().trim()
