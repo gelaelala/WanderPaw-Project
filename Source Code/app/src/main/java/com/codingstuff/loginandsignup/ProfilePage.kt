@@ -46,6 +46,7 @@ class ProfilePage : AppCompatActivity() {
                     displayNameTextView.text = displayName
                 }
 
+                // think of possible errors--use toast
                 override fun onCancelled(databaseError: DatabaseError) {
                     Log.d(TAG, "Data retrieval cancelled: ${databaseError.message}")
                 }
