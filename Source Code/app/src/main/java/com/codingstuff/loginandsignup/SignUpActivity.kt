@@ -81,8 +81,8 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-//                    val currentUser = firebaseAuth.currentUser
-//                    val userId = currentUser?.uid
+                    val currentUser = firebaseAuth.currentUser
+                    val userId = currentUser?.uid
 
                     // Create a HashMap to store user data
                     val userData = HashMap<String, Any>()
@@ -90,16 +90,16 @@ class SignUpActivity : AppCompatActivity() {
                     userData["Last Name"] = lastName
 
                     // Push the user data to the "Users" node
-//                    userId?.let {
-//                        databaseRef.child("Users").child(it).updateChildren(userData)
-//                            .addOnCompleteListener { databaseTask ->
-//                                if (databaseTask.isSuccessful) {
-//                                    navigateToMainActivity()
-//                                } else {
-//                                    // Handle database write failure
-//                                }
-//                            }
-//                    }
+                    userId?.let {
+                        databaseRef.child("Users").child(it).updateChildren(userData)
+                            .addOnCompleteListener { databaseTask ->
+                                if (databaseTask.isSuccessful) {
+                                    navigateToMainActivity()
+                                } else {
+                                    // Handle database write failure
+                                }
+                            }
+                    }
                 } else {
                     handleSignUpFailure(task.exception)
                 }
