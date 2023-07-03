@@ -1,6 +1,7 @@
 package com.codingstuff.loginandsignup
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -29,7 +30,12 @@ class ProfilePage : AppCompatActivity() {
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
 
-        userId?.let { retrieveUserData(it) }
+        userId?.let { retrieveUserData(it)
+
+        binding.addPetProfileButton.setOnClickListener{
+            val intent = Intent(this, AnimalProfileDataInputActivity::class.java)
+            startActivity(intent)
+        }}
     }
 
     // change the listener if there is time for settings

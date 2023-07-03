@@ -115,7 +115,7 @@ class SignUpActivity : AppCompatActivity() {
 
 
     // function for stripping firebase exceptions
-    fun handleSignUpFailure(exception: Exception?) {
+     private fun handleSignUpFailure(exception: Exception?) {
         authToastLess.cancelToast() // Cancel any active Toast message since empty fields and password mismatch are determined first before auth exceptions
         when (exception) {
             is FirebaseAuthException -> {
