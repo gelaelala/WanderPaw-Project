@@ -1,10 +1,8 @@
 package com.codingstuff.loginandsignup
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -18,6 +16,8 @@ class ProfilePage : AppCompatActivity() {
     private lateinit var binding: ActivityProfilePageBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
+    private val authToastLess = AuthToastLess(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +52,8 @@ class ProfilePage : AppCompatActivity() {
                     displayNameTextView.text = displayName
                 }
 
-                // think of possible errors--use toast
                 override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d(TAG, "Data retrieval cancelled: ${databaseError.message}")
+                    authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
                 }
             })
     }
