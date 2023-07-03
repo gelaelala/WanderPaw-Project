@@ -46,14 +46,22 @@ class ProfilePage : AppCompatActivity() {
                     var displayName = ""
                     for (snapshot in dataSnapshot.children) {
                         val userName = snapshot.value?.toString()
-                        displayName += if (displayName.isNotEmpty()) " $userName" else userName
+                        if (!userName.isNullOrEmpty()) {
+                            displayName = userName
+                        }
                     }
-                    val displayNameTextView = binding.displayNameTextView
-                    displayNameTextView.text = displayName
+                    runOnUiThread {
+                        val displayNameTextView = binding.displayNameTextView
+                        displayNameTextView.text = displayName
+                    }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
+//                    Runs the specified action on the UI thread. If the current thread is the UI thread, then the action is executed immediately. If the
+//                    current thread is not the UI thread, the action is posted to the event queue of the UI thread.
+                    runOnUiThread {
+                        authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
+                    }
                 }
             })
     }
