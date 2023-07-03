@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/HomePage"
+        android:title="Home"
+        android:icon="@drawable/home_icon" />
+    <item
+        android:id="@+id/UserPetMatching"
+        android:title="Matching"
+        android:icon="@drawable/matching_logo" />
+    <item
+        android:id="@+id/Messages"
+        android:title="Messages"
+        android:icon="@drawable/message_icon" />
+    <item
+        android:id="@+id/UserProfile"
+        android:title="User Profile"
+        android:icon="@drawable/user_icon" />
+</menu>

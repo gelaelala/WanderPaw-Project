@@ -7,6 +7,7 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="confirm_pwd">Confirm your password</string>
+    <string name="welcome_message_home">Welcome User!</string>
 
 
 </resources>
