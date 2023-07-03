@@ -54,6 +54,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun handleSignUp() {
         val firstName = formatStringWithCapital(binding.firstNameET.text.toString())
         val lastName = formatStringWithCapital(binding.lastNameET.text.toString())
+        val displayName = "$firstName $lastName"
         val email = binding.emailEt.text.toString().trim()
         val password = binding.passET.text.toString().trim()
         val confirmPassword = binding.confirmPassEt.text.toString().trim()
@@ -62,7 +63,7 @@ class SignUpActivity : AppCompatActivity() {
         if (areFieldsNotEmpty(firstName, lastName, email, password, confirmPassword)) {
             if (isPasswordMatch(password, confirmPassword)) {
                 if (missingConditions.isEmpty()) {
-                    createUserWithEmailAndPassword(email, password, firstName, lastName)
+                    createUserWithEmailAndPassword(email, password, displayName)
                 } else {
                     showWeakPasswordMessage(missingConditions)
                 }
@@ -85,7 +86,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     // Function for account creation
-    private fun createUserWithEmailAndPassword(email: String, password: String, firstName: String, lastName: String) {
+    private fun createUserWithEmailAndPassword(email: String, password: String, displayName: String) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -94,8 +95,8 @@ class SignUpActivity : AppCompatActivity() {
 
                     // Create a HashMap to store user data
                     val userData = HashMap<String, Any>()
-                    userData["First Name"] = firstName
-                    userData["Last Name"] = lastName
+                    userData["Display Name"] = displayName
+
 
                     // Push the user data to the "Users" node
                     userId?.let {
