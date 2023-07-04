@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -16,12 +17,28 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
+@Suppress("DEPRECATION")
 class ProfilePage : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfilePageBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
+
+    private val refreshInterval = 1.5 * 1000 // 10 secs in milliseconds -- refresh interval
+    // handles automatic refresh
+    private val refreshHandler = Handler()
+    private val refreshRunnable = object : Runnable {
+        @RequiresApi(Build.VERSION_CODES.M)
+        override fun run() {
+            if (isNetworkConnected()) {
+                val currentUser = firebaseAuth.currentUser
+                val userId = currentUser?.uid
+                userId?.let { retrieveUserData(it) }
+            }
+            refreshHandler.postDelayed(this, refreshInterval.toLong())
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,15 +84,13 @@ class ProfilePage : AppCompatActivity() {
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-//                    Runs the specified action on the UI thread. If the current thread is the UI thread, then the action is executed immediately. If the
-//                    current thread is not the UI thread, the action is posted to the event queue of the UI thread.
                     runOnUiThread {
                         authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
                     }
                 }
             })
     }
-// checks for network connectivity before retrieving form the database
+
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -86,13 +101,19 @@ class ProfilePage : AppCompatActivity() {
                         capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
     }
 
+    override fun onStart() {
+        super.onStart()
+        refreshHandler.postDelayed(refreshRunnable, refreshInterval.toLong())
+    }
+
+    override fun onStop() {
+        super.onStop()
+        refreshHandler.removeCallbacks(refreshRunnable)
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
     }
 }
-
-
-
-
