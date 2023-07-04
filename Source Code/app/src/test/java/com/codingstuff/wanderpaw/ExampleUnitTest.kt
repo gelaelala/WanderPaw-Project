@@ -1,4 +1,4 @@
-package com.codingstuff.loginandsignup
+package com.codingstuff.wanderpaw
 
 import org.junit.Test
 

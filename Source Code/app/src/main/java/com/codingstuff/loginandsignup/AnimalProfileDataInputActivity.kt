@@ -1,5 +1,6 @@
 package com.codingstuff.loginandsignup
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.codingstuff.loginandsignup.databinding.ActivityAnimalProfileDataInputBinding
@@ -60,6 +61,11 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                 // Handle any exceptions that occur during data saving
                 e.printStackTrace()
             }
+        }
+
+        binding.backButton.setOnClickListener{
+            val intent = Intent(this, ProfilePage::class.java)
+            startActivity(intent)
         }
     }
 }
