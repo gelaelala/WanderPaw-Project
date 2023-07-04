@@ -24,9 +24,8 @@ class ProfilePage : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
-
-    private val refreshInterval = 1.5 * 1000 // 10 secs in milliseconds -- refresh interval
-    // handles automatic refresh
+// handles automatic refresh
+    private val refreshInterval = 1.5 * 1000 // 5 minutes in milliseconds
     private val refreshHandler = Handler()
     private val refreshRunnable = object : Runnable {
         @RequiresApi(Build.VERSION_CODES.M)
@@ -36,6 +35,7 @@ class ProfilePage : AppCompatActivity() {
                 val userId = currentUser?.uid
                 userId?.let { retrieveUserData(it) }
             }
+            // Schedule the next refresh
             refreshHandler.postDelayed(this, refreshInterval.toLong())
         }
     }
@@ -57,7 +57,7 @@ class ProfilePage : AppCompatActivity() {
         } else {
             // Handle no internet connection case
             // Display an appropriate message or take necessary actions
-            Toast.makeText(this,"There is a network connectivity issue. Please check your network.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "There is a network connectivity issue. Please check your network.", Toast.LENGTH_LONG).show()
         }
 
         binding.addPetProfileButton.setOnClickListener {
@@ -103,11 +103,13 @@ class ProfilePage : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        // Schedule the initial refresh
         refreshHandler.postDelayed(refreshRunnable, refreshInterval.toLong())
     }
 
     override fun onStop() {
         super.onStop()
+        // Cancel any pending refresh
         refreshHandler.removeCallbacks(refreshRunnable)
     }
 
