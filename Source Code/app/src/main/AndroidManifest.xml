@@ -4,7 +4,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/wanderpaw_launcher"
@@ -12,6 +11,12 @@
         android:roundIcon="@mipmap/wanderpaw_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginAndSignUp">
+        <activity
+            android:name=".AnimProfDataInputActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".AnimProfDataInputActivity2"
+            android:exported="false" />
         <activity
             android:name=".AnimalProfileDataInputActivity"
             android:exported="false" />

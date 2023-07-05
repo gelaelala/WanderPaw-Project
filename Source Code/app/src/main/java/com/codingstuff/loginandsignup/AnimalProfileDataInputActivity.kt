@@ -1,6 +1,8 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.codingstuff.loginandsignup.databinding.ActivityAnimalProfileDataInputBinding
@@ -11,14 +13,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 import java.util.UUID
 
+@Suppress("DEPRECATION")
 class AnimalProfileDataInputActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnimalProfileDataInputBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
+    private lateinit var imageUri: Uri
+
+
+    companion object {
+        private const val pickImageRequest = 1
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,11 +99,36 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
             }
         }
 
+        binding.uploadButton.setOnClickListener{
+            openFileChooser()
+        }
+
         binding.backButton.setOnClickListener{
             val intent = Intent(this, ProfilePage::class.java)
             startActivity(intent)
         }
     }
+
+    private fun openFileChooser() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT) // This action is commonly used to open a file picker or gallery to select content.
+        intent.type = "image/*" // This specifies that we want to select an image file. The "*" is a wildcard that allows any subtype of images (e.g.,
+        // JPEG, PNG, etc.)
+        startActivityForResult(intent, pickImageRequest)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        binding = ActivityAnimalProfileDataInputBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        if (requestCode == pickImageRequest && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            imageUri = data.data!!
+
+            Picasso.get().load(imageUri).into(binding.petProfilePic)
+        }
+    }
+
 }
 
 fun createAnimalProfileId(): String {
