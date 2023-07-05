@@ -115,14 +115,14 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
             uploadFile()
         }
     }
-//
-//    private fun getFileExtension(uri: Uri): String? {
-//        // Overall, the getFileExtension function takes a Uri parameter, retrieves the MIME type using ContentResolver, and maps it to a file extension
-//        // using MimeTypeMap. The file extension is then returned as a String.
-//        val cR: ContentResolver = contentResolver
-//        val mime: MimeTypeMap = MimeTypeMap.getSingleton() // MimeTypeMap is a class in Android that maps MIME types to file extensions.
-//        return mime.getExtensionFromMimeType(cR.getType(uri))
-//    }
+
+    private fun getFileExtension(uri: Uri): String? {
+        // Overall, the getFileExtension function takes a Uri parameter, retrieves the MIME type using ContentResolver, and maps it to a file extension
+        // using MimeTypeMap. The file extension is then returned as a String.
+        val cR: ContentResolver = contentResolver
+        val mime: MimeTypeMap = MimeTypeMap.getSingleton() // MimeTypeMap is a class in Android that maps MIME types to file extensions.
+        return mime.getExtensionFromMimeType(cR.getType(uri))
+    }
 //
 //    private fun uploadFile() {
 //        // This line creates a new StorageReference named fileReference by appending a child path to the storageRef. The child
