@@ -49,46 +49,94 @@
 
         </RelativeLayout>
 
-    <ScrollView
-        android:id="@+id/ScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/flFragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/HeaderTitle">
-        
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/ScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/flFragment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/HeaderTitle">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                app:cardCornerRadius="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp">
-                
-                <ImageView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="180dp"
                     android:layout_height="180dp"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/sample_userphoto" />
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:id="@+id/displayNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="@color/dark_brown"
-                android:fontFamily="@font/inter"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp" />
-        </LinearLayout>
-    </ScrollView>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    app:cardCornerRadius="100dp">
+
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_userphoto" />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/displayNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/dark_brown"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="120dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:backgroundTint="@color/neutral_green"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="100dp"
+                        app:icon="@drawable/heart_for_bookmark_icon"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:iconSize="20dp"
+                        app:iconTint="@color/white"
+                        app:rippleColor="@color/light_brown" />
+
+                    <Space
+                        android:layout_width="30dp"
+                        android:layout_height="0dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:backgroundTint="@color/neutral_green"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="100dp"
+                        app:icon="@drawable/setting_icon"
+                        app:iconGravity="textStart"
+                        app:iconPadding="0dp"
+                        app:iconSize="25dp"
+                        app:iconTint="@color/white"
+                        app:rippleColor="@color/light_brown" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
