@@ -105,16 +105,16 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
         startActivityForResult(intent, pickImageRequest)
     }
 
-//    @Deprecated("Deprecated in Java")
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == pickImageRequest&& resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-//            imageUri = data.data!!
-//
-//            Picasso.get().load(imageUri).into(binding.petProfilePic)
-//            uploadFile()
-//        }
-//    }
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == pickImageRequest&& resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            imageUri = data.data!!
+
+            Picasso.get().load(imageUri).into(binding.petProfilePic)
+            uploadFile()
+        }
+    }
 //
 //    private fun getFileExtension(uri: Uri): String? {
 //        // Overall, the getFileExtension function takes a Uri parameter, retrieves the MIME type using ContentResolver, and maps it to a file extension
