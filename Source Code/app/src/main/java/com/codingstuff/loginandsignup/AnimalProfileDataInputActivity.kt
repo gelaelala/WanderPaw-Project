@@ -136,8 +136,8 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                 val progressRunnable = Runnable { binding.progressBarImg.progress = 0 } // progress bar operation
                 delayProgressHandler.postDelayed(progressRunnable, 500)
                 Toast.makeText(this@AnimalProfileDataInputActivity, "Profile uploaded.", Toast.LENGTH_SHORT).show()
-//                val upload = Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
-//                val uploadId = databaseRef.push().key // unique id
+                val upload = Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
+                val uploadId = databaseRef.push().key // unique id
 //                if (uploadId != null) {
 //                    val currentUser = firebaseAuth.currentUser
 //                    val userId = currentUser?.uid
