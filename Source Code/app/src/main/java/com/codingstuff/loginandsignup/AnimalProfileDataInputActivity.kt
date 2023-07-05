@@ -76,6 +76,7 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 // Pet card data successfully written to the database
                                 // Perform any additional actions or show success message
+                                uploadFile(petCardID)
                             }
                             // else {
                             // Error occurred while writing pet card data to the database
@@ -112,7 +113,7 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
             imageUri = data.data!!
 
             Picasso.get().load(imageUri).into(binding.petProfilePic)
-            uploadFile()
+//            uploadFile()
         }
     }
 
@@ -124,7 +125,7 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
         return mime.getExtensionFromMimeType(cR.getType(uri))
     }
 
-    private fun uploadFile() {
+    private fun uploadFile(petCardID: String) {
         // This line creates a new StorageReference named fileReference by appending a child path to the storageRef. The child
         // path is formed using the current timestamp (System.currentTimeMillis()) concatenated with a period (.) and the file
         // extension obtained using the getFileExtension function.
@@ -141,7 +142,6 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                 if (uploadId != null) {
                     val currentUser = firebaseAuth.currentUser
                     val userId = currentUser?.uid
-                    val petCardID = databaseRef.push().key
 
                     // stores within the initial structure
                     val petCardData = HashMap<String, Any>().apply {
@@ -149,7 +149,7 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                         put("Profile Picture", upload)
                     }
 
-                    if (userId != null && petCardID != null) {
+                    if (userId != null) {
                         databaseRef.child("Users").child(userId).child("Animal Profiles Created").child(petCardID)
                             .updateChildren(petCardData)
                     }
