@@ -135,6 +135,19 @@
                         app:rippleColor="@color/light_brown" />
 
                 </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="80dp"
+                    android:layout_height="120dp"
+                    app:cornerRadius="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="25dp"
+                    android:backgroundTint="@color/neutral_green"
+                    app:icon="@drawable/add_pet_profile_prompt"
+                    app:iconSize="40dp"
+                    app:iconTint="@color/white"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
+                    app:rippleColor="@color/white"/>
             </LinearLayout>
         </ScrollView>
 
