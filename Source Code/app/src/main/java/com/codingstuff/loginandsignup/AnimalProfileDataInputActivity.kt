@@ -4,7 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.codingstuff.loginandsignup.databinding.ActivityAnimalProfileDataInputBinding
+import com.google.firebase.FirebaseApiNotAvailableException
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.UUID
@@ -14,6 +18,8 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAnimalProfileDataInputBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
+    private val authToastLess = AuthToastLess(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,15 +57,35 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 // Pet card data successfully written to the database
                                 // Perform any additional actions or show success message
-                            } else {
+                            }
+//                            else {
                                 // Error occurred while writing pet card data to the database
                                 // Handle the error appropriately (e.g., show error message)
-                            }
+//                            }
                         }
                 }
-            } catch (e: Exception) {
-                // Handle any exceptions that occur during data saving
-                e.printStackTrace()
+            } catch (exception: Exception) {
+                when (exception) {
+                    is DatabaseException -> {
+                        authToastLess.showToast("A database exception happened. Please try again.")
+                    }
+//                    is DatabaseError -> {
+//                        authToastLess.showToast("An error happened while interacting with the database. Please try again.")
+//                    }
+                    is FirebaseApiNotAvailableException -> {
+                        authToastLess.showToast("The requested API is not available.")
+                    }
+
+                    is FirebaseNetworkException -> {
+                        authToastLess.showToast("There is a network connectivity issue. Please check your network.")
+                    }
+                    is FirebaseTooManyRequestsException -> {
+                        authToastLess.showToast("Too many requests. Try again later.")
+                    }
+                    else -> {
+                        authToastLess.showToast("An undefined error happened.")
+                    }
+                }
             }
         }
 

@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.validatePassword
 import com.codingstuff.loginandsignup.databinding.ActivitySignUpBinding
+import com.google.firebase.FirebaseApiNotAvailableException
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Locale
@@ -118,6 +121,12 @@ class SignUpActivity : AppCompatActivity() {
      private fun handleSignUpFailure(exception: Exception?) {
         authToastLess.cancelToast() // Cancel any active Toast message since empty fields and password mismatch are determined first before auth exceptions
         when (exception) {
+            is DatabaseException -> {
+                authToastLess.showToast("A database exception happened. Please try again.")
+            }
+            is FirebaseApiNotAvailableException -> {
+                authToastLess.showToast("The requested API is not available.")
+            }
             is FirebaseAuthException -> {
                 val errorMessage = handleException(exception)
                 authToastLess.showToast(errorMessage)
@@ -127,6 +136,9 @@ class SignUpActivity : AppCompatActivity() {
             }
             is FirebaseTooManyRequestsException -> {
                 authToastLess.showToast("Too many requests. Try again later.")
+            }
+            else -> {
+                authToastLess.showToast("An undefined error happened.")
             }
         }
     }
