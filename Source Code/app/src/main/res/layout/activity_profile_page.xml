@@ -133,21 +133,29 @@
                         app:iconSize="25dp"
                         app:iconTint="@color/white"
                         app:rippleColor="@color/light_brown" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="80dp"
+                        android:layout_height="120dp"
+                        app:cornerRadius="20dp"
+                        android:backgroundTint="@color/neutral_green"
+                        app:icon="@drawable/add_pet_profile_prompt"
+                        app:iconSize="40dp"
+                        app:iconTint="@color/white"
+                        app:iconPadding="0dp"
+                        app:iconGravity="textStart"
+                        app:rippleColor="@color/white"/>
 
                 </LinearLayout>
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="80dp"
-                    android:layout_height="120dp"
-                    app:cornerRadius="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="25dp"
-                    android:backgroundTint="@color/neutral_green"
-                    app:icon="@drawable/add_pet_profile_prompt"
-                    app:iconSize="40dp"
-                    app:iconTint="@color/white"
-                    app:iconPadding="0dp"
-                    app:iconGravity="textStart"
-                    app:rippleColor="@color/white"/>
             </LinearLayout>
         </ScrollView>
 
