@@ -155,9 +155,9 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                     }
                 }
             }
-//            .addOnFailureListener { e ->
-//                Toast.makeText(this@AnimalProfileDataInputActivity, e.message, Toast.LENGTH_SHORT).show()
-//            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this@AnimalProfileDataInputActivity, e.message, Toast.LENGTH_SHORT).show()
+            }
 //            .addOnProgressListener { taskSnapshot ->
 //                val progress = (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toInt() // progress bar progress
 //                binding.progressBarImg.progress = progress
