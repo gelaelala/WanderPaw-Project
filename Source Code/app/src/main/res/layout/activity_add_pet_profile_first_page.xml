@@ -46,7 +46,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/NextButton"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -90,6 +91,97 @@
             android:layout_width="0dp"
             android:layout_height="10dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:textStyle="bold"
+                android:text="Age"
+                android:textColor="@color/dark_brown"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/LoginTextInputOuterFieldStyle"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:cursorVisible="true"
+                android:textColorHint="@color/light_brown"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/light_brown"
+                app:boxStrokeColor="@color/light_brown"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:hintTextColor="@color/light_brown"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:textStyle="bold"
+                android:text="Gender"
+                android:textColor="@color/dark_brown"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/LoginTextInputOuterFieldStyle"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:cursorVisible="true"
+                android:textColorHint="@color/light_brown"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/light_brown"
+                app:boxStrokeColor="@color/light_brown"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:hintTextColor="@color/light_brown">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/LoginTextInputInnerFieldStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/input_field_add_pet"
+                    android:fontFamily="@font/inter"
+                    android:hint="Enter Name Here"
+                    android:inputType="text"
+                    android:textColor="@color/light_brown"
+                    android:textSize="11sp"
+                    android:typeface="normal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/LoginTextInputInnerFieldStyle"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:background="@drawable/input_field_add_pet"
+                android:fontFamily="@font/inter"
+                android:hint="Enter Name Here"
+                android:inputType="text"
+                android:textColor="@color/light_brown"
+                android:textSize="11sp"
+                android:typeface="normal" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,6 +214,90 @@
                 android:background="@drawable/input_field_add_pet"
                 android:fontFamily="@font/inter"
                 android:hint="Enter Location Here"
+                android:inputType="text"
+                android:textColor="@color/light_brown"
+                android:textSize="11sp"
+                android:typeface="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:text="Bio"
+            android:textColor="@color/dark_brown"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/LoginTextInputOuterFieldStyle"
+            android:layout_width="360dp"
+            android:layout_height="45dp"
+            android:cursorVisible="true"
+            android:gravity="center"
+            android:textColorHint="@color/light_brown"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/light_brown"
+            app:boxStrokeColor="@color/light_brown"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:hintTextColor="@color/light_brown">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/LoginTextInputInnerFieldStyle"
+                android:layout_width="320dp"
+                android:layout_height="45dp"
+                android:background="@drawable/input_field_add_pet"
+                android:fontFamily="@font/inter"
+                android:hint="Say something about your pet!"
+                android:inputType="text"
+                android:textColor="@color/light_brown"
+                android:textSize="11sp"
+                android:typeface="normal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:text="About Me"
+            android:textColor="@color/dark_brown"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/LoginTextInputOuterFieldStyle"
+            android:layout_width="360dp"
+            android:layout_height="45dp"
+            android:cursorVisible="true"
+            android:gravity="center"
+            android:textColorHint="@color/light_brown"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/light_brown"
+            app:boxStrokeColor="@color/light_brown"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false"
+            app:hintTextColor="@color/light_brown">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/LoginTextInputInnerFieldStyle"
+                android:layout_width="320dp"
+                android:layout_height="45dp"
+                android:background="@drawable/input_field_add_pet"
+                android:fontFamily="@font/inter"
+                android:hint="Tell us more about your pet!"
                 android:inputType="text"
                 android:textColor="@color/light_brown"
                 android:textSize="11sp"
