@@ -123,19 +123,19 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
         val mime: MimeTypeMap = MimeTypeMap.getSingleton() // MimeTypeMap is a class in Android that maps MIME types to file extensions.
         return mime.getExtensionFromMimeType(cR.getType(uri))
     }
-//
-//    private fun uploadFile() {
-//        // This line creates a new StorageReference named fileReference by appending a child path to the storageRef. The child
-//        // path is formed using the current timestamp (System.currentTimeMillis()) concatenated with a period (.) and the file
-//        // extension obtained using the getFileExtension function.
-//        val fileReference: StorageReference = storageRef.child("Uploads").child("${System.currentTimeMillis()}." +
-//                "${getFileExtension(imageUri)}") // path for Storage database - where the file really is
-//        fileReference.putFile(imageUri)
-//            .addOnCompleteListener { task ->
-//                val delayProgressHandler = Handler()
-//                val progressRunnable = Runnable { binding.progressBarImg.progress = 0 } // progress bar operation
-//                delayProgressHandler.postDelayed(progressRunnable, 500)
-//                Toast.makeText(this@AnimalProfileDataInputActivity, "Profile uploaded.", Toast.LENGTH_SHORT).show()
+
+    private fun uploadFile() {
+        // This line creates a new StorageReference named fileReference by appending a child path to the storageRef. The child
+        // path is formed using the current timestamp (System.currentTimeMillis()) concatenated with a period (.) and the file
+        // extension obtained using the getFileExtension function.
+        val fileReference: StorageReference = storageRef.child("Uploads").child("${System.currentTimeMillis()}." +
+                "${getFileExtension(imageUri)}") // path for Storage database - where the file really is
+        fileReference.putFile(imageUri)
+            .addOnCompleteListener { task ->
+                val delayProgressHandler = Handler()
+                val progressRunnable = Runnable { binding.progressBarImg.progress = 0 } // progress bar operation
+                delayProgressHandler.postDelayed(progressRunnable, 500)
+                Toast.makeText(this@AnimalProfileDataInputActivity, "Profile uploaded.", Toast.LENGTH_SHORT).show()
 //                val upload = Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
 //                val uploadId = databaseRef.push().key // unique id
 //                if (uploadId != null) {
