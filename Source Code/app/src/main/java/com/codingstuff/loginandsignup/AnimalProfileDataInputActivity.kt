@@ -138,23 +138,23 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                 Toast.makeText(this@AnimalProfileDataInputActivity, "Profile uploaded.", Toast.LENGTH_SHORT).show()
                 val upload = Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
                 val uploadId = databaseRef.push().key // unique id
-//                if (uploadId != null) {
-//                    val currentUser = firebaseAuth.currentUser
-//                    val userId = currentUser?.uid
-//                    val petCardID = databaseRef.push().key
-//
-//                    // stores within the initial structure
-//                    val petCardData = HashMap<String, Any>().apply {
-//                        put("Pet Profile ID", uploadId)
-//                        put("Profile Picture", upload)
-//                    }
-//
-//                    if (userId != null && petCardID != null) {
-//                        databaseRef.child("Users").child(userId).child("Animal Profiles Created").child(petCardID)
-//                            .updateChildren(petCardData)
-//                    }
-//                }
-//            }
+                if (uploadId != null) {
+                    val currentUser = firebaseAuth.currentUser
+                    val userId = currentUser?.uid
+                    val petCardID = databaseRef.push().key
+
+                    // stores within the initial structure
+                    val petCardData = HashMap<String, Any>().apply {
+                        put("Pet Profile ID", uploadId)
+                        put("Profile Picture", upload)
+                    }
+
+                    if (userId != null && petCardID != null) {
+                        databaseRef.child("Users").child(userId).child("Animal Profiles Created").child(petCardID)
+                            .updateChildren(petCardData)
+                    }
+                }
+            }
 //            .addOnFailureListener { e ->
 //                Toast.makeText(this@AnimalProfileDataInputActivity, e.message, Toast.LENGTH_SHORT).show()
 //            }
