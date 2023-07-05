@@ -12,12 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginAndSignUp">
         <activity
-            android:name=".AnimProfDataInputActivity3"
-            android:exported="false" />
-        <activity
-            android:name=".AnimProfDataInputActivity2"
-            android:exported="false" />
-        <activity
             android:name=".AnimalProfileDataInputActivity"
             android:exported="false" />
         <activity

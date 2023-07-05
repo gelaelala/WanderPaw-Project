@@ -1,10 +1,14 @@
 package com.codingstuff.loginandsignup
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.webkit.MimeTypeMap
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityAnimalProfileDataInputBinding
 import com.google.firebase.FirebaseApiNotAvailableException
 import com.google.firebase.FirebaseNetworkException
@@ -13,8 +17,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
-import java.util.UUID
 
 @Suppress("DEPRECATION")
 class AnimalProfileDataInputActivity : AppCompatActivity() {
@@ -22,14 +27,13 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAnimalProfileDataInputBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
+    private lateinit var storageRef: StorageReference
     private val authToastLess = AuthToastLess(this)
     private lateinit var imageUri: Uri
-
 
     companion object {
         private const val pickImageRequest = 1
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +41,18 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         databaseRef = FirebaseDatabase.getInstance().reference
+        storageRef = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
 
+        setupClickListeners()
+    }
+
+    private fun setupClickListeners() {
         binding.nextButton.setOnClickListener {
             try {
                 val currentUser = firebaseAuth.currentUser
                 val userId = currentUser?.uid
-                val petCardID = createAnimalProfileId()
+                val petCardID = databaseRef.push().key
                 val name = binding.nameInputField.text.toString()
                 val age = binding.ageInputField1.text.toString()
                 val gender = binding.genderInputField.selectedItem
@@ -51,16 +60,16 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                 val bio = binding.bioInputField.text.toString()
                 val aboutMe = binding.aboutMeInputField.text.toString()
 
-                // Create a HashMap to store user data
-                val petCardData = HashMap<String, Any>()
-                petCardData["Name"] = name
-                petCardData["Age"] = age
-                petCardData["Gender"] = gender
-                petCardData["Location"] = location
-                petCardData["Bio"] = bio
-                petCardData["About Me"] = aboutMe
+                val petCardData = HashMap<String, Any>().apply {
+                    put("Name", name)
+                    put("Age", age)
+                    put("Gender", gender)
+                    put("Location", location)
+                    put("Bio", bio)
+                    put("About Me", aboutMe)
+                }
 
-                if (userId != null) {
+                if (userId != null && petCardID != null) {
                     databaseRef.child("Users").child(userId).child("Animal Profiles Created").child(petCardID)
                         .updateChildren(petCardData)
                         .addOnCompleteListener { task ->
@@ -68,42 +77,22 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                                 // Pet card data successfully written to the database
                                 // Perform any additional actions or show success message
                             }
-//                            else {
-                                // Error occurred while writing pet card data to the database
-                                // Handle the error appropriately (e.g., show error message)
-//                            }
+                            // else {
+                            // Error occurred while writing pet card data to the database
+                            // Handle the error appropriately (e.g., show error message)
+                            // }
                         }
                 }
             } catch (exception: Exception) {
-                when (exception) {
-                    is DatabaseException -> {
-                        authToastLess.showToast("A database exception happened. Please try again.")
-                    }
-//                    is DatabaseError -> {
-//                        authToastLess.showToast("An error happened while interacting with the database. Please try again.")
-//                    }
-                    is FirebaseApiNotAvailableException -> {
-                        authToastLess.showToast("The requested API is not available.")
-                    }
-
-                    is FirebaseNetworkException -> {
-                        authToastLess.showToast("There is a network connectivity issue. Please check your network.")
-                    }
-                    is FirebaseTooManyRequestsException -> {
-                        authToastLess.showToast("Too many requests. Try again later.")
-                    }
-                    else -> {
-                        authToastLess.showToast("An undefined error happened.")
-                    }
-                }
+                handleException(exception)
             }
         }
 
-        binding.uploadButton.setOnClickListener{
+        binding.uploadButton.setOnClickListener {
             openFileChooser()
         }
 
-        binding.backButton.setOnClickListener{
+        binding.backButton.setOnClickListener {
             val intent = Intent(this, ProfilePage::class.java)
             startActivity(intent)
         }
@@ -116,22 +105,93 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
         startActivityForResult(intent, pickImageRequest)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        binding = ActivityAnimalProfileDataInputBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+//    @Deprecated("Deprecated in Java")
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == pickImageRequest&& resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+//            imageUri = data.data!!
+//
+//            Picasso.get().load(imageUri).into(binding.petProfilePic)
+//            uploadFile()
+//        }
+//    }
+//
+//    private fun getFileExtension(uri: Uri): String? {
+//        // Overall, the getFileExtension function takes a Uri parameter, retrieves the MIME type using ContentResolver, and maps it to a file extension
+//        // using MimeTypeMap. The file extension is then returned as a String.
+//        val cR: ContentResolver = contentResolver
+//        val mime: MimeTypeMap = MimeTypeMap.getSingleton() // MimeTypeMap is a class in Android that maps MIME types to file extensions.
+//        return mime.getExtensionFromMimeType(cR.getType(uri))
+//    }
+//
+//    private fun uploadFile() {
+//        // This line creates a new StorageReference named fileReference by appending a child path to the storageRef. The child
+//        // path is formed using the current timestamp (System.currentTimeMillis()) concatenated with a period (.) and the file
+//        // extension obtained using the getFileExtension function.
+//        val fileReference: StorageReference = storageRef.child("Uploads").child("${System.currentTimeMillis()}." +
+//                "${getFileExtension(imageUri)}") // path for Storage database - where the file really is
+//        fileReference.putFile(imageUri)
+//            .addOnCompleteListener { task ->
+//                val delayProgressHandler = Handler()
+//                val progressRunnable = Runnable { binding.progressBarImg.progress = 0 } // progress bar operation
+//                delayProgressHandler.postDelayed(progressRunnable, 500)
+//                Toast.makeText(this@AnimalProfileDataInputActivity, "Profile uploaded.", Toast.LENGTH_SHORT).show()
+//                val upload = Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
+//                val uploadId = databaseRef.push().key // unique id
+//                if (uploadId != null) {
+//                    val currentUser = firebaseAuth.currentUser
+//                    val userId = currentUser?.uid
+//                    val petCardID = databaseRef.push().key
+//
+//                    // stores within the initial structure
+//                    val petCardData = HashMap<String, Any>().apply {
+//                        put("Pet Profile ID", uploadId)
+//                        put("Profile Picture", upload)
+//                    }
+//
+//                    if (userId != null && petCardID != null) {
+//                        databaseRef.child("Users").child(userId).child("Animal Profiles Created").child(petCardID)
+//                            .updateChildren(petCardData)
+//                    }
+//                }
+//            }
+//            .addOnFailureListener { e ->
+//                Toast.makeText(this@AnimalProfileDataInputActivity, e.message, Toast.LENGTH_SHORT).show()
+//            }
+//            .addOnProgressListener { taskSnapshot ->
+//                val progress = (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toInt() // progress bar progress
+//                binding.progressBarImg.progress = progress
+//            }
+//    }
 
-        if (requestCode == pickImageRequest && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            imageUri = data.data!!
-
-            Picasso.get().load(imageUri).into(binding.petProfilePic)
+    private fun handleException(exception: Exception) {
+        when (exception) {
+            is DatabaseException -> {
+                authToastLess.showToast("A database exception happened. Please try again.")
+            }
+            is FirebaseApiNotAvailableException -> {
+                authToastLess.showToast("The requested API is not available.")
+            }
+            is FirebaseNetworkException -> {
+                authToastLess.showToast("There is a network connectivity issue. Please check your network.")
+            }
+            is FirebaseTooManyRequestsException -> {
+                authToastLess.showToast("Too many requests. Try again later.")
+            }
+            else -> {
+                authToastLess.showToast("An undefined error happened.")
+            }
         }
     }
-
 }
 
-fun createAnimalProfileId(): String {
-    // Generate a unique ID using UUID
-    return UUID.randomUUID().toString()
-}
+data class Upload(val downloadUrl: String)
+
+
+
+
+
+
+
+
+
