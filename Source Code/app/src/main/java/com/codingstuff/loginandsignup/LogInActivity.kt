@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
 import com.codingstuff.loginandsignup.databinding.ActivityLogInBinding
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 
 class LogInActivity : AppCompatActivity() {
 
@@ -68,17 +65,9 @@ class LogInActivity : AppCompatActivity() {
     // strips firebase exception errors
     private fun handleLoginFailure(exception: Exception?) {
         authToastLess.cancelToast() // Cancel any active Toast message since empty fields is determined first before auth exceptions
-        when (exception) {
-            is FirebaseAuthException -> {
-                val errorMessage = handleException(exception)
-                authToastLess.showToast(errorMessage)
-            }
-            is FirebaseNetworkException -> {
-                authToastLess.showToast("There is a network connectivity issue. Please check your network.")
-            }
-            is FirebaseTooManyRequestsException -> {
-                authToastLess.showToast("Too many requests. Try again later.")
-            }
+        val errorMessage = exception?.let { handleException(it) }
+        if (errorMessage != null) {
+            authToastLess.showToast(errorMessage)
         }
     }
 
