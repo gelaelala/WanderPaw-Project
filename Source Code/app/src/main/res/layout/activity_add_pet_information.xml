@@ -67,7 +67,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/petnameInput"
                 style="@style/LoginTextInputOuterFieldStyle"
-                android:layout_width="360dp"
+                android:layout_width="319dp"
                 android:layout_height="50dp"
                 android:cursorVisible="true"
                 android:gravity="center"
@@ -76,12 +76,13 @@
                 app:hintAnimationEnabled="false"
                 app:hintEnabled="false"
                 app:hintTextColor="@color/light_brown"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="22dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/petName"
                     style="@style/LoginTextInputInnerFieldStyle"
-                    android:layout_width="320dp"
+                    android:layout_width="319dp"
                     android:layout_height="50dp"
                     android:background="@drawable/input_field_add_pet"
                     android:fontFamily="@font/inter"
@@ -174,9 +175,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/spinner_border"
                     android:entries="@array/gender_options"
-                    android:inputType="text"
-                    android:paddingLeft="5dp"
-                    android:prompt="@string/select_prompt"/>
+                    android:paddingLeft="5dp" />
 
             </LinearLayout>
 

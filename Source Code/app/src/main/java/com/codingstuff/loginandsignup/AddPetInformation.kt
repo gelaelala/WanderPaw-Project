@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.ArrayAdapter
 import android.widget.TextView
@@ -20,44 +21,77 @@ class AddPetInformation : AppCompatActivity() {
         val items = resources.getStringArray(R.array.gender_options)
 
         val customColor = ContextCompat.getColor(this, R.color.light_brown)
+        val backgroundColor = ContextCompat.getColor(this, R.color.white)
+        val initialText = "Select Here"
 
-        val data = mutableListOf("Select Here").apply { addAll(items) }
+        val adapter =
+            object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
+                override fun getCount(): Int {
+                    return super.getCount() + 1
+                }
 
-        val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val textView = view.findViewById<TextView>(android.R.id.text1)
+                override fun getItem(position: Int): String? {
+                    return if (position == 0) initialText else super.getItem(position - 1)
+                }
 
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f) // Change text size (16sp)
-                textView.setTextColor(customColor) // Set custom text color
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val view = super.getView(position, convertView, parent)
+                    val textView = view.findViewById<TextView>(android.R.id.text1)
 
-                return view
+                    if (position == 0) {
+                        textView.text = initialText
+                        textView.setTextColor(customColor)
+                        textView.setTextSize(
+                            TypedValue.COMPLEX_UNIT_SP,
+                            13f
+                        ) // Set initial text size
+                    } else {
+                        textView.setTextColor(customColor)
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+                    }
+
+                    return view
+                }
+
+                override fun getDropDownView(
+                    position: Int,
+                    convertView: View?,
+                    parent: ViewGroup
+                ): View {
+                    val view = super.getDropDownView(position, convertView, parent)
+                    val textView = view.findViewById<TextView>(android.R.id.text1)
+
+                    if (position == 0) {
+                        textView.text = initialText
+                        textView.setTextColor(customColor)
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,13f)
+                        view.setBackgroundColor(backgroundColor)
+                    } else {
+                        textView.setTextColor(customColor)
+                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,13f)
+                        view.setBackgroundColor(backgroundColor)
+                    }
+
+                    return view
+                }
             }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val textView = view.findViewById<TextView>(android.R.id.text1)
-
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-                textView.setTextColor(customColor)
-
-                return view
-            }
-        }
-
-        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val view = super.getDropDownView(position, convertView, parent)
-            val textView = view.findViewById<TextView>(android.R.id.text1)
-
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f) // Change dropdown text size (14sp)
-            textView.setTextColor(customColor) // Set custom dropdown text color
-
-            return view
-        }
-    }
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
         spinner.setSelection(0)
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
     }
 }

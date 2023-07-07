@@ -13,6 +13,6 @@
         <item>Male</item>
         <item>Prefer not to say</item>
     </string-array>
-    <string name="select_prompt">Select Here</string>
+    <string name="spinner_prompt">Select Here</string>
 
 </resources>
