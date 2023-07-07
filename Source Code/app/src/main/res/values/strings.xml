@@ -8,6 +8,11 @@
     <string name="last_name">Last Name</string>
     <string name="confirm_pwd">Confirm your password</string>
     <string name="welcome_message_home">Welcome User!</string>
-
+    <string-array name="gender_options">
+        <item>Female</item>
+        <item>Male</item>
+        <item>Prefer not to say</item>
+    </string-array>
+    <string name="select_prompt">Select Here</string>
 
 </resources>
