@@ -1,14 +1,13 @@
 package com.codingstuff.loginandsignup
 
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -24,8 +23,9 @@ class ProfilePage : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
-// handles automatic refresh
-    private val refreshInterval = 1.5 * 1000 // 5 minutes in milliseconds
+
+    private val refreshInterval = 1.5 * 1000 // 10 secs in milliseconds -- refresh interval
+    // handles automatic refresh
     private val refreshHandler = Handler()
     private val refreshRunnable = object : Runnable {
         @RequiresApi(Build.VERSION_CODES.M)
@@ -35,10 +35,10 @@ class ProfilePage : AppCompatActivity() {
                 val userId = currentUser?.uid
                 userId?.let { retrieveUserData(it) }
             }
-            // Schedule the next refresh
             refreshHandler.postDelayed(this, refreshInterval.toLong())
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,40 +57,35 @@ class ProfilePage : AppCompatActivity() {
         } else {
             // Handle no internet connection case
             // Display an appropriate message or take necessary actions
-            Toast.makeText(this, "There is a network connectivity issue. Please check your network.", Toast.LENGTH_LONG).show()
-        }
-
-        binding.addPetProfileButton.setOnClickListener {
-            val intent = Intent(this, AnimalProfileDataInputActivity::class.java)
-            startActivity(intent)
+            Toast.makeText(this,"There is a network connectivity issue. Please check your network.", Toast.LENGTH_LONG).show()
         }
     }
 
+    // change the listener if there is time for settings
     private fun retrieveUserData(userId: String) {
-        databaseRef.child("Users").child(userId)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var displayName = ""
-                    for (snapshot in dataSnapshot.children) {
-                        val userName = snapshot.value?.toString()
-                        if (!userName.isNullOrEmpty()) {
-                            displayName = userName
-                        }
-                    }
+        val userRef = databaseRef.child("Users").child(userId)
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val displayNameValue = dataSnapshot.child("Display Name").getValue(String::class.java)
+                if (!displayNameValue.isNullOrEmpty()) {
                     runOnUiThread {
                         val displayNameTextView = binding.displayNameTextView
-                        displayNameTextView.text = displayName
+                        displayNameTextView.text = displayNameValue
                     }
                 }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    runOnUiThread {
-                        authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
-                    }
+            }
+            // think of possible errors - use toast
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Runs the specified action on the UI thread. If the current thread is the UI thread, then the action is executed immediately. If the
+                // current thread is not the UI thread, the action is posted to the event queue of the UI thread.
+                runOnUiThread {
+                    authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
                 }
-            })
+            }
+        })
     }
 
+    // checks for network connectivity before retrieving form the database
     @RequiresApi(Build.VERSION_CODES.M)
     private fun isNetworkConnected(): Boolean {
         val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -103,13 +98,11 @@ class ProfilePage : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        // Schedule the initial refresh
         refreshHandler.postDelayed(refreshRunnable, refreshInterval.toLong())
     }
 
     override fun onStop() {
         super.onStop()
-        // Cancel any pending refresh
         refreshHandler.removeCallbacks(refreshRunnable)
     }
 
@@ -119,3 +112,4 @@ class ProfilePage : AppCompatActivity() {
         finishAffinity()
     }
 }
+
