@@ -52,23 +52,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="3dp">
+            android:layout_marginTop="5dp">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
+                android:id="@+id/PetImagePreview"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_gravity="center"
-                app:cardCornerRadius="20dp"
+                android:layout_height="200dp"
                 android:layout_marginLeft="22dp"
-                android:layout_margin="22dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/round_border_for_photo_preview"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_photo_for_pet_cards_in_user_profile" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sample_photo_for_pet_cards_in_user_profile" />
-            </androidx.cardview.widget.CardView>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
