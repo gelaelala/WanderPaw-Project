@@ -50,9 +50,9 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
         storageRef = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
 
-//        binding.addButton.setOnClickListener {
-//            addNewAboutMeInputField()
-//        }
+        binding.addButton.setOnClickListener {
+            addNewAboutMeInputField()
+        }
 
         setupClickListeners()
     }
@@ -78,7 +78,7 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                     put("Bio", bio)
 
                     // Append the values from the bioEditTextList as a list
-//                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
+                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
                 }
 
 
@@ -126,7 +126,6 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
             imageUri = data.data!!
 
             Picasso.get().load(imageUri).into(binding.petProfilePic)
-//            uploadFile()
         }
     }
 
