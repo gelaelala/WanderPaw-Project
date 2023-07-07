@@ -112,7 +112,7 @@
                         app:iconPadding="0dp"
                         app:iconSize="20dp"
                         app:iconTint="@color/white"
-                        app:rippleColor="@color/light_brown" />
+                        app:rippleColor="@null" />
 
                     <Space
                         android:layout_width="30dp"
@@ -132,7 +132,7 @@
                         app:iconPadding="0dp"
                         app:iconSize="25dp"
                         app:iconTint="@color/white"
-                        app:rippleColor="@color/light_brown" />
+                        app:rippleColor="@null" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -154,45 +154,33 @@
                         app:iconTint="@color/white"
                         app:iconPadding="0dp"
                         app:iconGravity="textStart"
-                        app:rippleColor="@color/white"/>
+                        app:rippleColor="@null"/>
 
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="0dp" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="100dp"
-                        android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="20dp"
-                        android:onClick="onBackButtonClicked">
 
                         <ImageView
                             android:layout_width="100dp"
                             android:layout_height="120dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/sample_photo_for_pet_cards_in_user_profile" />
-                    </androidx.cardview.widget.CardView>
+                            android:src="@drawable/sample_photo_for_pet_cards_in_user_profile"
+                            android:background="@drawable/round_corner_for_card"
+                            android:clipToOutline="true"/>
 
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="0dp" />
 
-                    <androidx.cardview.widget.CardView
+                    <ImageView
                         android:layout_width="100dp"
                         android:layout_height="120dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="20dp"
-                        android:onClick="onBackButtonClicked">
-
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="120dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/sample_photo_for_pet_cards_in_user_profile" />
-                    </androidx.cardview.widget.CardView>
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_photo_for_pet_cards_in_user_profile"
+                        android:background="@drawable/round_corner_for_card"
+                        android:clipToOutline="true"/>
 
                 </LinearLayout>
             </LinearLayout>
