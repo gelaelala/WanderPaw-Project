@@ -189,22 +189,9 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
     }
 
     private fun handleException(exception: Exception) {
-        when (exception) {
-            is DatabaseException -> {
-                authToastLess.showToast("A database exception happened. Please try again.")
-            }
-            is FirebaseApiNotAvailableException -> {
-                authToastLess.showToast("The requested API is not available.")
-            }
-            is FirebaseNetworkException -> {
-                authToastLess.showToast("There is a network connectivity issue. Please check your network.")
-            }
-            is FirebaseTooManyRequestsException -> {
-                authToastLess.showToast("Too many requests. Try again later.")
-            }
-            else -> {
-                authToastLess.showToast("An undefined error happened.")
-            }
+        val errorMessage = exception?.let { AuthExceptionHandler.handleException(it) }
+        if (errorMessage != null) {
+            authToastLess.showToast(errorMessage)
         }
     }
 }
