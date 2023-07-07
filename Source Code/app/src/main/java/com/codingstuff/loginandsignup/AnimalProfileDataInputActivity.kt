@@ -6,7 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.webkit.MimeTypeMap
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityAnimalProfileDataInputBinding
@@ -30,6 +33,9 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
     private lateinit var storageRef: StorageReference
     private val authToastLess = AuthToastLess(this)
     private lateinit var imageUri: Uri
+//    private var counter = 0
+    private val aboutMeEditTextList = mutableListOf<EditText>()
+
 
     companion object {
         private const val pickImageRequest = 1
@@ -43,6 +49,10 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
         databaseRef = FirebaseDatabase.getInstance().reference
         storageRef = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
+
+//        binding.addButton.setOnClickListener {
+//            addNewAboutMeInputField()
+//        }
 
         setupClickListeners()
     }
@@ -66,8 +76,11 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                     put("Gender", gender)
                     put("Location", location)
                     put("Bio", bio)
-                    put("About Me", aboutMe)
+
+                    // Append the values from the bioEditTextList as a list
+//                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
                 }
+
 
                 if (userId != null && petCardID != null) {
                     databaseRef.child("Users").child(userId).child("Animal Profiles Created").child(petCardID)
@@ -163,6 +176,17 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
                 binding.progressBarImg.progress = progress
             }
     }
+// temp name
+    private fun addNewAboutMeInputField() {
+        val newAboutMeEditText = EditText(this)
+        newAboutMeEditText.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        newAboutMeEditText.id = View.generateViewId()
+        binding.inputContainer.addView(newAboutMeEditText)
+        aboutMeEditTextList.add(newAboutMeEditText) // Add the reference to the list
+    }
 
     private fun handleException(exception: Exception) {
         when (exception) {
@@ -186,7 +210,6 @@ class AnimalProfileDataInputActivity : AppCompatActivity() {
 }
 
 data class Upload(val downloadUrl: String)
-
 
 
 

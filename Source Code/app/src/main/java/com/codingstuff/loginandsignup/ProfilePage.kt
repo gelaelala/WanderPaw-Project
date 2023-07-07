@@ -1,5 +1,6 @@
 package com.codingstuff.loginandsignup
 
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -51,6 +52,11 @@ class ProfilePage : AppCompatActivity() {
 
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
+
+        binding.addPetProfileButton.setOnClickListener{
+            val intent = Intent(this, AnimalProfileDataInputActivity::class.java)
+            startActivity(intent)
+        }
 
         if (isNetworkConnected()) {
             userId?.let { retrieveUserData(it) }
