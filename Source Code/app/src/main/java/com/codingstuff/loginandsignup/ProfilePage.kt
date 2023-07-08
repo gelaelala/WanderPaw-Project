@@ -1,5 +1,6 @@
 package com.codingstuff.loginandsignup
 
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -45,6 +46,8 @@ class ProfilePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupClickListener()
 
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
@@ -94,6 +97,17 @@ class ProfilePage : AppCompatActivity() {
         return capabilities != null &&
                 (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
                         capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    }
+
+    private fun setupClickListener() {
+        binding.AddPetInfo  .setOnClickListener {
+            navigateToAddPetInfo()
+        }
+    }
+
+    private fun navigateToAddPetInfo() {
+        val intent = Intent(this, AddPetInformation::class.java)
+        startActivity(intent)
     }
 
     override fun onStart() {

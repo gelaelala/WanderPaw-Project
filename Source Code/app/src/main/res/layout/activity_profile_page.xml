@@ -145,6 +145,7 @@
                     android:layout_gravity="center_horizontal">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/AddPetInfo"
                         android:layout_width="80dp"
                         android:layout_height="120dp"
                         app:cornerRadius="20dp"

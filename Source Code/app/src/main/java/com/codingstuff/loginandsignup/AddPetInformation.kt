@@ -1,6 +1,6 @@
 package com.codingstuff.loginandsignup
 
-import android.graphics.Color
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.TypedValue
@@ -11,6 +11,8 @@ import android.widget.Spinner
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
+import com.codingstuff.loginandsignup.databinding.ActivitySignUpBinding
 
 class AddPetInformation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +44,8 @@ class AddPetInformation : AppCompatActivity() {
                         textView.text = initialText
                         textView.setTextColor(customColor)
                         textView.setTextSize(
-                            TypedValue.COMPLEX_UNIT_SP,
-                            13f
-                        ) // Set initial text size
-                    } else {
+                            TypedValue.COMPLEX_UNIT_SP,13f) }
+                    else {
                         textView.setTextColor(customColor)
                         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
                     }
@@ -95,3 +95,4 @@ class AddPetInformation : AppCompatActivity() {
         }
     }
 }
+
