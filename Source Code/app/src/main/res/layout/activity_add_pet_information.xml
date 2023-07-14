@@ -55,6 +55,7 @@
             android:layout_marginTop="3dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/imageButton"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_gravity="center"
@@ -63,12 +64,13 @@
                 android:layout_margin="22dp">
 
                 <ImageView
+                    android:id="@+id/imageHolder"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sample_photo_for_pet_cards_in_user_profile" />
+                    android:scaleType="centerCrop"/>
             </androidx.cardview.widget.CardView>
+            <!--                    android:src="@drawable/sample_photo_for_pet_cards_in_user_profile" />-->
 
             <TextView
                 android:layout_width="match_parent"
@@ -174,7 +176,7 @@
                         android:background="@drawable/input_field_add_pet"
                         android:fontFamily="@font/inter"
                         android:hint="Enter Age Here"
-                        android:inputType="number"
+                        android:inputType="textAutoCorrect"
                         android:textColor="@color/light_brown"
                         android:textSize="12sp"
                         android:typeface="normal" />

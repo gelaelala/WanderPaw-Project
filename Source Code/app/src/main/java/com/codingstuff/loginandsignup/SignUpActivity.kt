@@ -90,8 +90,9 @@ class SignUpActivity : AppCompatActivity() {
                     val userId = currentUser?.uid
 
                     // Create a HashMap to store user data
-                    val userData = HashMap<String, Any>()
-                    userData["Display Name"] = displayName
+                    val userData = HashMap<String, Any>().apply {
+                        put("Display Name", displayName)
+                    }
 
                     // Push the user data to the "Users" node
                     userId?.let {

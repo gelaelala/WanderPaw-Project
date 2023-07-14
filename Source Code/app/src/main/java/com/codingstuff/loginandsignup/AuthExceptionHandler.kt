@@ -34,25 +34,25 @@ class AuthExceptionHandler {
     }
 
     fun validatePassword(password: String): List<String> {
-            val missingConditions = mutableListOf<String>()
+        val missingConditions = mutableListOf<String>()
 
-            if (password.length < 6) {
-                missingConditions.add("at least 6 characters")
-            }
-            if (!password.matches(Regex(".*[a-z].*"))) {
-                missingConditions.add("one lowercase letter")
-            }
-            if (!password.matches(Regex(".*[A-Z].*"))) {
-                missingConditions.add("one uppercase letter")
-            }
-            if (!password.matches(Regex(".*\\d.*"))) {
-                missingConditions.add("one numerical digit")
-            }
-            if (!password.matches(Regex(".*[@\$!%*?&].*"))) {
-                missingConditions.add("one special character")
-            }
-
-            return missingConditions
+        if (password.length < 6) {
+            missingConditions.add("at least 6 characters")
         }
+        if (!password.matches(Regex(".*[a-z].*"))) {
+            missingConditions.add("one lowercase letter")
+        }
+        if (!password.matches(Regex(".*[A-Z].*"))) {
+            missingConditions.add("one uppercase letter")
+        }
+        if (!password.matches(Regex(".*\\d.*"))) {
+            missingConditions.add("one numerical digit")
+        }
+        if (!password.matches(Regex(".*[@\$!%*?&].*"))) {
+            missingConditions.add("one special character")
+        }
+
+        return missingConditions
     }
+}
 
