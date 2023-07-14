@@ -199,7 +199,7 @@ class AddPetInformation : AppCompatActivity() {
                                 put("Contact Information", contact)
 //                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
                             }
-                                if (binding.imageHolder == null) {
+//                                if (binding.imageHolder == null) {
                                     databaseRef.child("Users").child(userId)
                                         .child("Animal Profiles Created")
                                         .child(petCardID)
@@ -213,9 +213,10 @@ class AddPetInformation : AppCompatActivity() {
                                                 // Handle the error appropriately (e.g., show error message)
                                             }
                                         }
-                                } else {
-                                    Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_LONG).show()
-                                }
+//                                }
+//                                else {
+//                                    Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_LONG).show()
+//                                }
                         }
                         else {
                             Toast.makeText(this@AddPetInformation, "Some required fields are empty! Please put N/A or NONE or choose other options available.", Toast.LENGTH_LONG).show()
