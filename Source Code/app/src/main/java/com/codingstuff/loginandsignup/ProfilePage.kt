@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -46,6 +47,22 @@ class ProfilePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        replaceFragment(HomePage())
+
+        binding.bottomNavigationView.setOnItemReselectedListener {
+            when(it.itemId) {
+                R.id.HomePage -> replaceFragment(HomePage())
+                R.id.UserProfile -> replaceFragment(PetProfilePage())
+
+                else -> {
+
+
+                }
+            }
+
+            true
+
+        }
 
         setupClickListener()
 
@@ -62,6 +79,15 @@ class ProfilePage : AppCompatActivity() {
             // Display an appropriate message or take necessary actions
             Toast.makeText(this,"There is a network connectivity issue. Please check your network.", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.flFragment, fragment)
+        fragmentTransaction.commit()
+
     }
 
     // change the listener if there is time for settings
@@ -100,7 +126,7 @@ class ProfilePage : AppCompatActivity() {
     }
 
     private fun setupClickListener() {
-        binding.AddPetInfo  .setOnClickListener {
+        binding.AddPetInfo.setOnClickListener {
             navigateToAddPetInfo()
         }
     }
