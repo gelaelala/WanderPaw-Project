@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
+import java.util.Locale
 
 @Suppress("DEPRECATION")
 class AddPetInformation : AppCompatActivity() {
@@ -149,20 +150,20 @@ class AddPetInformation : AppCompatActivity() {
                 val userId = currentUser?.uid
                 val petCardID = databaseRef.push().key
                 //            val petCardID = createAnimalProfileId()
-                val name = binding.petName.text.toString().trim()
+                val name = formatStringWithCapital(binding.petName.text.toString())
                 val age = binding.petAge.text.toString().trim()
                 val gender = binding.genderInputField.selectedItem
-                val location = binding.petLocation.text.toString().trim()
-                val bio = binding.petBio.text.toString().trim()
-                val aboutMe = binding.aboutPet.text.toString().trim()
-                val breed = binding.petBreed.text.toString().trim()
-                val medicalConditions = binding.petMedicalConditions.text.toString().trim()
-                val vaccine = binding.petVaccinesTaken.text.toString().trim()
-                val diet = binding.petDiet.text.toString().trim()
-                val reason = binding.petReasonforAdoption.text.toString().trim()
-                val otherNeeds = binding.petOtherNeeds.text.toString().trim()
-                val requirements = binding.adopterRequirements.text.toString().trim()
-                val contact = binding.userContactInfo.text.toString().trim()
+                val location = capitalizeWords(binding.petLocation.text.toString())
+                val bio = formatStringWithCapital(binding.petBio.text.toString())
+                val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
+                val breed = capitalizeWords(binding.petBreed.text.toString())
+                val medicalConditions = capitalizeWords(binding.petMedicalConditions.text.toString())
+                val vaccine = capitalizeWords(binding.petVaccinesTaken.text.toString())
+                val diet = formatStringWithCapital(binding.petDiet.text.toString())
+                val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
+                val otherNeeds = formatStringWithCapital(binding.petOtherNeeds.text.toString())
+                val requirements = formatStringWithCapital(binding.adopterRequirements.text.toString())
+                val contact = capitalizeWords(binding.userContactInfo.text.toString())
 
                 val fieldsNotEmpty = areFieldsNotEmpty(
                     name,
@@ -231,6 +232,19 @@ class AddPetInformation : AppCompatActivity() {
         }
 
     }
+
+    private fun formatStringWithCapital(input: String): String {
+        return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+            .trim()
+    }
+
+    private fun capitalizeWords(input: String): String {
+        return input.split(" ")
+            .joinToString(" ") { it -> it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() } }
+            .trim()
+    }
+
+
 
     private fun openFileChooser() {
         val intent =
