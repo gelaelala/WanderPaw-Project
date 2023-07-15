@@ -10,6 +10,7 @@ import android.os.Handler
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,12 +41,26 @@ class ProfilePage : AppCompatActivity() {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        bottomNavigationView.selectedItemId = R.id.UserProfile
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.UserProfile -> true
+                R.id.UserPetMatching -> {
+                    startActivity(Intent(applicationContext, UserPetMatching::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
 
         setupClickListener()
 
@@ -100,7 +115,7 @@ class ProfilePage : AppCompatActivity() {
     }
 
     private fun setupClickListener() {
-        binding.AddPetInfo  .setOnClickListener {
+        binding.AddPetInfo.setOnClickListener {
             navigateToAddPetInfo()
         }
     }
