@@ -2,8 +2,12 @@ package com.codingstuff.loginandsignup
 
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -13,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
@@ -39,7 +44,7 @@ class AddPetInformation : AppCompatActivity() {
 //    private val requirementsTextList = mutableListOf<TextInputEditText>()
 //    private val contactInfoTextList = mutableListOf<TextInputEditText>()
 
-//    private val authToastLess = AuthToastLess(this)
+    private val authToastLess = AuthToastLess(this)
     private lateinit var imageUri: Uri
 
 
@@ -47,6 +52,7 @@ class AddPetInformation : AppCompatActivity() {
         private const val pickImageRequest = 1
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -145,43 +151,44 @@ class AddPetInformation : AppCompatActivity() {
 
         // Write the pet card data to the database under the user's petCards node
         binding.SaveButton?.setOnClickListener {
-            try {
-                val currentUser = firebaseAuth.currentUser
-                val userId = currentUser?.uid
-                val petCardID = databaseRef.push().key
-                //            val petCardID = createAnimalProfileId()
-                val name = formatStringWithCapital(binding.petName.text.toString())
-                val age = binding.petAge.text.toString().trim()
-                val gender = binding.genderInputField.selectedItem
-                val location = capitalizeWords(binding.petLocation.text.toString())
-                val bio = formatStringWithCapital(binding.petBio.text.toString())
-                val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
-                val breed = capitalizeWords(binding.petBreed.text.toString())
-                val medicalConditions = capitalizeWords(binding.petMedicalConditions.text.toString())
-                val vaccine = capitalizeWords(binding.petVaccinesTaken.text.toString())
-                val diet = formatStringWithCapital(binding.petDiet.text.toString())
-                val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
-                val otherNeeds = formatStringWithCapital(binding.petOtherNeeds.text.toString())
-                val requirements = formatStringWithCapital(binding.adopterRequirements.text.toString())
-                val contact = capitalizeWords(binding.userContactInfo.text.toString())
 
-                val fieldsNotEmpty = areFieldsNotEmpty(
-                    name,
-                    age,
-                    gender as String,
-                    location,
-                    bio,
-                    aboutMe,
-                    breed,
-                    medicalConditions,
-                    vaccine,
-                    reason,
-                    contact
-                )
+            val currentUser = firebaseAuth.currentUser
+            val userId = currentUser?.uid
+            val petCardID = databaseRef.push().key
+            //            val petCardID = createAnimalProfileId()
+            val name = formatStringWithCapital(binding.petName.text.toString())
+            val age = binding.petAge.text.toString().trim()
+            val gender = binding.genderInputField.selectedItem
+            val location = capitalizeWords(binding.petLocation.text.toString())
+            val bio = formatStringWithCapital(binding.petBio.text.toString())
+            val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
+            val breed = capitalizeWords(binding.petBreed.text.toString())
+            val medicalConditions = capitalizeWords(binding.petMedicalConditions.text.toString())
+            val vaccine = capitalizeWords(binding.petVaccinesTaken.text.toString())
+            val diet = formatStringWithCapital(binding.petDiet.text.toString())
+            val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
+            val otherNeeds = formatStringWithCapital(binding.petOtherNeeds.text.toString())
+            val requirements = formatStringWithCapital(binding.adopterRequirements.text.toString())
+            val contact = capitalizeWords(binding.userContactInfo.text.toString())
 
-                if (userId != null) {
-                    if (petCardID != null) {
-                        if (fieldsNotEmpty) {
+            val fieldsNotEmpty = areFieldsNotEmpty(
+                name,
+                age,
+                gender as String,
+                location,
+                bio,
+                aboutMe,
+                breed,
+                medicalConditions,
+                vaccine,
+                reason,
+                contact
+            )
+
+            if (userId != null) {
+                if (petCardID != null) {
+                    if (fieldsNotEmpty) {
+                        if (isNetworkConnected(this@AddPetInformation)) {
                             // Create a HashMap to store user data
                             val petCardData = HashMap<String, Any>().apply {
                                 put("Name", name)
@@ -198,37 +205,47 @@ class AddPetInformation : AppCompatActivity() {
                                 put("Other Needs", otherNeeds)
                                 put("Requirements for Adopter", requirements)
                                 put("Contact Information", contact)
-//                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
+                                //                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
                             }
-//                                if (binding.imageHolder == null) {
-                                    databaseRef.child("Users").child(userId)
-                                        .child("Animal Profiles Created")
-                                        .child(petCardID)
-                                        .updateChildren(petCardData)
-                                        .addOnCompleteListener { task -> if (task.isSuccessful) {
-                                                // Pet card data successfully written to the database
-                                                // Perform any additional actions or show success message
-                                                uploadFile(petCardID)
-                                            } else {
-                                                // Error occurred while writing pet card data to the database
-                                                // Handle the error appropriately (e.g., show error message)
-                                            }
-                                        }
+                            //                                if (binding.imageHolder == null) {
+                            databaseRef.child("Users").child(userId)
+                                .child("Animal Profiles Created")
+                                .child(petCardID)
+                                .updateChildren(petCardData)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        // Pet card data successfully written to the database
+                                        // Perform any additional actions or show success message
+                                        uploadFile(petCardID)
+                                        finish()
+                                    } else {
+                                        // Error occurred while writing pet card data to the database
+                                        // Handle the error appropriately (e.g., show error message)
+                                        handleAddPetProfileFailure(task.exception)
+                                    }
+                                }
+                        } else {
+                            Toast.makeText(
+                                this@AddPetInformation,
+                                "There is a network connectivity issue. Please check your network.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
 //                                }
 //                                else {
 //                                    Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_LONG).show()
 //                                }
-                        }
-                        else {
-                            Toast.makeText(this@AddPetInformation, "Some required fields are empty! Please put N/A or NONE or choose other options available.", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(
+                            this@AddPetInformation,
+                            "Some required fields are empty! Please put N/A or NONE or choose other options available.",
+                            Toast.LENGTH_LONG
+                        ).show()
 
-                        }
                     }
                 }
-            } catch (exception: Exception) {
-                // Handle any exceptions that occur during data saving
-                handleException(exception)
             }
+
         }
 
     }
@@ -243,8 +260,6 @@ class AddPetInformation : AppCompatActivity() {
             .joinToString(" ") { it -> it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() } }
             .trim()
     }
-
-
 
     private fun openFileChooser() {
         val intent =
@@ -276,56 +291,63 @@ class AddPetInformation : AppCompatActivity() {
         return mime.getExtensionFromMimeType(cR.getType(uri))
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun uploadFile(petCardID: String) {
         // This line creates a new StorageReference named fileReference by appending a child path to the storageRef. The child
         // path is formed using the current timestamp (System.currentTimeMillis()) concatenated with a period (.) and the file
         // extension obtained using the getFileExtension function.
-        val fileReference: StorageReference = storageRef.child("Uploads").child(
-            "${System.currentTimeMillis()}." +
-                    "${getFileExtension(imageUri)}"
-        ) // path for Storage database - where the file really is
+        if (isNetworkConnected(this)) {
+            val fileReference: StorageReference = storageRef.child("Uploads").child(
+                "${System.currentTimeMillis()}." +
+                        "${getFileExtension(imageUri)}"
+            ) // path for Storage database - where the file really is
 
 
-        fileReference.putFile(imageUri)
-            .addOnCompleteListener { task ->
-//                val delayProgressHandler = Handler()
-//                val progressRunnable = Runnable {
-//                    if (progressBar != null) {
-//                        progressBar.progress = 0
-//                        progressBar.visibility = View.GONE
-//
-//                    }
-//                } // progress bar operation
-//                delayProgressHandler.postDelayed(progressRunnable, 500)
-                Toast.makeText(this@AddPetInformation, "Profile uploaded.", Toast.LENGTH_SHORT)
-                    .show()
-                val upload =
-                    Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
-                val currentUser = firebaseAuth.currentUser
-                val userId = currentUser?.uid
+            fileReference.putFile(imageUri)
+                .addOnCompleteListener { task ->
+                        //                val delayProgressHandler = Handler()
+                        //                val progressRunnable = Runnable {
+                        //                    if (progressBar != null) {
+                        //                        progressBar.progress = 0
+                        //                        progressBar.visibility = View.GONE
+                        //
+                        //                    }
+                        //                } // progress bar operation
+                        //                delayProgressHandler.postDelayed(progressRunnable, 500)
 
-                // stores within the initial structure
-                val petCardData = HashMap<String, Any>().apply {
-                    put("Profile Picture", upload)
+                        //                Toast.makeText(this@AddPetInformation, "Profile uploaded.", Toast.LENGTH_SHORT)
+                        //                    .show()
+
+                        val upload =
+                            Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
+                        val currentUser = firebaseAuth.currentUser
+                        val userId = currentUser?.uid
+
+                        // stores within the initial structure
+                        val petCardData = HashMap<String, Any>().apply {
+                            put("Profile Picture", upload)
+                        }
+
+                        if (userId != null) {
+                            databaseRef.child("Users").child(userId).child("Animal Profiles Created")
+                                .child(petCardID)
+                                .updateChildren(petCardData)
+                        }
+                    }
+                .addOnFailureListener { exception: Exception ->
+                    handleAddPetProfileFailure(exception)
                 }
-
-                if (userId != null) {
-                    databaseRef.child("Users").child(userId).child("Animal Profiles Created")
-                        .child(petCardID)
-                        .updateChildren(petCardData)
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this@AddPetInformation, e.message, Toast.LENGTH_SHORT).show()
-            }
-//            .addOnProgressListener { taskSnapshot ->
-//                val progress = (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toInt() // progress bar progress
-//                if (progressBar != null) {
-//                    progressBar.progress = progress
-//                    progressBar.visibility = View.VISIBLE
-//
-//                }
-//            }
+    //            .addOnProgressListener { taskSnapshot ->
+    //                val progress = (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toInt() // progress bar progress
+    //                if (progressBar != null) {
+    //                    progressBar.progress = progress
+    //                    progressBar.visibility = View.VISIBLE
+    //
+    //                }
+    //            }
+        } else {
+            Toast.makeText(this, "There is a network connectivity issue. Please check your network.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun areFieldsNotEmpty(
@@ -344,8 +366,26 @@ class AddPetInformation : AppCompatActivity() {
         return name.isNotEmpty() && age.isNotEmpty() && gender != "Select Here" && location.isNotEmpty() && bio.isNotEmpty() && aboutMe.isNotEmpty() && breed.isNotEmpty() && medicalConditions.isNotEmpty() && vaccine.isNotEmpty() && reason.isNotEmpty() && contact.isNotEmpty()
     }
 
+    // function for stripping firebase exceptions
+    private fun handleAddPetProfileFailure(exception: Exception?) {
+        authToastLess.cancelToast() // Cancel any active Toast message since empty fields and password mismatch are determined first before auth exceptions
+        val errorMessage = exception?.let { handleException(it) }
+        if (errorMessage != null) {
+            authToastLess.showToast(errorMessage)
+        }
 
+    }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isNetworkConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val activeNetwork =
+            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+
+        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
 }
 
 //    private fun addNewAboutMeInputField() {
@@ -358,6 +398,7 @@ class AddPetInformation : AppCompatActivity() {
 //        binding.inputContainer.addView(newAboutMeEditText)
 //        aboutMeEditTextList.add(newAboutMeEditText) // Add the reference to the list
 //    }
+
 
 
 
