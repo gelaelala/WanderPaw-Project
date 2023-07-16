@@ -27,15 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/ScrollView">
 
-            <ImageView
-                android:onClick="onBackButtonClicked"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/back"
-                app:tint="@color/dark_brown" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
