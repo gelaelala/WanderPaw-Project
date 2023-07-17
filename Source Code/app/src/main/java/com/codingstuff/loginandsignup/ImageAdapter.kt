@@ -24,15 +24,15 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
         val itemView = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false)
         return ImageViewHolder(itemView)
     }
-//
-//    // The onBindViewHolder function is overridden to bind data to the views within the ImageViewHolder. It takes the current item position (position) and
-//    // retrieves the corresponding ImageUpload object from the mUploads list. It sets the text of textViewName to the name of the image and uses Picasso
-//    // library to load the image from the imageUrl into the imageView.
-//    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-//        val uploadCurrent = mUploads[position]
-//        holder.textViewName.text = uploadCurrent.name
-//        Picasso.get().load(uploadCurrent.imageUrl).fit().centerCrop().into(holder.imageView)
-//    }
+
+    // The onBindViewHolder function is overridden to bind data to the views within the ImageViewHolder. It takes the current item position (position) and
+    // retrieves the corresponding ImageUpload object from the mUploads list. It sets the text of textViewName to the name of the image and uses Picasso
+    // library to load the image from the imageUrl into the imageView.
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        val uploadCurrent = mUploads[position]
+        holder.textViewName.text = uploadCurrent.name
+        Picasso.get().load(uploadCurrent.imageUrl).fit().centerCrop().into(holder.imageView)
+    }
 //
 //    // return the total number of items in the mUploads list.
 //    override fun getItemCount(): Int {
