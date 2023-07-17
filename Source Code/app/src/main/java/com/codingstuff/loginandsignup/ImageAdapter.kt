@@ -19,11 +19,11 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
         val imageView: ImageView = itemView.findViewById(R.id.card_image)
     }
 
-//    // The onCreateViewHolder function is overridden to create and return a new instance of the ImageViewHolder.
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-//        val itemView = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false)
-//        return ImageViewHolder(itemView)
-//    }
+    // The onCreateViewHolder function is overridden to create and return a new instance of the ImageViewHolder.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        val itemView = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false)
+        return ImageViewHolder(itemView)
+    }
 //
 //    // The onBindViewHolder function is overridden to bind data to the views within the ImageViewHolder. It takes the current item position (position) and
 //    // retrieves the corresponding ImageUpload object from the mUploads list. It sets the text of textViewName to the name of the image and uses Picasso
@@ -41,6 +41,7 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
 //    }
 //}
 
+    // stores the two properties
 data class ImageUpload(
     val imageUrl: String,
     val name: String
