@@ -106,16 +106,16 @@ class ProfilePage : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val uploads = mutableListOf<ImageUpload>()
 
-//                    for (petSnapshot in dataSnapshot.children) {
-//                        val petCardId = petSnapshot.key
-//                        val name = petSnapshot.child("Name").getValue(String::class.java)
-//                        val profilePictureUrl = petSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
-//
-//                        if (petCardId != null && name != null && profilePictureUrl != null) {
-//                            val upload = ImageUpload(profilePictureUrl, name)
-//                            uploads.add(upload)
-//                        }
-//                    }
+                    for (petSnapshot in dataSnapshot.children) {
+                        val petCardId = petSnapshot.key
+                        val name = petSnapshot.child("Name").getValue(String::class.java)
+                        val profilePictureUrl = petSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
+
+                        if (petCardId != null && name != null && profilePictureUrl != null) {
+                            val upload = ImageUpload(profilePictureUrl, name)
+                            uploads.add(upload)
+                        }
+                    }
 //
 //                    mUploads = uploads
 //                    mAdapter = ImageAdapter(this@ProfilePage, mUploads)
