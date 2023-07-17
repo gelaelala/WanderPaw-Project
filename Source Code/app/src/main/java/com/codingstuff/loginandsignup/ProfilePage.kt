@@ -99,11 +99,13 @@ class ProfilePage : AppCompatActivity() {
             ).show()
         }
 
-//        if (userId != null) {
-//            databaseRef.child("Users").child(userId).child("Animal Profiles Created").addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                    val uploads = mutableListOf<ImageUpload>()
-//
+        // addValueEventListener - Add a listener for changes in the data at this location. Each time the data changes, your listener will be called with
+        // an immutable snapshot of the data
+        if (userId != null) {
+            databaseRef.child("Users").child(userId).child("Animal Profiles Created").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val uploads = mutableListOf<ImageUpload>()
+
 //                    for (petSnapshot in dataSnapshot.children) {
 //                        val petCardId = petSnapshot.key
 //                        val name = petSnapshot.child("Name").getValue(String::class.java)
