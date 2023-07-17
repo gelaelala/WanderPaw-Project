@@ -3,11 +3,12 @@ package com.codingstuff.loginandsignup
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,7 +22,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-@Suppress("DEPRECATION")
 class ProfilePage : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfilePageBinding
@@ -29,20 +29,8 @@ class ProfilePage : AppCompatActivity() {
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
 
-    private val refreshInterval = 1.5 * 1000 // 10 secs in milliseconds -- refresh interval
-    // handles automatic refresh
-    private val refreshHandler = Handler()
-    private val refreshRunnable = object : Runnable {
-        @RequiresApi(Build.VERSION_CODES.M)
-        override fun run() {
-            if (isNetworkConnected(this@ProfilePage)) {
-                val currentUser = firebaseAuth.currentUser
-                val userId = currentUser?.uid
-                userId?.let { retrieveUserData(it) }
-            }
-            refreshHandler.postDelayed(this, refreshInterval.toLong())
-        }
-    }
+    private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: ImageAdapter
@@ -84,20 +72,33 @@ class ProfilePage : AppCompatActivity() {
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
 
+        // Initialize the ConnectivityManager
+        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
 
-        if (isNetworkConnected(this@ProfilePage)) {
-            userId?.let { retrieveUserData(it) }
-        } else {
-            // Handle no internet connection case
-            // Display an appropriate message or take necessary actions
-            Toast.makeText(
-                this,
-                "There is a network connectivity issue. Please check your network.",
-                Toast.LENGTH_LONG
-            ).show()
+        // Create a NetworkCallback to handle network connectivity changes
+        networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                // Network connection is available
+                userId?.let { retrieveUserData(it) }
+            }
+
+            override fun onLost(network: Network) {
+                // Network connection is lost
+                // You can handle any necessary actions here
+                runOnUiThread {
+                    Toast.makeText(
+                        applicationContext,
+                        "There is a network connectivity issue. Please check your network.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+
         }
+
 
         // addValueEventListener - Add a listener for changes in the data at this location. Each time the data changes, your listener will be called with
         // an immutable snapshot of the data
@@ -157,18 +158,6 @@ class ProfilePage : AppCompatActivity() {
         })
     }
 
-    // checks for network connectivity before retrieving form the database
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun isNetworkConnected(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkCapabilities = connectivityManager.activeNetwork ?: return false
-        val activeNetwork =
-            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
-
-        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    }
-
     private fun setupClickListener() {
         binding.AddPetInfo.setOnClickListener {
             navigateToAddPetInfo()
@@ -180,14 +169,28 @@ class ProfilePage : AppCompatActivity() {
         startActivity(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onStart() {
         super.onStart()
-        refreshHandler.postDelayed(refreshRunnable, refreshInterval.toLong())
+        registerConnectivityCallback()
     }
 
     override fun onStop() {
         super.onStop()
-        refreshHandler.removeCallbacks(refreshRunnable)
+        unregisterConnectivityCallback()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun registerConnectivityCallback() {
+        val networkRequest = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+    }
+
+    private fun unregisterConnectivityCallback() {
+        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 
     @Deprecated("Deprecated in Java")

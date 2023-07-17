@@ -43,6 +43,6 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
 
 // stores the two properties
 data class ImageUpload(
-    val imageUrl: String,muploa
+    val imageUrl: String,
     val name: String
 )
