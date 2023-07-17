@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.util.Locale
 
@@ -47,6 +48,7 @@ class AddPetInformation : AppCompatActivity() {
     private val authToastLess = AuthToastLess(this)
     private lateinit var imageUri: Uri
 
+    private var isImageSelected: Boolean = false
 
     companion object {
         private const val pickImageRequest = 1
@@ -188,57 +190,57 @@ class AddPetInformation : AppCompatActivity() {
             if (userId != null) {
                 if (petCardID != null) {
                     if (fieldsNotEmpty) {
-                        if (isNetworkConnected(this@AddPetInformation)) {
-                            // Create a HashMap to store user data
-                            val petCardData = HashMap<String, Any>().apply {
-                                put("Name", name)
-                                put("Age", age)
-                                put("Gender", gender)
-                                put("Location", location)
-                                put("Bio", bio)
-                                put("About Me", aboutMe)
-                                put("Breed", breed)
-                                put("Medical Conditions", medicalConditions)
-                                put("Vaccine_s Taken", vaccine)
-                                put("Pet's Diet", diet)
-                                put("Reason for Adoption", reason)
-                                put("Other Needs", otherNeeds)
-                                put("Requirements for Adopter", requirements)
-                                put("Contact Information", contact)
-                                //                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
-                            }
-                            //                                if (binding.imageHolder == null) {
-                            databaseRef.child("Users").child(userId)
-                                .child("Animal Profiles Created")
-                                .child(petCardID)
-                                .updateChildren(petCardData)
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        // Pet card data successfully written to the database
-                                        // Perform any additional actions or show success message
-                                        uploadFile(petCardID)
-                                        finish()
-                                    } else {
-                                        // Error occurred while writing pet card data to the database
-                                        // Handle the error appropriately (e.g., show error message)
-                                        handleAddPetProfileFailure(task.exception)
-                                    }
+                        if (isImageSelected) {
+                            if (isNetworkConnected(this@AddPetInformation)) {
+                                // Create a HashMap to store user data
+                                val petCardData = HashMap<String, Any>().apply {
+                                    put("Name", name)
+                                    put("Age", age)
+                                    put("Gender", gender)
+                                    put("Location", location)
+                                    put("Bio", bio)
+                                    put("About Me", aboutMe)
+                                    put("Breed", breed)
+                                    put("Medical Conditions", medicalConditions)
+                                    put("Vaccine_s Taken", vaccine)
+                                    put("Pet's Diet", diet)
+                                    put("Reason for Adoption", reason)
+                                    put("Other Needs", otherNeeds)
+                                    put("Requirements for Adopter", requirements)
+                                    put("Contact Information", contact)
+                                    //                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
                                 }
+                                //                                if (binding.imageHolder == null) {
+                                databaseRef.child("Users").child(userId)
+                                    .child("Animal Profiles Created")
+                                    .child(petCardID)
+                                    .updateChildren(petCardData)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            // Pet card data successfully written to the database
+                                            // Perform any additional actions or show success message
+                                            uploadFile(petCardID)
+                                            finish()
+                                        } else {
+                                            // Error occurred while writing pet card data to the database
+                                            // Handle the error appropriately (e.g., show error message)
+                                            handleAddPetProfileFailure(task.exception)
+                                        }
+                                    }
+                            } else {
+                                Toast.makeText(
+                                    this@AddPetInformation,
+                                    "There is a network connectivity issue. Please check your network.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         } else {
-                            Toast.makeText(
-                                this@AddPetInformation,
-                                "There is a network connectivity issue. Please check your network.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_SHORT).show()
                         }
-//                                }
-//                                else {
-//                                    Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_LONG).show()
-//                                }
                     } else {
                         Toast.makeText(
                             this@AddPetInformation,
-                            "Some required fields are empty! Please put N/A or NONE or choose other options available.",
+                            "Some required fields are empty! Please put N/A or none or choose other options available.",
                             Toast.LENGTH_LONG
                         ).show()
 
@@ -277,10 +279,24 @@ class AddPetInformation : AppCompatActivity() {
         if (requestCode == pickImageRequest && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             imageUri = data.data!!
 
-            Picasso.get().load(imageUri).into(binding.imageHolder)
-        }
+            Picasso.get().load(imageUri)
+                //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
+                .into(binding.imageHolder, object : Callback {
+                override fun onSuccess() {
+                    isImageSelected = true
+                }
 
+                override fun onError(e: Exception) {
+                    isImageSelected = false
+                    Toast.makeText(this@AddPetInformation, "Error loading the image.", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            isImageSelected = false
+            Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_LONG).show()
+        }
     }
+
 
     private fun getFileExtension(uri: Uri): String? {
         // Overall, the getFileExtension function takes a Uri parameter, retrieves the MIME type using ContentResolver, and maps it to a file extension
