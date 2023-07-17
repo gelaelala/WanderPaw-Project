@@ -73,11 +73,13 @@ class ProfilePage : AppCompatActivity() {
 
         setupClickListener()
 
-//        mRecyclerView = binding.petProfilesRecyclerView
-//        mRecyclerView.setHasFixedSize(true)
-//        mRecyclerView.layoutManager = GridLayoutManager(this, 3)
-//
-//        mUploads = mutableListOf()
+        // RecyclerView set up
+        mRecyclerView = binding.petProfilesRecyclerView
+        mRecyclerView.setHasFixedSize(true)
+        mRecyclerView.layoutManager = GridLayoutManager(this, 3)
+
+        // list of items in recyclerview
+        mUploads = mutableListOf()
 
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
