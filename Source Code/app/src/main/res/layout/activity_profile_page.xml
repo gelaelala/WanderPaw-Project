@@ -187,14 +187,14 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/petProfilesRecyclerView"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:clipToPadding="false"-->
-<!--                    android:padding="8dp"-->
-<!--                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
-<!--                    app:spanCount="3" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/petProfilesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:padding="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3" />
 
             </LinearLayout>
         </ScrollView>
