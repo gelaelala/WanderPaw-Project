@@ -1,5 +1,6 @@
 package com.codingstuff.loginandsignup
 
+import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -9,6 +10,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -32,7 +35,7 @@ class ProfilePage : AppCompatActivity() {
     private val refreshRunnable = object : Runnable {
         @RequiresApi(Build.VERSION_CODES.M)
         override fun run() {
-            if (isNetworkConnected()) {
+            if (isNetworkConnected(this@ProfilePage)) {
                 val currentUser = firebaseAuth.currentUser
                 val userId = currentUser?.uid
                 userId?.let { retrieveUserData(it) }
@@ -40,6 +43,11 @@ class ProfilePage : AppCompatActivity() {
             refreshHandler.postDelayed(this, refreshInterval.toLong())
         }
     }
+
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mAdapter: ImageAdapter
+    private lateinit var mUploads : List<ImageUpload>
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,11 +66,18 @@ class ProfilePage : AppCompatActivity() {
                     finish()
                     true
                 }
+
                 else -> false
             }
         }
 
         setupClickListener()
+
+//        mRecyclerView = binding.petProfilesRecyclerView
+//        mRecyclerView.setHasFixedSize(true)
+//        mRecyclerView.layoutManager = GridLayoutManager(this, 3)
+//
+//        mUploads = mutableListOf()
 
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
@@ -70,16 +85,51 @@ class ProfilePage : AppCompatActivity() {
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
 
-        if (isNetworkConnected()) {
+        if (isNetworkConnected(this@ProfilePage)) {
             userId?.let { retrieveUserData(it) }
         } else {
             // Handle no internet connection case
             // Display an appropriate message or take necessary actions
-            Toast.makeText(this,"There is a network connectivity issue. Please check your network.", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                "There is a network connectivity issue. Please check your network.",
+                Toast.LENGTH_LONG
+            ).show()
         }
+
+//        if (userId != null) {
+//            databaseRef.child("Users").child(userId).child("Animal Profiles Created").addValueEventListener(object : ValueEventListener {
+//                override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                    val uploads = mutableListOf<ImageUpload>()
+//
+//                    for (petSnapshot in dataSnapshot.children) {
+//                        val petCardId = petSnapshot.key
+//                        val name = petSnapshot.child("Name").getValue(String::class.java)
+//                        val profilePictureUrl = petSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
+//
+//                        if (petCardId != null && name != null && profilePictureUrl != null) {
+//                            val upload = ImageUpload(profilePictureUrl, name)
+//                            uploads.add(upload)
+//                        }
+//                    }
+//
+//                    mUploads = uploads
+//                    mAdapter = ImageAdapter(this@ProfilePage, mUploads)
+//                    mRecyclerView.adapter = mAdapter
+//                }
+//
+//
+//                override fun onCancelled(databaseError: DatabaseError) {
+//                    // Handle the database error
+//                    runOnUiThread {
+//                        authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
+//                    }
+//                }
+//            })
+//        }
     }
 
-    // change the listener if there is time for settings
+        // change the listener if there is time for settings
     private fun retrieveUserData(userId: String) {
         val userRef = databaseRef.child("Users").child(userId)
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -105,13 +155,14 @@ class ProfilePage : AppCompatActivity() {
 
     // checks for network connectivity before retrieving form the database
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun isNetworkConnected(): Boolean {
-        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork
-        val capabilities = connectivityManager.getNetworkCapabilities(network)
-        return capabilities != null &&
-                (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+    private fun isNetworkConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val activeNetwork =
+            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+
+        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     private fun setupClickListener() {

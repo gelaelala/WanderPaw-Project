@@ -304,6 +304,13 @@ class AddPetInformation : AppCompatActivity() {
 
 
             fileReference.putFile(imageUri)
+                .continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            handleAddPetProfileFailure(task.exception) }
+                    }
+                    fileReference.downloadUrl // retrieves downloadUrl of the uploaded file on storage database of firebase
+                }
                 .addOnCompleteListener { task ->
                         //                val delayProgressHandler = Handler()
                         //                val progressRunnable = Runnable {
@@ -318,22 +325,27 @@ class AddPetInformation : AppCompatActivity() {
                         //                Toast.makeText(this@AddPetInformation, "Profile uploaded.", Toast.LENGTH_SHORT)
                         //                    .show()
 
-                        val upload =
-                            Upload(task.result?.storage?.downloadUrl.toString()) // gets the string/link
-                        val currentUser = firebaseAuth.currentUser
-                        val userId = currentUser?.uid
+                        if (task.isSuccessful) {
+                            val downloadUrl = task.result
+                            val upload = Upload(downloadUrl.toString()) // gets string link
+                            val currentUser = firebaseAuth.currentUser
+                            val userId = currentUser?.uid
 
-                        // stores within the initial structure
-                        val petCardData = HashMap<String, Any>().apply {
-                            put("Profile Picture", upload)
-                        }
 
-                        if (userId != null) {
-                            databaseRef.child("Users").child(userId).child("Animal Profiles Created")
-                                .child(petCardID)
-                                .updateChildren(petCardData)
+                            // stores within the initial structure
+                            val petCardData = HashMap<String, Any>().apply {
+                                put("Profile Picture", upload)
+                            }
+
+
+                            if (userId != null) {
+                                databaseRef.child("Users").child(userId)
+                                    .child("Animal Profiles Created")
+                                    .child(petCardID)
+                                    .updateChildren(petCardData)
+                            }
                         }
-                    }
+                }
                 .addOnFailureListener { exception: Exception ->
                     handleAddPetProfileFailure(exception)
                 }
