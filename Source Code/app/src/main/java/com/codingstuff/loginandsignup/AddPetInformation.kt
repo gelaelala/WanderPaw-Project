@@ -61,6 +61,8 @@ class AddPetInformation : AppCompatActivity() {
         binding = ActivityAddPetInformationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupClickListener()
+
         databaseRef = FirebaseDatabase.getInstance().reference
         storageRef = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
@@ -250,6 +252,17 @@ class AddPetInformation : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun setupClickListener() {
+        binding.BackButton?.setOnClickListener{
+            navigateToUserProfile()
+        }
+    }
+
+    private fun navigateToUserProfile() {
+        val intent = Intent (this, ProfilePage::class.java)
+        startActivity(intent)
     }
 
     private fun formatStringWithCapital(input: String): String {

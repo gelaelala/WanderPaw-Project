@@ -34,7 +34,7 @@
                     android:adjustViewBounds="true" />
 
                 <ImageView
-                    android:onClick="onBackButtonClicked"
+                    android:id="@+id/BackButton"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
