@@ -160,6 +160,7 @@
                         app:cardCornerRadius="20dp">
 
                         <ImageView
+                            android:id="@+id/samplepetprofile"
                             android:layout_width="100dp"
                             android:layout_height="120dp"
                             android:adjustViewBounds="true"

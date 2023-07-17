@@ -162,6 +162,15 @@ class ProfilePage : AppCompatActivity() {
         binding.AddPetInfo.setOnClickListener {
             navigateToAddPetInfo()
         }
+
+        binding.samplepetprofile.setOnClickListener{
+            navigateToPetProfile()
+        }
+    }
+
+    private fun navigateToPetProfile () {
+        val intent = Intent(this, PetProfilePage::class.java)
+        startActivity(intent)
     }
 
     private fun navigateToAddPetInfo() {
