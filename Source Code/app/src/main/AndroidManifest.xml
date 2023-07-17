@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginAndSignUp">
         <activity
-            android:name=".PetProfilePage"
+            android:name=".UserPetMatching"
             android:exported="false" />
         <activity
-            android:name=".UserPetMatching"
+            android:name=".PetProfilePage"
             android:exported="false" />
         <activity
             android:name=".AddPetInformation"
