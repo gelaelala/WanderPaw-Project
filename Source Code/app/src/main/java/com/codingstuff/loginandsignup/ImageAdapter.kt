@@ -33,16 +33,16 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
         holder.textViewName.text = uploadCurrent.name
         Picasso.get().load(uploadCurrent.imageUrl).fit().centerCrop().into(holder.imageView)
     }
-//
-//    // return the total number of items in the mUploads list.
-//    override fun getItemCount(): Int {
-//        // Return the total number of items in the dataset
-//        return mUploads.size
-//    }
-//}
 
-    // stores the two properties
+    // return the total number of items in the mUploads list.
+    override fun getItemCount(): Int {
+        // Return the total number of items in the dataset
+        return mUploads.size
+    }
+}
+
+// stores the two properties
 data class ImageUpload(
-    val imageUrl: String,
+    val imageUrl: String,muploa
     val name: String
 )
