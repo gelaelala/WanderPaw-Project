@@ -116,21 +116,21 @@ class ProfilePage : AppCompatActivity() {
                             uploads.add(upload)
                         }
                     }
-//
-//                    mUploads = uploads
-//                    mAdapter = ImageAdapter(this@ProfilePage, mUploads)
-//                    mRecyclerView.adapter = mAdapter
-//                }
-//
-//
-//                override fun onCancelled(databaseError: DatabaseError) {
-//                    // Handle the database error
-//                    runOnUiThread {
-//                        authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
-//                    }
-//                }
-//            })
-//        }
+
+                    mUploads = uploads
+                    mAdapter = ImageAdapter(this@ProfilePage, mUploads)
+                    mRecyclerView.adapter = mAdapter
+                }
+
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle the database error
+                    runOnUiThread {
+                        authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
+                    }
+                }
+            })
+        }
     }
 
         // change the listener if there is time for settings
