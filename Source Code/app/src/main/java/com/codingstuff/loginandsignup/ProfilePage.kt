@@ -7,10 +7,10 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
@@ -113,7 +113,7 @@ class ProfilePage : AppCompatActivity() {
                         val profilePictureUrl = petSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
 
                         if (petCardId != null && name != null && profilePictureUrl != null) {
-                            val upload = ImageUpload(profilePictureUrl, name)
+                            val upload = ImageUpload(profilePictureUrl, name, petCardId)
                             uploads.add(upload)
                         }
                     }
@@ -162,20 +162,11 @@ class ProfilePage : AppCompatActivity() {
         binding.AddPetInfo.setOnClickListener {
             navigateToAddPetInfo()
         }
-
-        binding.samplepetprofile.setOnClickListener{
-            navigateToPetProfile()
-        }
     }
-
-    private fun navigateToPetProfile () {
-        val intent = Intent(this, PetProfilePage::class.java)
-        startActivity(intent)
-    }
-
     private fun navigateToAddPetInfo() {
         val intent = Intent(this, AddPetInformation::class.java)
         startActivity(intent)
+        finish()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

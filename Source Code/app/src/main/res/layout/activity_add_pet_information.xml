@@ -857,34 +857,6 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="2dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Other Documents"
-                android:textColor="@color/dark_brown"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:fontFamily="@font/inter"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"/>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                app:cardCornerRadius="20dp"
-                android:layout_marginLeft="22dp"
-                android:layout_margin="22dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sample_photo_for_pet_cards_in_user_profile" />
-            </androidx.cardview.widget.CardView>
-
         </LinearLayout>
     </ScrollView>
 

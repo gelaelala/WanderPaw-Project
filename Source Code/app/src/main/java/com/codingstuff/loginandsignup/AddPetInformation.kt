@@ -61,8 +61,6 @@ class AddPetInformation : AppCompatActivity() {
         binding = ActivityAddPetInformationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupClickListener()
-
         databaseRef = FirebaseDatabase.getInstance().reference
         storageRef = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
@@ -143,18 +141,12 @@ class AddPetInformation : AppCompatActivity() {
             }
         }
 
-        binding.imageButton?.setOnClickListener {
+        binding.imageButton.setOnClickListener {
             openFileChooser()
         }
 
-//        val progressBar = binding.progressBar
-//        if (progressBar != null) {
-//            progressBar.visibility = View.GONE
-//        }
-
-
         // Write the pet card data to the database under the user's petCards node
-        binding.SaveButton?.setOnClickListener {
+        binding.SaveButton.setOnClickListener {
 
             val currentUser = firebaseAuth.currentUser
             val userId = currentUser?.uid
@@ -254,17 +246,6 @@ class AddPetInformation : AppCompatActivity() {
 
     }
 
-    private fun setupClickListener() {
-        binding.BackButton?.setOnClickListener{
-            navigateToUserProfile()
-        }
-    }
-
-    private fun navigateToUserProfile() {
-        val intent = Intent (this, ProfilePage::class.java)
-        startActivity(intent)
-    }
-
     private fun formatStringWithCapital(input: String): String {
         return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
             .trim()
@@ -295,15 +276,15 @@ class AddPetInformation : AppCompatActivity() {
             Picasso.get().load(imageUri)
                 //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
                 .into(binding.imageHolder, object : Callback {
-                override fun onSuccess() {
-                    isImageSelected = true
-                }
+                    override fun onSuccess() {
+                        isImageSelected = true
+                    }
 
-                override fun onError(e: Exception) {
-                    isImageSelected = false
-                    Toast.makeText(this@AddPetInformation, "Error loading the image.", Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onError(e: Exception) {
+                        isImageSelected = false
+                        Toast.makeText(this@AddPetInformation, "Error loading the image.", Toast.LENGTH_SHORT).show()
+                    }
+                })
         } else {
             isImageSelected = false
             Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_LONG).show()
@@ -341,51 +322,31 @@ class AddPetInformation : AppCompatActivity() {
                     fileReference.downloadUrl // retrieves downloadUrl of the uploaded file on storage database of firebase
                 }
                 .addOnCompleteListener { task ->
-                        //                val delayProgressHandler = Handler()
-                        //                val progressRunnable = Runnable {
-                        //                    if (progressBar != null) {
-                        //                        progressBar.progress = 0
-                        //                        progressBar.visibility = View.GONE
-                        //
-                        //                    }
-                        //                } // progress bar operation
-                        //                delayProgressHandler.postDelayed(progressRunnable, 500)
-
-                        //                Toast.makeText(this@AddPetInformation, "Profile uploaded.", Toast.LENGTH_SHORT)
-                        //                    .show()
-
-                        if (task.isSuccessful) {
-                            val downloadUrl = task.result
-                            val upload = Upload(downloadUrl.toString()) // gets string link
-                            val currentUser = firebaseAuth.currentUser
-                            val userId = currentUser?.uid
+                    if (task.isSuccessful) {
+                        val downloadUrl = task.result
+                        val upload = Upload(downloadUrl.toString()) // gets string link
+                        val currentUser = firebaseAuth.currentUser
+                        val userId = currentUser?.uid
 
 
-                            // stores within the initial structure
-                            val petCardData = HashMap<String, Any>().apply {
-                                put("Profile Picture", upload)
-                            }
-
-
-                            if (userId != null) {
-                                databaseRef.child("Users").child(userId)
-                                    .child("Animal Profiles Created")
-                                    .child(petCardID)
-                                    .updateChildren(petCardData)
-                            }
+                        // stores within the initial structure
+                        val petCardData = HashMap<String, Any>().apply {
+                            put("Profile Picture", upload)
                         }
+
+
+                        if (userId != null) {
+                            databaseRef.child("Users").child(userId)
+                                .child("Animal Profiles Created")
+                                .child(petCardID)
+                                .updateChildren(petCardData)
+                        }
+                    }
                 }
                 .addOnFailureListener { exception: Exception ->
                     handleAddPetProfileFailure(exception)
                 }
-    //            .addOnProgressListener { taskSnapshot ->
-    //                val progress = (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toInt() // progress bar progress
-    //                if (progressBar != null) {
-    //                    progressBar.progress = progress
-    //                    progressBar.visibility = View.VISIBLE
-    //
-    //                }
-    //            }
+
         } else {
             Toast.makeText(this, "There is a network connectivity issue. Please check your network.", Toast.LENGTH_SHORT).show()
         }
@@ -444,4 +405,3 @@ class AddPetInformation : AppCompatActivity() {
 
 
 data class Upload(val downloadUrl: String)
-

@@ -1,6 +1,7 @@
 package com.codingstuff.loginandsignup
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,13 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
         val uploadCurrent = mUploads[position]
         holder.textViewName.text = uploadCurrent.name
         Picasso.get().load(uploadCurrent.imageUrl).fit().centerCrop().into(holder.imageView)
+
+//        holder.itemView.setOnClickListener {
+//            val petCardId = mUploads[position].petCardId
+//            val intent = Intent(mContext, PetProfilePage::class.java)
+//            intent.putExtra("petCardId", petCardId)
+//            mContext.startActivity(intent)
+//        }
     }
 
     // return the total number of items in the mUploads list.
@@ -44,5 +52,6 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
 // stores the two properties
 data class ImageUpload(
     val imageUrl: String,
-    val name: String
+    val name: String,
+    val petCardId: String
 )
