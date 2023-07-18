@@ -4,6 +4,11 @@
         android:id="@+id/UserPetMatching"
         android:title="Matching"
         android:icon="@drawable/matching_logo" />
+
+    <item android:id="@+id/AddPetInformation"
+        android:title="Add Pet"
+        android:icon="@drawable/add_pet_profile_prompt" />
+
     <item
         android:id="@+id/UserProfile"
         android:title="User Profile"

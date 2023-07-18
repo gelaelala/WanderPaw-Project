@@ -39,7 +39,7 @@
                 android:textStyle="bold" />
 
         </RelativeLayout>
-
+        
         <ScrollView
             android:id="@+id/ScrollView"
             android:layout_width="match_parent"
@@ -142,6 +142,20 @@
             </LinearLayout>
         </ScrollView>
 
+    <!-- if floating button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/AddPet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/add_pet_profile_prompt"
+        app:tint="@color/white"
+        app:fabCustomSize="60dp"/> -->
+
+    
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

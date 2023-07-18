@@ -54,6 +54,11 @@ class ProfilePage : AppCompatActivity() {
                     finish()
                     true
                 }
+                R.id.AddPetInformation -> {
+                    startActivity(Intent(applicationContext, AddPetInformation::class.java))
+                    finish()
+                    true
+                }
 
                 else -> false
             }
