@@ -32,7 +32,6 @@ class ProfilePage : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
-    lateinit var auth: FirebaseAuth
 
     private val refreshInterval = 1.5 * 1000 // 10 secs in milliseconds -- refresh interval
     // handles automatic refresh
@@ -95,7 +94,6 @@ class ProfilePage : AppCompatActivity() {
         tvMessage.text = message
 
         btnLogout.setOnClickListener{
-            auth.signOut()
             showLogout(message)
         }
 
@@ -116,7 +114,7 @@ class ProfilePage : AppCompatActivity() {
         messagetv.text = message
 
         yesbtn.setOnClickListener{
-            auth.signOut()
+            firebaseAuth.signOut()
             startActivity(Intent(this, LogInActivity::class.java))
             finish()
         }
