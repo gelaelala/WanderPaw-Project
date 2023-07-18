@@ -80,36 +80,36 @@ class PetProfilePage : AppCompatActivity() {
                     val profilePictureUrl = dataSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
 
 
-//                    binding.PetName.text = name
-//                    binding.GenderData.text = gender
-//                    binding.AgeData.text = age
-//                    binding.LocationData.text = location
-//                    binding.BioData.text = bio
-//                    binding.AboutMeData.text = aboutMe
-//                    binding.BreedData.text = breed
-//                    binding.MedicalConditionsData.text = medicalConditions
-//                    binding.VaccineData.text = vaccine
-//                    binding.DietData.text = diet
-//                    binding.ReasonData.text = reason
-//                    binding.OtherNeedsData.text = otherNeeds
-//                    binding.RequirementsData.text = requirements
-//                    binding.ContactData.text = contact
-//
-//                    Picasso.get().load(profilePictureUrl)
-//                        //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
-//                        .into(binding.PetProfileData, object : Callback {
-//                            override fun onSuccess() {
-//                            }
-//
-//                            override fun onError(e: Exception) {
-//                                Toast.makeText(
-//                                    this@PetProfilePage,
-//                                    "Error loading the image.",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                        })
-//                }
+                    binding.PetName.text = name
+                    binding.GenderData.text = gender
+                    binding.AgeData.text = age
+                    binding.LocationData.text = location
+                    binding.BioData.text = bio
+                    binding.AboutMeData.text = aboutMe
+                    binding.BreedData.text = breed
+                    binding.MedicalConditionsData.text = medicalConditions
+                    binding.VaccineData.text = vaccine
+                    binding.DietData.text = diet
+                    binding.ReasonData.text = reason
+                    binding.OtherNeedsData.text = otherNeeds
+                    binding.RequirementsData.text = requirements
+                    binding.ContactData.text = contact
+
+                    Picasso.get().load(profilePictureUrl)
+                        //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
+                        .into(binding.PetProfileData, object : Callback {
+                            override fun onSuccess() {
+                            }
+
+                            override fun onError(e: Exception) {
+                                Toast.makeText(
+                                    this@PetProfilePage,
+                                    "Error loading the image.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
+                }
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Handle the error
