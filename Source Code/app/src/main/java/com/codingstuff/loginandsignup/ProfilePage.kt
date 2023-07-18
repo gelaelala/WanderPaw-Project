@@ -159,22 +159,13 @@ class ProfilePage : AppCompatActivity() {
     }
 
     private fun setupClickListener() {
-        binding.AddPetInfo.setOnClickListener {
-            navigateToAddPetInfo()
-        }
-
-        binding.samplepetprofile.setOnClickListener{
+        binding.petProfilesRecyclerView.setOnClickListener{
             navigateToPetProfile()
         }
     }
 
     private fun navigateToPetProfile () {
         val intent = Intent(this, PetProfilePage::class.java)
-        startActivity(intent)
-    }
-
-    private fun navigateToAddPetInfo() {
-        val intent = Intent(this, AddPetInformation::class.java)
         startActivity(intent)
     }
 
