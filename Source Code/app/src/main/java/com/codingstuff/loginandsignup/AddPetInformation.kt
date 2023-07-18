@@ -15,13 +15,17 @@ import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
 import com.codingstuff.loginandsignup.databinding.ActivityAddPetInformationBinding
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -39,11 +43,11 @@ class AddPetInformation : AppCompatActivity() {
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storageRef: StorageReference
 
-//    private val medicalConditionTextList = mutableListOf<TextInputEditText>()
-//    private val vaccinesTextList = mutableListOf<TextInputEditText>()
-//    private val otherNeedsTextList = mutableListOf<TextInputEditText>()
-//    private val requirementsTextList = mutableListOf<TextInputEditText>()
-//    private val contactInfoTextList = mutableListOf<TextInputEditText>()
+    private val medicalConditionTextList = mutableListOf<TextInputEditText>()
+    private val vaccinesTextList = mutableListOf<TextInputEditText>()
+    private val otherNeedsTextList = mutableListOf<TextInputEditText>()
+    private val requirementsTextList = mutableListOf<TextInputEditText>()
+    private val contactInfoTextList = mutableListOf<TextInputEditText>()
 
     private val authToastLess = AuthToastLess(this)
     private lateinit var imageUri: Uri
@@ -244,6 +248,9 @@ class AddPetInformation : AppCompatActivity() {
 
         }
 
+        binding.addMedCon.setOnClickListener{
+            addNewMedConInputField()
+        }
     }
 
     private fun formatStringWithCapital(input: String): String {
@@ -388,18 +395,37 @@ class AddPetInformation : AppCompatActivity() {
 
         return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
+
+    private fun addNewMedConInputField() {
+        val textInputLayout = TextInputLayout(this)
+        textInputLayout.id = View.generateViewId()
+        textInputLayout.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        val textInputEditText = TextInputEditText(this)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
+        textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
+        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        textInputEditText.hint = "Enter Here"
+
+        // Set font programmatically
+        val typeface = ResourcesCompat.getFont(this, R.font.inter)
+        textInputEditText.typeface = typeface
+
+        textInputLayout.addView(textInputEditText)
+        binding.medConInputCon.addView(textInputLayout)
+        medicalConditionTextList.add(textInputEditText)
+    }
+
 }
 
-//    private fun addNewAboutMeInputField() {
-//        val newAboutMeEditText = EditText(this)
-//        newAboutMeEditText.layoutParams = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.MATCH_PARENT,
-//            LinearLayout.LayoutParams.WRAP_CONTENT
-//        )
-//        newAboutMeEditText.id = View.generateViewId()
-//        binding.inputContainer.addView(newAboutMeEditText)
-//        aboutMeEditTextList.add(newAboutMeEditText) // Add the reference to the list
-//    }
 
 
 

@@ -389,12 +389,19 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/medConInputCon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="3dp">
+                <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="21dp"
                 android:layout_marginRight="21dp"
                 android:layout_marginTop="2dp">
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/petmedicalconditionsInput"
@@ -424,7 +431,9 @@
                         android:typeface="normal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addMedCon"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_toRightOf="@id/petmedicalconditionsInput"
@@ -440,8 +449,9 @@
                     app:rippleColor="@null"/>
 
             </RelativeLayout>
+            </LinearLayout>
 
-            <Space
+        <Space
                 android:layout_width="0dp"
                 android:layout_height="2dp" />
 
