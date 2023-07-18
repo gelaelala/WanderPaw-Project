@@ -1,7 +1,10 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -9,6 +12,9 @@ import android.net.NetworkRequest
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
@@ -73,7 +79,7 @@ class ProfilePage : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         // Initialize the ConnectivityManager
-        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
@@ -132,6 +138,57 @@ class ProfilePage : AppCompatActivity() {
                 }
             })
         }
+
+        binding.settingsBtn.setOnClickListener{
+            val message : String? = "What do you want to do?"
+            showSettings(message)
+        }
+    }
+
+    private fun showSettings(message: String?) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.activity_settings)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvMessage : TextView = dialog.findViewById(R.id.tvMessage)
+        val btnEdit : Button = dialog.findViewById(R.id.editProfile)
+        val btnLogout : Button = dialog.findViewById(R.id.logout_btn)
+
+        tvMessage.text = message
+
+        btnLogout.setOnClickListener{
+            showLogout(message)
+        }
+
+        dialog.show()
+    }
+
+    private fun showLogout(message: String?) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.logout)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val messagetv : TextView = dialog.findViewById(R.id.Messagetv)
+        val yesbtn : Button = dialog.findViewById(R.id.yes_btn)
+        val nobtn : Button = dialog.findViewById(R.id.no_btn)
+
+        messagetv.text = message
+
+        yesbtn.setOnClickListener{
+            firebaseAuth.signOut()
+            startActivity(Intent(this, LogInActivity::class.java))
+            finish()
+        }
+
+        nobtn.setOnClickListener{
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
         // change the listener if there is time for settings

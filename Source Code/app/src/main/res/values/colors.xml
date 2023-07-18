@@ -9,6 +9,8 @@
     <color name="light_brown">#BB7843</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="maroon">#932727</color>
+    <color name="dirty_brown">#9C7C66</color>
 
     <!--For errors in input validation-->
     <color name="red">#FF0000</color>

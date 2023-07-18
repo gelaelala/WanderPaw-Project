@@ -110,6 +110,7 @@
                         android:layout_height="0dp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/settingsBtn"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:backgroundTint="@color/neutral_green"
