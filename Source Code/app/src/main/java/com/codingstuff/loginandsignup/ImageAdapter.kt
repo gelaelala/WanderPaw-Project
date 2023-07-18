@@ -34,12 +34,12 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
         holder.textViewName.text = uploadCurrent.name
         Picasso.get().load(uploadCurrent.imageUrl).fit().centerCrop().into(holder.imageView)
 
-//        holder.itemView.setOnClickListener {
-//            val petCardId = mUploads[position].petCardId
-//            val intent = Intent(mContext, PetProfilePage::class.java)
-//            intent.putExtra("petCardId", petCardId)
-//            mContext.startActivity(intent)
-//        }
+        holder.itemView.setOnClickListener {
+            val petCardId = mUploads[position].petCardId
+            val intent = Intent(mContext, PetProfilePage::class.java)
+            intent.putExtra("petCardId", petCardId)
+            mContext.startActivity(intent)
+        }
     }
 
     // return the total number of items in the mUploads list.
