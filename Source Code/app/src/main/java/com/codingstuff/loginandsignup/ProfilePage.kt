@@ -1,21 +1,29 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 @Suppress("DEPRECATION")
 class ProfilePage : AppCompatActivity() {
@@ -24,6 +32,7 @@ class ProfilePage : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
+    lateinit var auth: FirebaseAuth
 
     private val refreshInterval = 1.5 * 1000 // 10 secs in milliseconds -- refresh interval
     // handles automatic refresh
@@ -51,6 +60,7 @@ class ProfilePage : AppCompatActivity() {
 
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
 
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
@@ -62,7 +72,62 @@ class ProfilePage : AppCompatActivity() {
             // Display an appropriate message or take necessary actions
             Toast.makeText(this,"There is a network connectivity issue. Please check your network.", Toast.LENGTH_LONG).show()
         }
+
+
+        binding.settingsBtn.setOnClickListener{
+            val message : String? = "What do you want to do?"
+            showSettings(message)
+        }
+
     }
+
+    private fun showSettings(message: String?) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.activity_settings)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvMessage : TextView = dialog.findViewById(R.id.tvMessage)
+        val btnEdit : Button = dialog.findViewById(R.id.editProfile)
+        val btnLogout : Button = dialog.findViewById(R.id.logout_btn)
+
+        tvMessage.text = message
+
+        btnLogout.setOnClickListener{
+            auth.signOut()
+            showLogout(message)
+        }
+
+        dialog.show()
+    }
+
+    private fun showLogout(message: String?) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.logout)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val messagetv : TextView = dialog.findViewById(R.id.Messagetv)
+        val yesbtn : Button = dialog.findViewById(R.id.yes_btn)
+        val nobtn : Button = dialog.findViewById(R.id.no_btn)
+
+        messagetv.text = message
+
+        yesbtn.setOnClickListener{
+            auth.signOut()
+            startActivity(Intent(this, LogInActivity::class.java))
+            finish()
+        }
+
+        nobtn.setOnClickListener{
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
 
     // change the listener if there is time for settings
     private fun retrieveUserData(userId: String) {
