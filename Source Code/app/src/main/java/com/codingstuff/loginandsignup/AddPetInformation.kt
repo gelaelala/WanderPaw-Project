@@ -396,19 +396,22 @@ class AddPetInformation : AppCompatActivity() {
         return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
+    val customWidth = 319
+    val customHeight = 50
+
     private fun addNewMedConInputField() {
         val textInputLayout = TextInputLayout(this)
         textInputLayout.id = View.generateViewId()
         textInputLayout.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            customWidth,
+            customHeight
         )
 
         val textInputEditText = TextInputEditText(this)
         textInputEditText.id = View.generateViewId()
         textInputEditText.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            customWidth,
+            customHeight
         )
         textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
         textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
