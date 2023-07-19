@@ -1,9 +1,13 @@
 package com.codingstuff.loginandsignup
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -22,6 +26,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.marginLeft
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
 import com.codingstuff.loginandsignup.databinding.ActivityAddPetInformationBinding
 import com.google.android.material.textfield.TextInputEditText
@@ -233,7 +238,11 @@ class AddPetInformation : AppCompatActivity() {
                                 ).show()
                             }
                         } else {
-                            Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@AddPetInformation,
+                                "Please choose a profile picture for the pet.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
                         Toast.makeText(
@@ -248,7 +257,7 @@ class AddPetInformation : AppCompatActivity() {
 
         }
 
-        binding.addMedCon.setOnClickListener{
+        binding.addMedCon.setOnClickListener {
             addNewMedConInputField()
         }
     }
@@ -260,7 +269,13 @@ class AddPetInformation : AppCompatActivity() {
 
     private fun capitalizeWords(input: String): String {
         return input.split(" ")
-            .joinToString(" ") { it -> it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() } }
+            .joinToString(" ") { it ->
+                it.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.ROOT
+                    ) else it.toString()
+                }
+            }
             .trim()
     }
 
@@ -289,12 +304,20 @@ class AddPetInformation : AppCompatActivity() {
 
                     override fun onError(e: Exception) {
                         isImageSelected = false
-                        Toast.makeText(this@AddPetInformation, "Error loading the image.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@AddPetInformation,
+                            "Error loading the image.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 })
         } else {
             isImageSelected = false
-            Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this@AddPetInformation,
+                "Please choose a profile picture for the pet.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -324,7 +347,8 @@ class AddPetInformation : AppCompatActivity() {
                 .continueWithTask { task ->
                     if (!task.isSuccessful) {
                         task.exception?.let {
-                            handleAddPetProfileFailure(task.exception) }
+                            handleAddPetProfileFailure(task.exception)
+                        }
                     }
                     fileReference.downloadUrl // retrieves downloadUrl of the uploaded file on storage database of firebase
                 }
@@ -355,7 +379,11 @@ class AddPetInformation : AppCompatActivity() {
                 }
 
         } else {
-            Toast.makeText(this, "There is a network connectivity issue. Please check your network.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "There is a network connectivity issue. Please check your network.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -396,16 +424,25 @@ class AddPetInformation : AppCompatActivity() {
         return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
-    val customWidth = 319
-    val customHeight = 50
+    val customWidth = 810
+    val customHeight = 150
+    val marginSize = 63
 
+    @SuppressLint("ResourceType")
     private fun addNewMedConInputField() {
         val textInputLayout = TextInputLayout(this)
         textInputLayout.id = View.generateViewId()
-        textInputLayout.layoutParams = LinearLayout.LayoutParams(
+        val layoutParams = LinearLayout.LayoutParams(
             customWidth,
             customHeight
         )
+
+        layoutParams.leftMargin = marginSize
+        textInputLayout.layoutParams = layoutParams
+
+        // Set a transparent hint to disable the hint animation
+        textInputLayout.hint = "Enter Here"
+        textInputLayout.isHintAnimationEnabled = false
 
         val textInputEditText = TextInputEditText(this)
         textInputEditText.id = View.generateViewId()
@@ -426,11 +463,11 @@ class AddPetInformation : AppCompatActivity() {
         binding.medConInputCon.addView(textInputLayout)
         medicalConditionTextList.add(textInputEditText)
     }
-
 }
 
+private fun TextInputLayout.hintTextColor(color: Int) {
 
-
+}
 
 
 data class Upload(val downloadUrl: String)
