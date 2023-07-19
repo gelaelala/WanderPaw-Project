@@ -440,7 +440,6 @@ class AddPetInformation : AppCompatActivity() {
         layoutParams.leftMargin = marginSize
         textInputLayout.layoutParams = layoutParams
 
-        // Set a transparent hint to disable the hint animation
         textInputLayout.hint = "Enter Here"
         textInputLayout.isHintAnimationEnabled = false
 
@@ -463,10 +462,6 @@ class AddPetInformation : AppCompatActivity() {
         binding.medConInputCon.addView(textInputLayout)
         medicalConditionTextList.add(textInputEditText)
     }
-}
-
-private fun TextInputLayout.hintTextColor(color: Int) {
-
 }
 
 
