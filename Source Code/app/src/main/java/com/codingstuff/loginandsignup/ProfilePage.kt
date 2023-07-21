@@ -119,26 +119,29 @@ class ProfilePage : AppCompatActivity() {
         // addValueEventListener - Add a listener for changes in the data at this location. Each time the data changes, your listener will be called with
         // an immutable snapshot of the data
         if (userId != null) {
-            databaseRef.child("Users").child(userId).child("Animal Profiles Created").addValueEventListener(object : ValueEventListener {
+            databaseRef.child("Users").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val uploads = mutableListOf<ImageUpload>()
+                    (mUploads as MutableList<ImageUpload>).clear() // Clear the list to avoid duplicate data
+                    for (userSnapshot in dataSnapshot.children) {
+                        val animalProfilesSnapshot = userSnapshot.child("Animal Profiles Created")
+                        for (petSnapshot in animalProfilesSnapshot.children) {
+                            val petCardId = petSnapshot.key
+                            val name = petSnapshot.child("Name").getValue(String::class.java)
+                            val profilePictureUrl =
+                                petSnapshot.child("Profile Picture").child("downloadUrl")
+                                    .getValue(String::class.java)
 
-                    for (petSnapshot in dataSnapshot.children) {
-                        val petCardId = petSnapshot.key
-                        val name = petSnapshot.child("Name").getValue(String::class.java)
-                        val profilePictureUrl = petSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
-
-                        if (petCardId != null && name != null && profilePictureUrl != null) {
-                            val upload = ImageUpload(profilePictureUrl, name, petCardId)
-                            uploads.add(upload)
+                            if (petCardId != null && name != null && profilePictureUrl != null) {
+                                val upload = ImageUpload(profilePictureUrl, name, petCardId)
+                                (mUploads as MutableList<ImageUpload>).add(upload)
+                            }
                         }
                     }
 
-                    mUploads = uploads
+                    // Set up the RecyclerView with all uploads from all users
                     mAdapter = ImageAdapter(this@ProfilePage, mUploads)
                     mRecyclerView.adapter = mAdapter
                 }
-
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Handle the database error
@@ -148,6 +151,7 @@ class ProfilePage : AppCompatActivity() {
                 }
             })
         }
+
     }
 
     // change the listener if there is time for settings
