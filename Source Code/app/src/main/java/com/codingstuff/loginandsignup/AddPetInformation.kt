@@ -1,9 +1,12 @@
 package com.codingstuff.loginandsignup
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -12,9 +15,11 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -148,6 +153,7 @@ class AddPetInformation : AppCompatActivity() {
         binding.imageButton.setOnClickListener {
             openFileChooser()
         }
+
 
         // Write the pet card data to the database under the user's petCards node
         binding.SaveButton.setOnClickListener {

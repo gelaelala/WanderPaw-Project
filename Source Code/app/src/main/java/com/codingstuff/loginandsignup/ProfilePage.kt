@@ -1,13 +1,19 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +31,7 @@ import com.google.firebase.database.ValueEventListener
 class ProfilePage : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfilePageBinding
-    private lateinit var firebaseAuth: FirebaseAuth
+    private var firebaseAuth: FirebaseAuth? = null
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
 
@@ -64,6 +70,11 @@ class ProfilePage : AppCompatActivity() {
             }
         }
 
+        binding.settingsButton.setOnClickListener{
+            val message = "What do you want to do?"
+            showSettings(message)
+        }
+
         setupClickListener()
 
         // RecyclerView set up
@@ -75,12 +86,12 @@ class ProfilePage : AppCompatActivity() {
         mUploads = mutableListOf()
 
         databaseRef = FirebaseDatabase.getInstance().reference
-        firebaseAuth = FirebaseAuth.getInstance()
+        this.firebaseAuth = FirebaseAuth.getInstance()
 
         // Initialize the ConnectivityManager
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        val currentUser = firebaseAuth.currentUser
+        val currentUser = firebaseAuth!!.currentUser
         val userId = currentUser?.uid
 
         // Create a NetworkCallback to handle network connectivity changes
@@ -161,6 +172,53 @@ class ProfilePage : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun showSettings(message: String?) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.activity_settings)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvMessage : TextView = dialog.findViewById(R.id.tvMessage)
+        val buttonEdit : Button = dialog.findViewById(R.id.editProfile)
+        val buttonLogout : Button = dialog.findViewById(R.id.logOutButton)
+
+        tvMessage.text = message
+
+        buttonLogout.setOnClickListener{
+            val reminder = "Are you sure you want to end your session with this device?"
+            showLogout(reminder)
+        }
+
+        dialog.show()
+    }
+
+    private fun showLogout(message: String?) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.logout)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val messageTV : TextView = dialog.findViewById(R.id.messageTV)
+        val yesButton : Button = dialog.findViewById(R.id.yesButton)
+        val noButton : Button = dialog.findViewById(R.id.noButton)
+
+        messageTV.text = message
+
+        yesButton.setOnClickListener{
+            firebaseAuth?.signOut()
+            startActivity(Intent(this, LogInActivity::class.java))
+            finish()
+        }
+
+        noButton.setOnClickListener{
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun setupClickListener() {
