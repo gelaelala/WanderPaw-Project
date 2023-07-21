@@ -7,10 +7,10 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codingstuff.loginandsignup.databinding.ActivityProfilePageBinding
@@ -118,7 +118,7 @@ class ProfilePage : AppCompatActivity() {
                         val profilePictureUrl = petSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
 
                         if (petCardId != null && name != null && profilePictureUrl != null) {
-                            val upload = ImageUpload(profilePictureUrl, name)
+                            val upload = ImageUpload(profilePictureUrl, name, petCardId)
                             uploads.add(upload)
                         }
                     }
@@ -139,7 +139,7 @@ class ProfilePage : AppCompatActivity() {
         }
     }
 
-        // change the listener if there is time for settings
+    // change the listener if there is time for settings
     private fun retrieveUserData(userId: String) {
         val userRef = databaseRef.child("Users").child(userId)
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -164,14 +164,14 @@ class ProfilePage : AppCompatActivity() {
     }
 
     private fun setupClickListener() {
-        binding.petProfilesRecyclerView.setOnClickListener{
-            navigateToPetProfile()
+        binding.petProfilesRecyclerView.setOnClickListener {
+            navigateToAddPetInfo()
         }
     }
-
-    private fun navigateToPetProfile () {
-        val intent = Intent(this, PetProfilePage::class.java)
+    private fun navigateToAddPetInfo() {
+        val intent = Intent(this, AddPetInformation::class.java)
         startActivity(intent)
+        finish()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -198,11 +198,17 @@ class ProfilePage : AppCompatActivity() {
         connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 
+    // starting logged in page code
+    private fun navigateToHomePage() {
+        val intent = Intent(this, UserPetMatching::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        finishAffinity()
+        navigateToHomePage()
     }
 }
-
 

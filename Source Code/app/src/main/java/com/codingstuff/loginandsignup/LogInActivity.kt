@@ -84,7 +84,7 @@ class LogInActivity : AppCompatActivity() {
 
     // start logged in act
     private fun navigateToHomePage() {
-        val intent = Intent(this, ProfilePage::class.java)
+        val intent = Intent(this, UserPetMatching::class.java)
         startActivity(intent)
     }
 }

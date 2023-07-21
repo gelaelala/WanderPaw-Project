@@ -28,7 +28,6 @@
         android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="onStart"
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

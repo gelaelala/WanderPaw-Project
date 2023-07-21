@@ -38,8 +38,14 @@ class WelcomePage : AppCompatActivity() {
 
 //        temporary page
         if (firebaseAuth.currentUser != null) {
-            val intent = Intent(this, ProfilePage::class.java)
+            val intent = Intent(this, UserPetMatching::class.java)
             startActivity(intent)
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
     }
 }
