@@ -11,6 +11,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="maroon">#932727</color>
     <color name="dirty_brown">#9C7C66</color>
+    <color name="gray">#292D32</color>
+    <color name="light_gray">#D0D0D0</color>
 
     <!--For errors in input validation-->
     <color name="red">#FF0000</color>
