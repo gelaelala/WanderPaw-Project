@@ -46,7 +46,7 @@
 
             <Button
                 android:backgroundTint="@color/light_brown"
-                android:id="@+id/yesButton"
+                android:id="@+id/noButton"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
@@ -63,7 +63,7 @@
             
             <Button
                 android:backgroundTint="@color/maroon"
-                android:id="@+id/noButton"
+                android:id="@+id/yesButton"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/inter"

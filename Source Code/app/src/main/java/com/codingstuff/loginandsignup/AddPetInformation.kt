@@ -400,10 +400,10 @@ class AddPetInformation : AppCompatActivity() {
         return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
-    val customWidth = 810
-    val customHeight = 150
-    val marginLeftSize = 63
-    val marginBottomSize = 30
+    private val customWidth = 810
+    private val customHeight = 150
+    private val marginLeftSize = 63
+    private val marginBottomSize = 30
 
     @SuppressLint("ResourceType")
     private fun addNewMedConInputField() {
