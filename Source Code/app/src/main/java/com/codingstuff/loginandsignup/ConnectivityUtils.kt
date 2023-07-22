@@ -28,7 +28,7 @@ class ConnectivityUtils {
                     Toast.makeText(
                         context,
                         "There is a network connectivity issue. Please check your network.",
-                        Toast.LENGTH_LONG
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
             }
