@@ -1,20 +1,14 @@
 package com.codingstuff.loginandsignup
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,9 +28,6 @@ class ProfilePage : AppCompatActivity() {
     private var firebaseAuth: FirebaseAuth? = null
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
-
-    private lateinit var connectivityManager: ConnectivityManager
-    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: ImageAdapter
@@ -72,10 +63,9 @@ class ProfilePage : AppCompatActivity() {
 
         binding.settingsButton.setOnClickListener{
             val message = "What do you want to do?"
-            showSettings(message)
+            message.showSettings()
         }
 
-        setupClickListener()
 
         // RecyclerView set up
         mRecyclerView = binding.petProfilesRecyclerView
@@ -88,33 +78,10 @@ class ProfilePage : AppCompatActivity() {
         databaseRef = FirebaseDatabase.getInstance().reference
         this.firebaseAuth = FirebaseAuth.getInstance()
 
-        // Initialize the ConnectivityManager
-        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
         val currentUser = firebaseAuth!!.currentUser
         val userId = currentUser?.uid
 
-        // Create a NetworkCallback to handle network connectivity changes
-        networkCallback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                // Network connection is available
-                userId?.let { retrieveUserData(it) }
-            }
-
-            override fun onLost(network: Network) {
-                // Network connection is lost
-                // You can handle any necessary actions here
-                runOnUiThread {
-                    Toast.makeText(
-                        applicationContext,
-                        "There is a network connectivity issue. Please check your network.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-
-        }
-
+        userId?.let { retrieveUserData(it)}
 
         // addValueEventListener - Add a listener for changes in the data at this location. Each time the data changes, your listener will be called with
         // an immutable snapshot of the data
@@ -173,8 +140,8 @@ class ProfilePage : AppCompatActivity() {
         })
     }
 
-    private fun showSettings(message: String?) {
-        val dialog = Dialog(this)
+    private fun String?.showSettings() {
+        val dialog = Dialog(this@ProfilePage)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.activity_settings)
@@ -184,18 +151,18 @@ class ProfilePage : AppCompatActivity() {
         val buttonEdit : Button = dialog.findViewById(R.id.editProfile)
         val buttonLogout : Button = dialog.findViewById(R.id.logOutButton)
 
-        tvMessage.text = message
+        tvMessage.text = this
 
         buttonLogout.setOnClickListener{
             val reminder = "Are you sure you want to end your session with this device?"
-            showLogout(reminder)
+            reminder.showLogout()
         }
 
         dialog.show()
     }
 
-    private fun showLogout(message: String?) {
-        val dialog = Dialog(this)
+    private fun String?.showLogout() {
+        val dialog = Dialog(this@ProfilePage)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.logout)
@@ -205,11 +172,11 @@ class ProfilePage : AppCompatActivity() {
         val yesButton : Button = dialog.findViewById(R.id.yesButton)
         val noButton : Button = dialog.findViewById(R.id.noButton)
 
-        messageTV.text = message
+        messageTV.text = this
 
         yesButton.setOnClickListener{
             firebaseAuth?.signOut()
-            startActivity(Intent(this, LogInActivity::class.java))
+            startActivity(Intent(this@ProfilePage, LogInActivity::class.java))
             finish()
         }
 
@@ -220,39 +187,15 @@ class ProfilePage : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun setupClickListener() {
-        binding.petProfilesRecyclerView.setOnClickListener {
-            navigateToAddPetInfo()
-        }
-    }
-    private fun navigateToAddPetInfo() {
-        val intent = Intent(this, AddPetInformation::class.java)
-        startActivity(intent)
-        finish()
-    }
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onStart() {
         super.onStart()
-        registerConnectivityCallback()
+        ConnectivityUtils.registerConnectivityCallback(this)
     }
 
     override fun onStop() {
         super.onStop()
-        unregisterConnectivityCallback()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun registerConnectivityCallback() {
-        val networkRequest = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
-
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-    }
-
-    private fun unregisterConnectivityCallback() {
-        connectivityManager.unregisterNetworkCallback(networkCallback)
+        ConnectivityUtils.unregisterConnectivityCallback()
     }
 
     // starting logged in page code

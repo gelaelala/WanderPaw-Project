@@ -1,9 +1,10 @@
 package com.codingstuff.loginandsignup
 
-import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,9 +23,6 @@ class UserPetMatching : AppCompatActivity() {
     private var firebaseAuth: FirebaseAuth? = null
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
-
-    private lateinit var connectivityManager: ConnectivityManager
-    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
 
     private lateinit var nRecyclerView: RecyclerView
     private lateinit var nAdapter: CardAdapter
@@ -67,9 +65,6 @@ class UserPetMatching : AppCompatActivity() {
 
         databaseRef = FirebaseDatabase.getInstance().reference
         this.firebaseAuth = FirebaseAuth.getInstance()
-
-        // Initialize the ConnectivityManager
-        connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val currentUser = firebaseAuth!!.currentUser
         val userId = currentUser?.uid
@@ -120,6 +115,17 @@ class UserPetMatching : AppCompatActivity() {
                     }
                 })
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onStart() {
+        super.onStart()
+        ConnectivityUtils.registerConnectivityCallback(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ConnectivityUtils.unregisterConnectivityCallback()
     }
 
     @Deprecated("Deprecated in Java")

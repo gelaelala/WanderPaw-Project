@@ -16,21 +16,27 @@
         android:theme="@style/Theme.LoginAndSignUp">
         <activity
             android:name=".FullPetProfilePage"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".UserPetMatching"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".PetProfilePage"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".AddPetInformation"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ProfilePage"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".WelcomePage"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,9 +46,11 @@
         </activity>
         <activity
             android:name=".LogInActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
     </application>
 
