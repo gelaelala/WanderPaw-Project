@@ -30,7 +30,6 @@
             android:id="@+id/PetProfileData"
             android:layout_width="match_parent"
             android:layout_height="230dp"
-            android:src="@drawable/sample_userphoto"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true" />
 
@@ -66,8 +65,8 @@
                 android:id="@+id/PetName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pet Name"
                 android:textStyle="bold"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="32sp"
                 android:layout_gravity="center"
@@ -156,8 +155,8 @@
                     android:id="@+id/GenderData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="N/A"
                     android:layout_toRightOf="@id/GenderHeader"
-                    android:text="Female"
                     android:fontFamily="@font/inter"
                     android:textSize="18dp"
                     android:textColor="@color/dark_brown"
@@ -187,8 +186,8 @@
                     android:id="@+id/AgeData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="N/A"
                     android:layout_toRightOf="@id/AgeHeader"
-                    android:text="2 months old"
                     android:fontFamily="@font/inter"
                     android:textSize="18dp"
                     android:textColor="@color/dark_brown"
@@ -219,7 +218,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/LocationHeader"
-                    android:text="Sta. Mesa, Manila"
+                    android:text="N/A"
                     android:fontFamily="@font/inter"
                     android:textSize="18dp"
                     android:textColor="@color/dark_brown"
@@ -250,7 +249,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/BioHeader"
-                    android:text="Lorem Ipsum"
+                    android:text="N/A"
                     android:fontFamily="@font/inter"
                     android:textSize="18dp"
                     android:textColor="@color/dark_brown"
@@ -323,7 +322,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/BreedHeader"
-                    android:text="Breed Here"
+                    android:text="N/A"
                     android:fontFamily="@font/inter"
                     android:textSize="18dp"
                     android:textColor="@color/dark_brown"
@@ -350,7 +349,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/inter"
-                android:text="Medical Condition will appear here"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="18dp" />
 
@@ -373,7 +372,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/inter"
-                android:text="Vaccines Taken will appear here"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="18dp" />
 
@@ -396,7 +395,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/inter"
-                android:text="Pet's diet will appear here"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="18dp" />
 
@@ -419,7 +418,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/inter"
-                android:text="Reason for adoption will appear here"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="18dp" />
 
@@ -443,7 +442,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/inter"
-                android:text="Pet's other needs will appear here"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="18dp" />
 
@@ -466,7 +465,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/inter"
-                android:text="Requirements for Adopter will appear here"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="18dp" />
 
@@ -489,7 +488,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/inter"
-                android:text="Adopter's contact information will appear here"
+                android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="18dp" />
 

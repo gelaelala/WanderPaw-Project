@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso
 class CardAdapter(private val nContext: Context, private val nUploads: List<CardUpload>) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
+    private var connectivityCallbackRegistered = false
+
     inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // RecyclerView.ViewHolder. It represents a single item view in the RecyclerView and holds references to the views within that item view
         // (textViewName and imageView).
@@ -54,6 +56,24 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
     override fun getItemCount(): Int {
         // Return the total number of items in the dataset
         return nUploads.size
+    }
+
+    // Register the connectivity callback when the adapter is attached to RecyclerView
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        if (!connectivityCallbackRegistered) {
+            ConnectivityUtils.registerConnectivityCallback(nContext)
+            connectivityCallbackRegistered = true
+        }
+    }
+
+    // Unregister the connectivity callback when the adapter is detached from RecyclerView
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        if (connectivityCallbackRegistered) {
+            ConnectivityUtils.unregisterConnectivityCallback()
+            connectivityCallbackRegistered = false
+        }
     }
 }
 

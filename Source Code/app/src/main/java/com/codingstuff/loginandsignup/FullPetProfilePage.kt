@@ -1,8 +1,10 @@
 package com.codingstuff.loginandsignup
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityFullPetProfilePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -122,6 +124,17 @@ class FullPetProfilePage : AppCompatActivity() {
             navigateToFeedTab()
         }
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onStart() {
+        super.onStart()
+        ConnectivityUtils.registerConnectivityCallback(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ConnectivityUtils.unregisterConnectivityCallback()
     }
 
     private fun navigateToFeedTab() {
