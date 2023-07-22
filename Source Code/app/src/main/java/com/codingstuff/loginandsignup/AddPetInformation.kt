@@ -2,25 +2,21 @@ package com.codingstuff.loginandsignup
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -50,10 +46,10 @@ class AddPetInformation : AppCompatActivity() {
     private lateinit var storageRef: StorageReference
 
     private val medicalConditionTextList = mutableListOf<TextInputEditText>()
-//    private val vaccinesTextList = mutableListOf<TextInputEditText>()
-//    private val otherNeedsTextList = mutableListOf<TextInputEditText>()
-//    private val requirementsTextList = mutableListOf<TextInputEditText>()
-//    private val contactInfoTextList = mutableListOf<TextInputEditText>()
+    private val vaccinesTextList = mutableListOf<TextInputEditText>()
+    private val otherNeedsTextList = mutableListOf<TextInputEditText>()
+    private val requirementsTextList = mutableListOf<TextInputEditText>()
+    private val contactInfoTextList = mutableListOf<TextInputEditText>()
 
     private val authToastLess = AuthToastLess(this)
     private lateinit var imageUri: Uri
@@ -70,6 +66,8 @@ class AddPetInformation : AppCompatActivity() {
 
         binding = ActivityAddPetInformationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupClickListener()
 
         databaseRef = FirebaseDatabase.getInstance().reference
         storageRef = FirebaseStorage.getInstance().reference
@@ -151,14 +149,9 @@ class AddPetInformation : AppCompatActivity() {
             }
         }
 
-        binding.BackButton.setOnClickListener {
-            navigateToProfilePage()
-        }
-
         binding.imageButton.setOnClickListener {
             openFileChooser()
         }
-
 
         // Write the pet card data to the database under the user's petCards node
         binding.SaveButton.setOnClickListener {
@@ -229,7 +222,7 @@ class AddPetInformation : AppCompatActivity() {
                                             // Pet card data successfully written to the database
                                             // Perform any additional actions or show success message
                                             uploadFile(petCardID)
-                                            navigateToProfilePage()
+                                            finish()
                                         } else {
                                             // Error occurred while writing pet card data to the database
                                             // Handle the error appropriately (e.g., show error message)
@@ -259,10 +252,9 @@ class AddPetInformation : AppCompatActivity() {
 
         }
 
-        binding.addMedCon.setOnClickListener {
+        binding.addMedCon.setOnClickListener{
             addNewMedConInputField()
         }
-
     }
 
     private fun formatStringWithCapital(input: String): String {
@@ -360,12 +352,12 @@ class AddPetInformation : AppCompatActivity() {
                                 .child(petCardID)
                                 .updateChildren(petCardData)
                         }
-
-                        Toast.makeText(this@AddPetInformation, "Pet profile created.", Toast.LENGTH_SHORT).show()
                     }
-                } .addOnFailureListener { exception: Exception ->
+                }
+                .addOnFailureListener { exception: Exception ->
                     handleAddPetProfileFailure(exception)
                 }
+
         } else {
             Toast.makeText(this, "There is a network connectivity issue. Please check your network.", Toast.LENGTH_SHORT).show()
         }
@@ -410,34 +402,34 @@ class AddPetInformation : AppCompatActivity() {
 
     val customWidth = 810
     val customHeight = 150
-    val marginSize = 63
-
+    val marginLeftSize = 63
+    val marginBottomSize = 30
 
     @SuppressLint("ResourceType")
     private fun addNewMedConInputField() {
-        val rootView = findViewById<View>(android.R.id.content)
-        val textInputLayout = rootView.findViewById<TextInputLayout>(R.id.petmedicalconditionsInput)
-        textInputLayout.id = View.generateViewId()
+        val textInputLayout = TextInputLayout(this)
         textInputLayout.id = View.generateViewId()
         val layoutParams = LinearLayout.LayoutParams(
             customWidth,
             customHeight
         )
 
-        layoutParams.leftMargin = marginSize
+        layoutParams.leftMargin = marginLeftSize
         textInputLayout.layoutParams = layoutParams
+        layoutParams.bottomMargin = marginBottomSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.gravity = Gravity.CENTER_VERTICAL
 
-        textInputLayout.hint = "Enter Here"
-        textInputLayout.isHintAnimationEnabled = false
-        textInputLayout.isHintEnabled = false
+        textInputLayout.hint = " "
 
-        val textInputEditText = rootView.findViewById<TextInputEditText>(R.id.petMedicalConditions)
-        textInputEditText.id = View.generateViewId()
+        val textInputEditText = TextInputEditText(this)
         textInputEditText.id = View.generateViewId()
         textInputEditText.layoutParams = LinearLayout.LayoutParams(
             customWidth,
             customHeight
         )
+        textInputEditText.setPadding(45, 0, 0, 0)
+
         textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
         textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
         textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
@@ -452,11 +444,16 @@ class AddPetInformation : AppCompatActivity() {
         medicalConditionTextList.add(textInputEditText)
     }
 
-    // starting logged in page code
     private fun navigateToProfilePage() {
         val intent = Intent(this, ProfilePage::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun setupClickListener() {
+        binding.BackButton.setOnClickListener{
+            navigateToProfilePage()
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -464,20 +461,7 @@ class AddPetInformation : AppCompatActivity() {
         super.onBackPressed()
         navigateToProfilePage()
     }
+
 }
-
-//    private fun addNewAboutMeInputField() {
-//        val newAboutMeEditText = EditText(this)
-//        newAboutMeEditText.layoutParams = LinearLayout.LayoutParams(
-//            LinearLayout.LayoutParams.MATCH_PARENT,
-//            LinearLayout.LayoutParams.WRAP_CONTENT
-//        )
-//        newAboutMeEditText.id = View.generateViewId()
-//        binding.inputContainer.addView(newAboutMeEditText)
-//        aboutMeEditTextList.add(newAboutMeEditText) // Add the reference to the list
-//    }
-
-
-
 
 data class Upload(val downloadUrl: String)
