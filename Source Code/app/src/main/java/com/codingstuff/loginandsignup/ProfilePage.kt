@@ -121,20 +121,19 @@ class ProfilePage : AppCompatActivity() {
         if (userId != null) {
             databaseRef.child("Users").child(userId).child("Animal Profiles Created").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val uploads = mutableListOf<ImageUpload>()
+                    (mUploads as MutableList<ImageUpload>).clear()
 
                     for (petSnapshot in dataSnapshot.children) {
                         val petCardId = petSnapshot.key
                         val name = petSnapshot.child("Name").getValue(String::class.java)
                         val profilePictureUrl = petSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
 
-                        if (petCardId != null && name != null && profilePictureUrl != null) {
+                        if ((petCardId != null) && (name != null) && (profilePictureUrl != null)) {
                             val upload = ImageUpload(profilePictureUrl, name, petCardId)
-                            uploads.add(upload)
+                            (mUploads as MutableList<ImageUpload>).add(upload)
                         }
                     }
 
-                    mUploads = uploads
                     mAdapter = ImageAdapter(this@ProfilePage, mUploads)
                     mRecyclerView.adapter = mAdapter
                 }

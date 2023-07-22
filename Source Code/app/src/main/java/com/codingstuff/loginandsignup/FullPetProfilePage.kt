@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.codingstuff.loginandsignup.databinding.ActivityPetProfilePageBinding
+import com.codingstuff.loginandsignup.databinding.ActivityFullPetProfilePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -16,9 +16,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class PetProfilePage : AppCompatActivity() {
+class FullPetProfilePage : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPetProfilePageBinding
+    private lateinit var binding: ActivityFullPetProfilePageBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storageRef: FirebaseStorage
@@ -28,7 +28,7 @@ class PetProfilePage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPetProfilePageBinding.inflate(layoutInflater)
+        binding = ActivityFullPetProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         databaseRef = FirebaseDatabase.getInstance().reference
@@ -51,10 +51,8 @@ class PetProfilePage : AppCompatActivity() {
             }
         }
 
-        val currentUser = firebaseAuth.currentUser
-        val userId = currentUser?.uid
-
         val petCardId = intent.getStringExtra("petCardId")
+        val userId = intent.getStringExtra("userId")
 
         if (userId != null) {
 
@@ -80,7 +78,7 @@ class PetProfilePage : AppCompatActivity() {
                     val requirements = dataSnapshot.child("Requirements for Adopter").getValue(String::class.java)
                     val contact = dataSnapshot.child("Contact Information").getValue(String::class.java)
                     val profilePictureUrl = dataSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
-                    this@PetProfilePage.profilePictureUrl = profilePictureUrl
+                    this@FullPetProfilePage.profilePictureUrl = profilePictureUrl
 
                     binding.PetName.text = name
                     binding.GenderData.text = gender
@@ -105,7 +103,7 @@ class PetProfilePage : AppCompatActivity() {
 
                             override fun onError(e: Exception) {
                                 Toast.makeText(
-                                    this@PetProfilePage,
+                                    this@FullPetProfilePage,
                                     "Error loading the image.",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -121,33 +119,19 @@ class PetProfilePage : AppCompatActivity() {
         }
 
         binding.BackButton.setOnClickListener{
-            navigateToUserProfile()
+            navigateToFeedTab()
         }
 
-        binding.deleteButton.setOnClickListener{
-            val imageRef = storageRef.getReferenceFromUrl(profilePictureUrl!!)
-            imageRef.delete().addOnSuccessListener {
-                if (petCardId != null) {
-                    if (userId != null) {
-                        databaseRef.child("Users").child(userId)
-                            .child("Animal Profiles Created").child(petCardId).removeValue()
-                        Toast.makeText(this, "Pet profile has been deleted.", Toast.LENGTH_SHORT).show()
-                        navigateToUserProfile()
-                    }
-                }
-            }
-
-        }
     }
 
-    private fun navigateToUserProfile() {
-        val intent = Intent(this, ProfilePage::class.java)
+    private fun navigateToFeedTab() {
+        val intent = Intent(this, UserPetMatching::class.java)
         startActivity(intent)
     }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        navigateToUserProfile()
+        navigateToFeedTab()
     }
 }

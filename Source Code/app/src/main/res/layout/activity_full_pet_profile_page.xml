@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PetProfilePage"
+    android:background="@color/dirty_white">
+
+    <FrameLayout
+        android:id="@+id/flFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/PhotoPreviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ScrollView">
+
+        <ImageView
+            android:id="@+id/PetProfileData"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:src="@drawable/sample_userphoto"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true" />
+
+        <ImageView
+            android:id="@+id/BackButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/back"
+            app:tint="@color/white"
+            android:onClick="onBackButtonClicked"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/flFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PhotoPreviews">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:id="@+id/PetName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pet Name"
+                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
+                android:textSize="32sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/inter"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="100dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:backgroundTint="@color/light_brown"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="100dp"
+                    app:icon="@drawable/edit_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="23dp"
+                    app:iconTint="@color/white"
+                    app:rippleColor="@null" />
+
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="0dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:backgroundTint="@color/light_brown"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="100dp"
+                    app:icon="@drawable/delete_icon"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="23dp"
+                    app:iconTint="@color/white"
+                    app:rippleColor="@null" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BASIC INFORMATION"
+                android:textColor="@color/neutral_green"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/GenderHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_brown"
+                    android:text="Gender:"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/inter" />
+
+                <TextView
+                    android:id="@+id/GenderData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/GenderHeader"
+                    android:text="Female"
+                    android:fontFamily="@font/inter"
+                    android:textSize="18dp"
+                    android:textColor="@color/dark_brown"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/AgeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_brown"
+                    android:text="Age:"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/inter" />
+
+                <TextView
+                    android:id="@+id/AgeData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/AgeHeader"
+                    android:text="2 months old"
+                    android:fontFamily="@font/inter"
+                    android:textSize="18dp"
+                    android:textColor="@color/dark_brown"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/LocationHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_brown"
+                    android:text="Location:"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/inter" />
+
+                <TextView
+                    android:id="@+id/LocationData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/LocationHeader"
+                    android:text="Sta. Mesa, Manila"
+                    android:fontFamily="@font/inter"
+                    android:textSize="18dp"
+                    android:textColor="@color/dark_brown"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/BioHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_brown"
+                    android:text="Bio:"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/inter" />
+
+                <TextView
+                    android:id="@+id/BioData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/BioHeader"
+                    android:text="Lorem Ipsum"
+                    android:fontFamily="@font/inter"
+                    android:textSize="18dp"
+                    android:textColor="@color/dark_brown"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ABOUT ME"
+                android:textColor="@color/neutral_green"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:id="@+id/AboutMeData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:textStyle="italic"
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                android:fontFamily="@font/inter"
+                android:gravity="center_horizontal|center" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text= "OTHER INFORMATION"
+                android:textColor="@color/neutral_green"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/inter" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/BreedHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_brown"
+                    android:text="Breed:"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/inter" />
+
+                <TextView
+                    android:id="@+id/BreedData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/BreedHeader"
+                    android:text="Breed Here"
+                    android:fontFamily="@font/inter"
+                    android:textSize="18dp"
+                    android:textColor="@color/dark_brown"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_brown"
+                android:text="Medical Condition/s:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter" />
+
+            <TextView
+                android:id="@+id/MedicalConditionsData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/inter"
+                android:text="Medical Condition will appear here"
+                android:textColor="@color/dark_brown"
+                android:textSize="18dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_brown"
+                android:text="Vaccine/s Taken:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter" />
+
+            <TextView
+                android:id="@+id/VaccineData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/inter"
+                android:text="Vaccines Taken will appear here"
+                android:textColor="@color/dark_brown"
+                android:textSize="18dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_brown"
+                android:text="Diet:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter" />
+
+            <TextView
+                android:id="@+id/DietData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/inter"
+                android:text="Pet's diet will appear here"
+                android:textColor="@color/dark_brown"
+                android:textSize="18dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_brown"
+                android:text="Reason for Adoption:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter" />
+
+            <TextView
+                android:id="@+id/ReasonData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/inter"
+                android:text="Reason for adoption will appear here"
+                android:textColor="@color/dark_brown"
+                android:textSize="18dp" />
+
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_brown"
+                android:text="Other Needs:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter" />
+
+            <TextView
+                android:id="@+id/OtherNeedsData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/inter"
+                android:text="Pet's other needs will appear here"
+                android:textColor="@color/dark_brown"
+                android:textSize="18dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_brown"
+                android:text="Requirements for Adopter:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter" />
+
+            <TextView
+                android:id="@+id/RequirementsData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/inter"
+                android:text="Requirements for Adopter will appear here"
+                android:textColor="@color/dark_brown"
+                android:textSize="18dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_brown"
+                android:text="Contact Information:"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter" />
+
+            <TextView
+                android:id="@+id/ContactData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/inter"
+                android:text="Adopter's contact information will appear here"
+                android:textColor="@color/dark_brown"
+                android:textSize="18dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/neutral_green"
+        app:itemIconTint="@color/navigation_bar_colors"
+        app:labelVisibilityMode="unlabeled"
+        app:itemRippleColor="@null"
+        app:itemIconSize="30dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

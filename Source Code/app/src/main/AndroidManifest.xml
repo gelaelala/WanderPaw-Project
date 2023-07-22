@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginAndSignUp">
         <activity
+            android:name=".FullPetProfilePage"
+            android:exported="false" />
+        <activity
             android:name=".UserPetMatching"
             android:exported="false" />
         <activity
