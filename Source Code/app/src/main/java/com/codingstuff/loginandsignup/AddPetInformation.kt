@@ -1,5 +1,6 @@
 package com.codingstuff.loginandsignup
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.ContentResolver
@@ -20,13 +21,17 @@ import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
 import com.codingstuff.loginandsignup.databinding.ActivityAddPetInformationBinding
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -44,7 +49,7 @@ class AddPetInformation : AppCompatActivity() {
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storageRef: StorageReference
 
-//    private val medicalConditionTextList = mutableListOf<TextInputEditText>()
+    private val medicalConditionTextList = mutableListOf<TextInputEditText>()
 //    private val vaccinesTextList = mutableListOf<TextInputEditText>()
 //    private val otherNeedsTextList = mutableListOf<TextInputEditText>()
 //    private val requirementsTextList = mutableListOf<TextInputEditText>()
@@ -254,6 +259,10 @@ class AddPetInformation : AppCompatActivity() {
 
         }
 
+        binding.addMedCon.setOnClickListener {
+            addNewMedConInputField()
+        }
+
     }
 
     private fun formatStringWithCapital(input: String): String {
@@ -397,6 +406,50 @@ class AddPetInformation : AppCompatActivity() {
             connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
 
         return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    val customWidth = 810
+    val customHeight = 150
+    val marginSize = 63
+
+
+    @SuppressLint("ResourceType")
+    private fun addNewMedConInputField() {
+        val rootView = findViewById<View>(android.R.id.content)
+        val textInputLayout = rootView.findViewById<TextInputLayout>(R.id.petmedicalconditionsInput)
+        textInputLayout.id = View.generateViewId()
+        textInputLayout.id = View.generateViewId()
+        val layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+
+        layoutParams.leftMargin = marginSize
+        textInputLayout.layoutParams = layoutParams
+
+        textInputLayout.hint = "Enter Here"
+        textInputLayout.isHintAnimationEnabled = false
+        textInputLayout.isHintEnabled = false
+
+        val textInputEditText = rootView.findViewById<TextInputEditText>(R.id.petMedicalConditions)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+        textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
+        textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
+        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        textInputEditText.hint = "Enter Here"
+
+        // Set font programmatically
+        val typeface = ResourcesCompat.getFont(this, R.font.inter)
+        textInputEditText.typeface = typeface
+
+        textInputLayout.addView(textInputEditText)
+        binding.medConInputCon.addView(textInputLayout)
+        medicalConditionTextList.add(textInputEditText)
     }
 
     // starting logged in page code
