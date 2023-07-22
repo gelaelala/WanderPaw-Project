@@ -12,14 +12,17 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 class PetProfilePage : AppCompatActivity() {
 
+    private var profilePictureUrl: String? = null
     private lateinit var binding: ActivityPetProfilePageBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
+    private lateinit var storageRef: FirebaseStorage
     private val authToastLess = AuthToastLess(this)
 
 
@@ -30,6 +33,7 @@ class PetProfilePage : AppCompatActivity() {
 
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
+        storageRef = FirebaseStorage.getInstance()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.UserProfile
@@ -47,7 +51,6 @@ class PetProfilePage : AppCompatActivity() {
             }
         }
 
-        setupClickListener()
 
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
@@ -55,7 +58,6 @@ class PetProfilePage : AppCompatActivity() {
         val petCardId = intent.getStringExtra("petCardId")
 
         if (userId != null) {
-
             petCardId?.let {
                 databaseRef.child("Users").child(userId)
                     .child("Animal Profiles Created").child(it)
@@ -78,6 +80,7 @@ class PetProfilePage : AppCompatActivity() {
                     val requirements = dataSnapshot.child("Requirements for Adopter").getValue(String::class.java)
                     val contact = dataSnapshot.child("Contact Information").getValue(String::class.java)
                     val profilePictureUrl = dataSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
+                    this@PetProfilePage.profilePictureUrl = profilePictureUrl
 
 
                     binding.PetName.text = name
@@ -117,14 +120,32 @@ class PetProfilePage : AppCompatActivity() {
                 }
             })
         }
+
+        binding.BackButton.setOnClickListener{
+            navigateToUserProfile()
+        }
+
+        binding.deleteButton.setOnClickListener{
+            val imageRef = storageRef.getReferenceFromUrl(profilePictureUrl!!)
+            imageRef.delete().addOnSuccessListener {
+                if (petCardId != null) {
+                    if (userId != null) {
+                        databaseRef.child("Users").child(userId)
+                            .child("Animal Profiles Created").child(petCardId).removeValue()
+                        Toast.makeText(this, "Pet profile has been deleted.", Toast.LENGTH_SHORT).show()
+                        navigateToUserProfile()
+                    }
+                }
+            }
+
+        }
     }
 
 
     private fun setupClickListener() {
-        binding.BackButton.setOnClickListener{
-            navigateToUserProfile()
-        }
+
     }
+
 
     private fun navigateToUserProfile() {
         val intent = Intent(this, ProfilePage::class.java)

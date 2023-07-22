@@ -85,6 +85,10 @@ class ProfilePage : AppCompatActivity() {
         // list of items in recyclerview
         mUploads = mutableListOf()
 
+        // Set up the RecyclerView with all uploads from all users
+        mAdapter = ImageAdapter(this@ProfilePage, mUploads)
+        mRecyclerView.adapter = mAdapter
+
         databaseRef = FirebaseDatabase.getInstance().reference
         this.firebaseAuth = FirebaseAuth.getInstance()
 
@@ -137,10 +141,7 @@ class ProfilePage : AppCompatActivity() {
                             }
                         }
                     }
-
-                    // Set up the RecyclerView with all uploads from all users
-                    mAdapter = ImageAdapter(this@ProfilePage, mUploads)
-                    mRecyclerView.adapter = mAdapter
+                    mAdapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
