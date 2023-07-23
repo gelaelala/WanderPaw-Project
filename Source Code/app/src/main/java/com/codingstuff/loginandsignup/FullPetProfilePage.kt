@@ -42,9 +42,18 @@ class FullPetProfilePage : AppCompatActivity() {
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.UserProfile -> true
                 R.id.UserPetMatching -> {
                     startActivity(Intent(applicationContext, UserPetMatching::class.java))
+                    finish()
+                    true
+                }
+                R.id.UserProfile -> {
+                    startActivity(Intent(applicationContext, ProfilePage::class.java))
+                    finish()
+                    true
+                }
+                R.id.AddPetInformation -> {
+                    startActivity(Intent(applicationContext, AddPetInformation::class.java))
                     finish()
                     true
                 }

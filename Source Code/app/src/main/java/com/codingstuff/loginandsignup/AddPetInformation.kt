@@ -159,21 +159,50 @@ class AddPetInformation : AppCompatActivity() {
             val currentUser = firebaseAuth.currentUser
             val userId = currentUser?.uid
             val petCardID = databaseRef.push().key
-            //            val petCardID = createAnimalProfileId()
-            val name = formatStringWithCapital(binding.petName.text.toString())
-            val age = binding.petAge.text.toString().trim()
+
+            val inputList = mutableListOf(
+                binding.petName.text.toString(),
+                binding.petAge.text.toString(),
+                binding.petLocation.text.toString(),
+                binding.petBio.text.toString(),
+                binding.aboutPet.text.toString(),
+                binding.petBreed.text.toString(),
+                binding.petMedicalConditions.text.toString(),
+                binding.petVaccinesTaken.text.toString(),
+                binding.petDiet.text.toString(),
+                binding.petReasonforAdoption.text.toString(),
+                binding.petOtherNeeds.text.toString(),
+                binding.adopterRequirements.text.toString(),
+                binding.userContactInfo.text.toString()
+            )
+
+            val nameInit = if (isNAText(inputList[0])) "Nothing to show here" else inputList[0]
+            val age = if (isNAText(inputList[1])) "Nothing to show here" else inputList[1]
+            val locationInit = if (isNAText(inputList[2])) "Nothing to show here" else inputList[2]
+            val bioInit = if (isNAText(inputList[3])) "Nothing to show here" else inputList[3]
+            val aboutMeInit = if (isNAText(inputList[4])) "Nothing to show here" else inputList[4]
+            val breedInit = if (isNAText(inputList[5])) "Nothing to show here" else inputList[5]
+            val medConInit = if (isNAText(inputList[6])) "Nothing to show here" else inputList[6]
+            val vaccineInit = if (isNAText(inputList[7])) "Nothing to show here" else inputList[7]
+            val dietInit = if (isNAText(inputList[8])) "Nothing to show here" else inputList[8]
+            val reasonInit = if (isNAText(inputList[9])) "Nothing to show here" else inputList[9]
+            val otherNeedsInit = if (isNAText(inputList[10])) "Nothing to show here" else inputList[10]
+            val requirementsInit = if (isNAText(inputList[11])) "Nothing to show here" else inputList[11]
+            val contactInit = if (isNAText(inputList[12])) "Nothing to show here" else inputList[12]
+
+            val name = nameInit.toUpperCase(Locale.ROOT)
             val gender = binding.genderInputField.selectedItem
-            val location = capitalizeWords(binding.petLocation.text.toString())
-            val bio = formatStringWithCapital(binding.petBio.text.toString())
-            val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
-            val breed = capitalizeWords(binding.petBreed.text.toString())
-            val medicalConditions = capitalizeWords(binding.petMedicalConditions.text.toString())
-            val vaccine = capitalizeWords(binding.petVaccinesTaken.text.toString())
-            val diet = formatStringWithCapital(binding.petDiet.text.toString())
-            val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
-            val otherNeeds = formatStringWithCapital(binding.petOtherNeeds.text.toString())
-            val requirements = formatStringWithCapital(binding.adopterRequirements.text.toString())
-            val contact = capitalizeWords(binding.userContactInfo.text.toString())
+            val location = capitalizeWords(locationInit)
+            val bio = formatStringWithCapital(bioInit)
+            val aboutMe = formatStringWithCapital(aboutMeInit)
+            val breed = capitalizeWords(breedInit)
+            val medicalConditions = capitalizeWords(medConInit)
+            val vaccine = capitalizeWords(vaccineInit)
+            val diet = formatStringWithCapital(dietInit)
+            val reason = formatStringWithCapital(reasonInit)
+            val otherNeeds = formatStringWithCapital(otherNeedsInit)
+            val requirements = formatStringWithCapital(requirementsInit)
+            val contact = capitalizeWords(contactInit)
 
             val fieldsNotEmpty = areFieldsNotEmpty(
                 name,
@@ -259,13 +288,11 @@ class AddPetInformation : AppCompatActivity() {
 
     private fun formatStringWithCapital(input: String): String {
         return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
-            .trim()
     }
 
     private fun capitalizeWords(input: String): String {
         return input.split(" ")
             .joinToString(" ") { it -> it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() } }
-            .trim()
     }
 
     private fun openFileChooser() {
@@ -399,6 +426,16 @@ class AddPetInformation : AppCompatActivity() {
 
         return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
+
+    private fun isNAText(input: String): Boolean {
+        // Convert the input and target strings to lowercase for case-insensitive comparison
+        val lowerInput = input.trim().toLowerCase(Locale.ROOT)
+        val targetStrings = listOf("n/a", "none")
+
+        // Check if the lowercase input matches any of the target strings
+        return targetStrings.any { lowerInput == it }
+    }
+
 
     private val customWidth = 810
     private val customHeight = 150
