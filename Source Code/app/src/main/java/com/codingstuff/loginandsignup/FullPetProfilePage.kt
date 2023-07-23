@@ -134,4 +134,5 @@ class FullPetProfilePage : AppCompatActivity() {
         super.onBackPressed()
         navigateToFeedTab()
     }
+    
 }
