@@ -55,6 +55,7 @@ class ProfilePage : AppCompatActivity() {
                 R.id.AddPetInformation -> {
                     startActivity(Intent(applicationContext, AddPetInformation::class.java))
                     finish()
+                    overridePendingTransition(R.anim.slide_up, R.anim.stay)
                     true
                 }
 
