@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -22,6 +23,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
@@ -36,6 +38,12 @@ import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.util.Locale
+import android.Manifest
+import android.app.AlertDialog
+import android.content.DialogInterface
+import androidx.annotation.NonNull
+import com.google.android.gms.common.PackageVerificationResult
+
 
 @Suppress("DEPRECATION")
 class AddPetInformation : AppCompatActivity() {
@@ -58,6 +66,8 @@ class AddPetInformation : AppCompatActivity() {
 
     companion object {
         private const val pickImageRequest = 1
+        private const val STORAGE_CODE_PERMISSION = 1
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -150,7 +160,17 @@ class AddPetInformation : AppCompatActivity() {
         }
 
         binding.imageButton.setOnClickListener {
-            openFileChooser()
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(
+                        this@AddPetInformation,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openFileChooser()
+                } else {
+                    requestStoragePermission()
+                }
+            }
         }
 
         // Write the pet card data to the database under the user's petCards node
@@ -325,6 +345,53 @@ class AddPetInformation : AppCompatActivity() {
             addNewContactInputField()
         }
     }
+
+    private fun requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this@AddPetInformation,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        ) {
+            val builder = AlertDialog.Builder(this).apply {
+                setMessage("WanderPaw would like to access your gallery for photo uploads.")
+                setTitle("Want to upload a photo?")
+                setPositiveButton("ALLOW") { _, _ ->
+                    ActivityCompat.requestPermissions(
+                        this@AddPetInformation,
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        STORAGE_CODE_PERMISSION
+                    )
+                }
+                setNegativeButton("CANCEL") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            }
+
+            builder.create().show()
+        } else {
+            ActivityCompat.requestPermissions(
+                this@AddPetInformation,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                STORAGE_CODE_PERMISSION
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_CODE_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this@AddPetInformation, "Permission granted.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@AddPetInformation, "Permission denied.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     private fun formatStringWithCapital(input: String): String {
         return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString().trim() }
