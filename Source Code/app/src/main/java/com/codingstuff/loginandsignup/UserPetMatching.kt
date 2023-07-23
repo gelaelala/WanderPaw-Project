@@ -83,7 +83,7 @@ class UserPetMatching : AppCompatActivity() {
                             val name = petSnapshot.child("Name").getValue(String::class.java).toString()
                             val gender = petSnapshot.child("Gender").getValue(String::class.java).toString()
                             val age = petSnapshot.child("Age").getValue(String::class.java).toString()
-                            val genderAge = "($gender,$age)"
+                            val genderAge = "($gender, $age)"
                             val location = petSnapshot.child("Location").getValue(String::class.java).toString()
                             val bio = petSnapshot.child("Bio").getValue(String::class.java).toString()
                             val profilePictureUrl =
