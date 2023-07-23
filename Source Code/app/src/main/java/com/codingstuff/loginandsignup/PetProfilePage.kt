@@ -153,7 +153,23 @@ class PetProfilePage : AppCompatActivity() {
                     val finalReqs = reqsString.trimEnd()
 
 
-                    val contact = dataSnapshot.child("Contact Information").getValue(String::class.java)
+                    val contactSnapshot = dataSnapshot.child("Contact Information")
+                    val contactString = StringBuilder()
+
+                    if (contactSnapshot.hasChildren()) {
+                        // Process the values if "Vaccine_s Taken" has children
+                        contactSnapshot.children.forEach { data ->
+                            contactString.append("\u2022 ").append(data.value).append("\n")
+                        }
+                    } else {
+                        // Handle the case when "Vaccine_s Taken" has no children (no value)
+                        contactString.append("Nothing to show here")
+                    }
+
+                    // Remove the last newline character
+                    val finalContact = contactString.trimEnd()
+
+
                     val profilePictureUrl = dataSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
                     this@PetProfilePage.profilePictureUrl = profilePictureUrl
 
@@ -170,7 +186,7 @@ class PetProfilePage : AppCompatActivity() {
                     binding.ReasonData.text = reason
                     binding.OtherNeedsData.text = finalNeeds
                     binding.RequirementsData.text = finalReqs
-                    binding.ContactData.text = contact
+                    binding.ContactData.text = finalContact
 
                     Picasso.get().load(profilePictureUrl)
                         //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable

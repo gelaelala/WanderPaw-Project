@@ -215,7 +215,16 @@ class AddPetInformation : AppCompatActivity() {
             val reqsValue = if (isNAList(requirements)) "Nothing to show here" else requirements
 
 
-            val contact = capitalizeWords(binding.userContactInfo.text.toString())
+            val contactCon: String? = capitalizeWords(binding.userContactInfo.text.toString())
+            val contact = mutableListOf<String>()
+            if (!contactCon.isNullOrBlank()) {
+                contact.add(contactCon)
+            }
+            contact.addAll(contactInfoTextList.map { textInputEditText ->
+                capitalizeWords(textInputEditText.text.toString())
+            }.filter { it.isNotBlank() })
+            val contactValue = if (isNAList(contact)) "Nothing to show here" else contact
+
 
             val fieldsNotEmpty = areFieldsNotEmpty(
                 name,
@@ -251,7 +260,7 @@ class AddPetInformation : AppCompatActivity() {
                                     put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
                                     put("Other Needs", needsValue)
                                     put("Requirements for Adopter", reqsValue)
-                                    put("Contact Information", if (isNAText(contact)) "Nothing to show here" else contact)
+                                    put("Contact Information", contactValue)
 
 
                                 }
@@ -265,7 +274,7 @@ class AddPetInformation : AppCompatActivity() {
                                             // Pet card data successfully written to the database
                                             // Perform any additional actions or show success message
                                             uploadFile(petCardID)
-                                            Toast.makeText(this, "Pet profile has been created.", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(this, "Pet profile is uploading..", Toast.LENGTH_SHORT).show()
                                             navigateToProfilePage()
                                         } else {
                                             // Error occurred while writing pet card data to the database
@@ -310,6 +319,10 @@ class AddPetInformation : AppCompatActivity() {
 
         binding.addReqs.setOnClickListener{
             addNewReqsInputField()
+        }
+
+        binding.addContact.setOnClickListener{
+            addNewContactInputField()
         }
     }
 
@@ -428,7 +441,7 @@ class AddPetInformation : AppCompatActivity() {
         medicalConditions: MutableList<String>,
         vaccine: MutableList<String>,
         reason: String,
-        contact: String
+        contact: MutableList<String>
     ): Boolean {
         return name.isNotEmpty() && age.isNotEmpty() && gender != "Select Here" && location.isNotEmpty() && bio.isNotEmpty() && aboutMe.isNotEmpty() && breed.isNotEmpty() && medicalConditions.isNotEmpty() && vaccine.isNotEmpty() && reason.isNotEmpty() && contact.isNotEmpty()
     }
@@ -629,6 +642,44 @@ class AddPetInformation : AppCompatActivity() {
         textInputLayout.addView(textInputEditText)
         binding.reqsInputCon.addView(textInputLayout)
         requirementsTextList.add(textInputEditText)
+    }
+
+    private fun addNewContactInputField() {
+        val textInputLayout = TextInputLayout(this)
+        textInputLayout.id = View.generateViewId()
+        val layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+
+        layoutParams.leftMargin = marginLeftSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.bottomMargin = marginBottomSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.gravity = Gravity.CENTER_VERTICAL
+
+        textInputLayout.hint = " "
+
+        val textInputEditText = TextInputEditText(this)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+        textInputEditText.setPadding(45, 0, 0, 0)
+
+        textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
+        textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
+        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        textInputEditText.hint = "Enter Here"
+
+        // Set font programmatically
+        val typeface = ResourcesCompat.getFont(this, R.font.inter)
+        textInputEditText.typeface = typeface
+
+        textInputLayout.addView(textInputEditText)
+        binding.contactInputCon.addView(textInputLayout)
+        contactInfoTextList.add(textInputEditText)
     }
 
     private fun navigateToProfilePage() {
