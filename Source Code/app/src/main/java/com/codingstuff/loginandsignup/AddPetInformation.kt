@@ -167,6 +167,8 @@ class AddPetInformation : AppCompatActivity() {
             val bio = formatStringWithCapital(binding.petBio.text.toString())
             val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
             val breed = capitalizeWords(binding.petBreed.text.toString())
+
+
             val medicalCon: String? = capitalizeWords(binding.petMedicalConditions.text.toString())
             val medicalConditions = mutableListOf<String>()
             if (!medicalCon.isNullOrBlank()) {
@@ -189,8 +191,30 @@ class AddPetInformation : AppCompatActivity() {
 
             val diet = formatStringWithCapital(binding.petDiet.text.toString())
             val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
-            val otherNeeds = formatStringWithCapital(binding.petOtherNeeds.text.toString())
-            val requirements = formatStringWithCapital(binding.adopterRequirements.text.toString())
+
+
+            val needsInputOne: String? = capitalizeWords(binding.petOtherNeeds.text.toString())
+            val otherNeeds = mutableListOf<String>()
+            if (!needsInputOne.isNullOrBlank()) {
+                otherNeeds.add(needsInputOne)
+            }
+            otherNeeds.addAll(otherNeedsTextList.map { textInputEditText ->
+                capitalizeWords(textInputEditText.text.toString())
+            }.filter { it.isNotBlank() })
+            val needsValue = if (isNAList(otherNeeds)) "Nothing to show here" else otherNeeds
+
+
+            val reqsInputOne: String? = capitalizeWords(binding.adopterRequirements.text.toString())
+            val requirements = mutableListOf<String>()
+            if (!reqsInputOne.isNullOrBlank()) {
+                requirements.add(reqsInputOne)
+            }
+            requirements.addAll(requirementsTextList.map { textInputEditText ->
+                capitalizeWords(textInputEditText.text.toString())
+            }.filter { it.isNotBlank() })
+            val reqsValue = if (isNAList(requirements)) "Nothing to show here" else requirements
+
+
             val contact = capitalizeWords(binding.userContactInfo.text.toString())
 
             val fieldsNotEmpty = areFieldsNotEmpty(
@@ -225,8 +249,8 @@ class AddPetInformation : AppCompatActivity() {
                                     put("Vaccine_s Taken", vaccineValue)
                                     put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
                                     put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
-                                    put("Other Needs", if (isNAText(otherNeeds) || otherNeeds == "") "Nothing to show here" else otherNeeds)
-                                    put("Requirements for Adopter", if (isNAText(requirements) || requirements == "") "Nothing to show here" else requirements)
+                                    put("Other Needs", needsValue)
+                                    put("Requirements for Adopter", reqsValue)
                                     put("Contact Information", if (isNAText(contact)) "Nothing to show here" else contact)
 
 
@@ -278,6 +302,14 @@ class AddPetInformation : AppCompatActivity() {
 
         binding.addVaccine.setOnClickListener{
             addNewVaccineInputField()
+        }
+
+        binding.addNeeds.setOnClickListener{
+            addNewNeedsInputField()
+        }
+
+        binding.addReqs.setOnClickListener{
+            addNewReqsInputField()
         }
     }
 
@@ -432,6 +464,10 @@ class AddPetInformation : AppCompatActivity() {
     }
 
     private fun isNAList(severalInputs: List<String>): Boolean {
+        if (severalInputs.isEmpty()) {
+            return true
+        }
+
         val firstCondition = severalInputs.first().trim().lowercase(Locale.ROOT)
         return firstCondition == "n/a" || firstCondition == "none"
     }
@@ -517,6 +553,82 @@ class AddPetInformation : AppCompatActivity() {
         textInputLayout.addView(textInputEditText)
         binding.vaccineInputCon.addView(textInputLayout)
         vaccinesTextList.add(textInputEditText)
+    }
+
+    private fun addNewNeedsInputField() {
+        val textInputLayout = TextInputLayout(this)
+        textInputLayout.id = View.generateViewId()
+        val layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+
+        layoutParams.leftMargin = marginLeftSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.bottomMargin = marginBottomSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.gravity = Gravity.CENTER_VERTICAL
+
+        textInputLayout.hint = " "
+
+        val textInputEditText = TextInputEditText(this)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+        textInputEditText.setPadding(45, 0, 0, 0)
+
+        textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
+        textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
+        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        textInputEditText.hint = "Enter Here"
+
+        // Set font programmatically
+        val typeface = ResourcesCompat.getFont(this, R.font.inter)
+        textInputEditText.typeface = typeface
+
+        textInputLayout.addView(textInputEditText)
+        binding.needsInputCon.addView(textInputLayout)
+        otherNeedsTextList.add(textInputEditText)
+    }
+
+    private fun addNewReqsInputField() {
+        val textInputLayout = TextInputLayout(this)
+        textInputLayout.id = View.generateViewId()
+        val layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+
+        layoutParams.leftMargin = marginLeftSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.bottomMargin = marginBottomSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.gravity = Gravity.CENTER_VERTICAL
+
+        textInputLayout.hint = " "
+
+        val textInputEditText = TextInputEditText(this)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+        textInputEditText.setPadding(45, 0, 0, 0)
+
+        textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
+        textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
+        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        textInputEditText.hint = "Enter Here"
+
+        // Set font programmatically
+        val typeface = ResourcesCompat.getFont(this, R.font.inter)
+        textInputEditText.typeface = typeface
+
+        textInputLayout.addView(textInputEditText)
+        binding.reqsInputCon.addView(textInputLayout)
+        requirementsTextList.add(textInputEditText)
     }
 
     private fun navigateToProfilePage() {

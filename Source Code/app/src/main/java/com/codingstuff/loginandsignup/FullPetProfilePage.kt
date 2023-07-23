@@ -115,8 +115,42 @@ class FullPetProfilePage : AppCompatActivity() {
 
                     val diet = dataSnapshot.child("Pet's Diet").getValue(String::class.java)
                     val reason = dataSnapshot.child("Reason for Adoption").getValue(String::class.java)
-                    val otherNeeds = dataSnapshot.child("Other Needs").getValue(String::class.java)
-                    val requirements = dataSnapshot.child("Requirements for Adopter").getValue(String::class.java)
+
+
+                    val needsSnapshot = dataSnapshot.child("Other Needs")
+                    val needsString = StringBuilder()
+
+                    if (needsSnapshot.hasChildren()) {
+                        // Process the values if "Vaccine_s Taken" has children
+                        needsSnapshot.children.forEach { data ->
+                            needsString.append("\u2022 ").append(data.value).append("\n")
+                        }
+                    } else {
+                        // Handle the case when "Vaccine_s Taken" has no children (no value)
+                        needsString.append("Nothing to show here")
+                    }
+
+                    // Remove the last newline character
+                    val finalNeeds = needsString.trimEnd()
+
+
+                    val reqsSnapshot = dataSnapshot.child("Requirements for Adopter")
+                    val reqsString = StringBuilder()
+
+                    if (reqsSnapshot.hasChildren()) {
+                        // Process the values if "Vaccine_s Taken" has children
+                        reqsSnapshot.children.forEach { data ->
+                            reqsString.append("\u2022 ").append(data.value).append("\n")
+                        }
+                    } else {
+                        // Handle the case when "Vaccine_s Taken" has no children (no value)
+                        reqsString.append("Nothing to show here")
+                    }
+
+                    // Remove the last newline character
+                    val finalReqs = reqsString.trimEnd()
+
+
                     val contact = dataSnapshot.child("Contact Information").getValue(String::class.java)
                     val profilePictureUrl = dataSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
                     this@FullPetProfilePage.profilePictureUrl = profilePictureUrl
@@ -132,8 +166,8 @@ class FullPetProfilePage : AppCompatActivity() {
                     binding.VaccineData.text = finalVaccine
                     binding.DietData.text = diet
                     binding.ReasonData.text = reason
-                    binding.OtherNeedsData.text = otherNeeds
-                    binding.RequirementsData.text = requirements
+                    binding.OtherNeedsData.text = finalNeeds
+                    binding.RequirementsData.text = finalReqs
                     binding.ContactData.text = contact
 
                     Picasso.get().load(profilePictureUrl)

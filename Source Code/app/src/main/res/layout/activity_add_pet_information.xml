@@ -666,7 +666,13 @@
                     android:layout_marginTop="2.5dp"/>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/needsInputCon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="3dp">
+                <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="21dp"
@@ -688,8 +694,8 @@
                     android:layout_marginTop="1dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/petOtherNeeds"
                         style="@style/LoginTextInputInnerFieldStyle"
+                        android:id="@+id/petOtherNeeds"
                         android:layout_width="270dp"
                         android:layout_height="50dp"
                         android:background="@drawable/input_field_add_pet"
@@ -702,6 +708,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addNeeds"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_toRightOf="@id/petotherneedsInput"
@@ -717,6 +724,7 @@
                     app:rippleColor="@null"/>
 
             </RelativeLayout>
+            </LinearLayout>
 
             <Space
                 android:layout_width="0dp"
@@ -752,57 +760,65 @@
                     android:layout_marginTop="2.5dp"/>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/reqsInputCon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="21dp"
-                android:layout_marginRight="21dp"
-                android:layout_marginTop="2dp">
+                android:orientation="vertical"
+                android:layout_marginTop="3dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginRight="21dp"
+                    android:layout_marginTop="2dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/adopterrequirementsInput"
-                    style="@style/LoginTextInputOuterFieldStyle"
-                    android:layout_width="270dp"
-                    android:layout_height="50dp"
-                    android:cursorVisible="true"
-                    android:gravity="center"
-                    android:textColorHint="@color/light_brown"
-                    app:boxStrokeColor="@color/light_brown"
-                    app:hintAnimationEnabled="false"
-                    app:hintEnabled="false"
-                    app:hintTextColor="@color/light_brown"
-                    android:layout_marginTop="1dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/adopterRequirements"
-                        style="@style/LoginTextInputInnerFieldStyle"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/adopterrequirementsInput"
+                        style="@style/LoginTextInputOuterFieldStyle"
                         android:layout_width="270dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/input_field_add_pet"
-                        android:fontFamily="@font/inter"
-                        android:hint="Enter Here"
-                        android:inputType="text"
-                        android:textColor="@color/light_brown"
-                        android:textSize="12sp"
-                        android:typeface="normal" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:cursorVisible="true"
+                        android:gravity="center"
+                        android:textColorHint="@color/light_brown"
+                        app:boxStrokeColor="@color/light_brown"
+                        app:hintAnimationEnabled="false"
+                        app:hintEnabled="false"
+                        app:hintTextColor="@color/light_brown"
+                        android:layout_marginTop="1dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_toRightOf="@id/adopterrequirementsInput"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="-3dp"
-                    app:cornerRadius="10dp"
-                    android:backgroundTint="@color/light_brown"
-                    app:icon="@drawable/add_pet_profile_prompt"
-                    app:iconTint="@color/white"
-                    app:iconSize="20dp"
-                    app:iconPadding="0dp"
-                    app:iconGravity="textStart"
-                    app:rippleColor="@null"/>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/adopterRequirements"
+                            style="@style/LoginTextInputInnerFieldStyle"
+                            android:layout_width="270dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/input_field_add_pet"
+                            android:fontFamily="@font/inter"
+                            android:hint="Enter Here"
+                            android:inputType="text"
+                            android:textColor="@color/light_brown"
+                            android:textSize="12sp"
+                            android:typeface="normal" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            </RelativeLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/addReqs"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_toRightOf="@id/adopterrequirementsInput"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="-3dp"
+                        app:cornerRadius="10dp"
+                        android:backgroundTint="@color/light_brown"
+                        app:icon="@drawable/add_pet_profile_prompt"
+                        app:iconTint="@color/white"
+                        app:iconSize="20dp"
+                        app:iconPadding="0dp"
+                        app:iconGravity="textStart"
+                        app:rippleColor="@null"/>
+
+                </RelativeLayout>
+            </LinearLayout>
 
             <Space
                 android:layout_width="0dp"
@@ -819,7 +835,13 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/contactInputCon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="3dp">
+                <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="21dp"
@@ -855,6 +877,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addContact"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_toRightOf="@id/usercontactinfoInput"
@@ -870,6 +893,7 @@
                     app:rippleColor="@null"/>
 
             </RelativeLayout>
+            </LinearLayout>
 
             <Space
                 android:layout_width="0dp"
