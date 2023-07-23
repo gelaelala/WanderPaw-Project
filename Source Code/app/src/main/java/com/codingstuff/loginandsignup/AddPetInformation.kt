@@ -167,7 +167,15 @@ class AddPetInformation : AppCompatActivity() {
             val bio = formatStringWithCapital(binding.petBio.text.toString())
             val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
             val breed = capitalizeWords(binding.petBreed.text.toString())
-            val medicalConditions = capitalizeWords(binding.petMedicalConditions.text.toString())
+            val medicalCon: String? = capitalizeWords(binding.petMedicalConditions.text.toString())
+            val medicalConditions = mutableListOf<String>()
+            if (!medicalCon.isNullOrBlank()) {
+                medicalConditions.add(medicalCon)
+            }
+            medicalConditions.addAll(medicalConditionTextList.map { textInputEditText ->
+                capitalizeWords(textInputEditText.text.toString())
+            }.filter { it.isNotBlank() })
+
             val vaccine = capitalizeWords(binding.petVaccinesTaken.text.toString())
             val diet = formatStringWithCapital(binding.petDiet.text.toString())
             val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
@@ -203,7 +211,7 @@ class AddPetInformation : AppCompatActivity() {
                                     put("Bio", if (isNAText(bio)) "Nothing to show here" else bio)
                                     put("About Me", if (isNAText(aboutMe)) "Nothing to show here" else aboutMe)
                                     put("Breed", if (isNAText(breed)) "Nothing to show here" else breed)
-                                    put("Medical Conditions", if (isNAText(medicalConditions)) "Nothing to show here" else medicalConditions)
+//                                    put("Medical Conditions", if (isNAText(medicalConditions)) "Nothing to show here" else medicalConditions)
                                     put("Vaccine_s Taken", if (isNAText(vaccine)) "Nothing to show here" else vaccine)
                                     put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
                                     put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
@@ -212,7 +220,7 @@ class AddPetInformation : AppCompatActivity() {
                                     put("Contact Information", if (isNAText(contact)) "Nothing to show here" else contact)
 
 
-                                //                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
+                                    put("Medical Conditions", if (isNAList(medicalConditions)) "Nothing to show here" else medicalConditions)
                                 }
                                 //                                if (binding.imageHolder == null) {
                                 databaseRef.child("Users").child(userId)
@@ -261,12 +269,12 @@ class AddPetInformation : AppCompatActivity() {
     }
 
     private fun formatStringWithCapital(input: String): String {
-        return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+        return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString().trim() }
     }
 
     private fun capitalizeWords(input: String): String {
         return input.split(" ")
-            .joinToString(" ") { it -> it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() } }
+            .joinToString(" ") { it -> it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString().trim() } }
     }
 
     private fun openFileChooser() {
@@ -372,7 +380,7 @@ class AddPetInformation : AppCompatActivity() {
         bio: String,
         aboutMe: String,
         breed: String,
-        medicalConditions: String,
+        medicalConditions: MutableList<String>,
         vaccine: String,
         reason: String,
         contact: String
@@ -410,6 +418,14 @@ class AddPetInformation : AppCompatActivity() {
         return targetStrings.any { lowerInput == it }
     }
 
+    private fun isNAList(severalInputs: List<String>): Boolean {
+        if (severalInputs.isEmpty()) {
+            return true
+        }
+
+        val firstCondition = severalInputs.first().trim().lowercase(Locale.ROOT)
+        return firstCondition == "n/a" || firstCondition == "none"
+    }
 
     private val customWidth = 810
     private val customHeight = 150
