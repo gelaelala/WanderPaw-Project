@@ -175,8 +175,18 @@ class AddPetInformation : AppCompatActivity() {
             medicalConditions.addAll(medicalConditionTextList.map { textInputEditText ->
                 capitalizeWords(textInputEditText.text.toString())
             }.filter { it.isNotBlank() })
+            val medicalConditionsValue = if (isNAList(medicalConditions)) "Nothing to show here" else medicalConditions
 
-            val vaccine = capitalizeWords(binding.petVaccinesTaken.text.toString())
+            val vaccineInputOne: String? = capitalizeWords(binding.petVaccinesTaken.text.toString())
+            val vaccine = mutableListOf<String>()
+            if (!vaccineInputOne.isNullOrBlank()) {
+                vaccine.add(vaccineInputOne)
+            }
+            vaccine.addAll(vaccinesTextList.map { textInputEditText ->
+                capitalizeWords(textInputEditText.text.toString())
+            }.filter { it.isNotBlank() })
+            val vaccineValue = if (isNAList(vaccine)) "Nothing to show here" else vaccine
+
             val diet = formatStringWithCapital(binding.petDiet.text.toString())
             val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
             val otherNeeds = formatStringWithCapital(binding.petOtherNeeds.text.toString())
@@ -211,8 +221,8 @@ class AddPetInformation : AppCompatActivity() {
                                     put("Bio", if (isNAText(bio)) "Nothing to show here" else bio)
                                     put("About Me", if (isNAText(aboutMe)) "Nothing to show here" else aboutMe)
                                     put("Breed", if (isNAText(breed)) "Nothing to show here" else breed)
-//                                    put("Medical Conditions", if (isNAText(medicalConditions)) "Nothing to show here" else medicalConditions)
-                                    put("Vaccine_s Taken", if (isNAText(vaccine)) "Nothing to show here" else vaccine)
+                                    put("Medical Conditions",medicalConditionsValue)
+                                    put("Vaccine_s Taken", vaccineValue)
                                     put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
                                     put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
                                     put("Other Needs", if (isNAText(otherNeeds) || otherNeeds == "") "Nothing to show here" else otherNeeds)
@@ -220,7 +230,6 @@ class AddPetInformation : AppCompatActivity() {
                                     put("Contact Information", if (isNAText(contact)) "Nothing to show here" else contact)
 
 
-                                    put("Medical Conditions", if (isNAList(medicalConditions)) "Nothing to show here" else medicalConditions)
                                 }
                                 //                                if (binding.imageHolder == null) {
                                 databaseRef.child("Users").child(userId)
@@ -265,6 +274,10 @@ class AddPetInformation : AppCompatActivity() {
 
         binding.addMedCon.setOnClickListener{
             addNewMedConInputField()
+        }
+
+        binding.addVaccine.setOnClickListener{
+            addNewVaccineInputField()
         }
     }
 
@@ -381,7 +394,7 @@ class AddPetInformation : AppCompatActivity() {
         aboutMe: String,
         breed: String,
         medicalConditions: MutableList<String>,
-        vaccine: String,
+        vaccine: MutableList<String>,
         reason: String,
         contact: String
     ): Boolean {
@@ -419,10 +432,6 @@ class AddPetInformation : AppCompatActivity() {
     }
 
     private fun isNAList(severalInputs: List<String>): Boolean {
-        if (severalInputs.isEmpty()) {
-            return true
-        }
-
         val firstCondition = severalInputs.first().trim().lowercase(Locale.ROOT)
         return firstCondition == "n/a" || firstCondition == "none"
     }
@@ -469,6 +478,45 @@ class AddPetInformation : AppCompatActivity() {
         textInputLayout.addView(textInputEditText)
         binding.medConInputCon.addView(textInputLayout)
         medicalConditionTextList.add(textInputEditText)
+    }
+
+    @SuppressLint("ResourceType")
+    private fun addNewVaccineInputField() {
+        val textInputLayout = TextInputLayout(this)
+        textInputLayout.id = View.generateViewId()
+        val layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+
+        layoutParams.leftMargin = marginLeftSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.bottomMargin = marginBottomSize
+        textInputLayout.layoutParams = layoutParams
+        layoutParams.gravity = Gravity.CENTER_VERTICAL
+
+        textInputLayout.hint = " "
+
+        val textInputEditText = TextInputEditText(this)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.layoutParams = LinearLayout.LayoutParams(
+            customWidth,
+            customHeight
+        )
+        textInputEditText.setPadding(45, 0, 0, 0)
+
+        textInputEditText.setBackgroundResource(R.drawable.input_field_add_pet)
+        textInputEditText.setTextColor(ContextCompat.getColor(this, R.color.light_brown))
+        textInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        textInputEditText.hint = "Enter Here"
+
+        // Set font programmatically
+        val typeface = ResourcesCompat.getFont(this, R.font.inter)
+        textInputEditText.typeface = typeface
+
+        textInputLayout.addView(textInputEditText)
+        binding.vaccineInputCon.addView(textInputLayout)
+        vaccinesTextList.add(textInputEditText)
     }
 
     private fun navigateToProfilePage() {

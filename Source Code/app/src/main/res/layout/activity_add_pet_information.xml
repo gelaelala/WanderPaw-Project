@@ -465,8 +465,13 @@
                 android:fontFamily="@font/inter"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
-
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/vaccineInputCon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="3dp">
+                <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="21dp"
@@ -502,6 +507,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addVaccine"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_toRightOf="@id/petvaccinestakenInput"
@@ -517,6 +523,7 @@
                     app:rippleColor="@null"/>
 
             </RelativeLayout>
+            </LinearLayout>
 
             <Space
                 android:layout_width="0dp"

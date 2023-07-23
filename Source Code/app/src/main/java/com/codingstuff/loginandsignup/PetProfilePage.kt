@@ -83,15 +83,38 @@ class PetProfilePage : AppCompatActivity() {
                     val aboutMe = dataSnapshot.child("About Me").getValue(String::class.java)
                     val breed = dataSnapshot.child("Breed").getValue(String::class.java)
 
-                    val medicalConditionsString = StringBuilder()
+
                     val medicalConditionsSnapshot = dataSnapshot.child("Medical Conditions")
-                    medicalConditionsSnapshot.children.forEach { data ->
-                        medicalConditionsString.append("\u2022 ").append(data.value).append("\n")
+                    val medicalConditionsString = StringBuilder()
+                    if (medicalConditionsSnapshot.hasChildren()) {
+                        medicalConditionsSnapshot.children.forEach { data ->
+                            medicalConditionsString.append("\u2022 ").append(data.value)
+                                .append("\n")
+                        }
+                    } else {
+                        medicalConditionsString.append("Nothing to show here")
                     }
                     // Remove the last newline character
                     val finalMedicalConditions = medicalConditionsString.trimEnd()
 
-                    val vaccine = dataSnapshot.child("Vaccine_s Taken").getValue(String::class.java)
+
+                    val vaccineSnapshot = dataSnapshot.child("Vaccine_s Taken")
+                    val vaccineString = StringBuilder()
+
+                    if (vaccineSnapshot.hasChildren()) {
+                        // Process the values if "Vaccine_s Taken" has children
+                        vaccineSnapshot.children.forEach { data ->
+                            vaccineString.append("\u2022 ").append(data.value).append("\n")
+                        }
+                    } else {
+                        // Handle the case when "Vaccine_s Taken" has no children (no value)
+                        vaccineString.append("Nothing to show here")
+                    }
+
+                    // Remove the last newline character
+                    val finalVaccine = vaccineString.trimEnd()
+
+                    
                     val diet = dataSnapshot.child("Pet's Diet").getValue(String::class.java)
                     val reason = dataSnapshot.child("Reason for Adoption").getValue(String::class.java)
                     val otherNeeds = dataSnapshot.child("Other Needs").getValue(String::class.java)
@@ -108,7 +131,7 @@ class PetProfilePage : AppCompatActivity() {
                     binding.AboutMeData.text = aboutMe
                     binding.BreedData.text = breed
                     binding.MedicalConditionsData.text = finalMedicalConditions
-                    binding.VaccineData.text = vaccine
+                    binding.VaccineData.text = finalVaccine
                     binding.DietData.text = diet
                     binding.ReasonData.text = reason
                     binding.OtherNeedsData.text = otherNeeds
