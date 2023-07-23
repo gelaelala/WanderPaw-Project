@@ -37,30 +37,6 @@ class PetProfilePage : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         storageRef = FirebaseStorage.getInstance()
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.UserProfile
-
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.UserProfile -> {
-                    startActivity(Intent(applicationContext, ProfilePage::class.java))
-                    finish()
-                    true
-                }
-                R.id.UserPetMatching -> {
-                    startActivity(Intent(applicationContext, UserPetMatching::class.java))
-                    finish()
-                    true
-                }
-                R.id.AddPetInformation -> {
-                    startActivity(Intent(applicationContext, AddPetInformation::class.java))
-                    finish()
-                    true
-                }
-
-                else -> false
-            }
-        }
 
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
@@ -165,6 +141,8 @@ class PetProfilePage : AppCompatActivity() {
     private fun navigateToUserProfile() {
         val intent = Intent(this, ProfilePage::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.slide_up)
+        finish()
     }
 
     @Deprecated("Deprecated in Java")

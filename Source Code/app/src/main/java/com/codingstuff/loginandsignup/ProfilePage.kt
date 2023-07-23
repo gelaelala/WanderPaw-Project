@@ -48,6 +48,7 @@ class ProfilePage : AppCompatActivity() {
                 R.id.UserProfile -> true
                 R.id.UserPetMatching -> {
                     startActivity(Intent(applicationContext, UserPetMatching::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
@@ -200,6 +201,7 @@ class ProfilePage : AppCompatActivity() {
 
     // starting logged in page code
     private fun navigateToHomePage() {
+        overridePendingTransition(R.anim.stay, R.anim.stay)
         val intent = Intent(this, UserPetMatching::class.java)
         startActivity(intent)
         finish()

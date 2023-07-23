@@ -141,12 +141,14 @@ class SignUpActivity : AppCompatActivity() {
     // starting welcome page code
     private fun navigateToWelcomePage() {
         val intent = Intent(this, WelcomePage::class.java)
+        super.onBackPressed()
         startActivity(intent)
     }
 
     // starting logged in page code
     private fun navigateToHomePage() {
         val intent = Intent(this, UserPetMatching::class.java)
+        overridePendingTransition(R.anim.slide_up, R.anim.stay)
         startActivity(intent)
         finish()
     }

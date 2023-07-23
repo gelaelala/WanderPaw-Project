@@ -23,13 +23,13 @@ class WelcomePage : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_up, R.anim.push_out)
+            overridePendingTransition(R.anim.slide_up, R.anim.stay)
         }
 
         binding.signupButton.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_up, R.anim.push_out)
+            overridePendingTransition(R.anim.slide_up, R.anim.stay)
         }
     }
 

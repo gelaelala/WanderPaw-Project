@@ -37,30 +37,6 @@ class FullPetProfilePage : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         storageRef = FirebaseStorage.getInstance()
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.selectedItemId = R.id.UserProfile
-
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.UserPetMatching -> {
-                    startActivity(Intent(applicationContext, UserPetMatching::class.java))
-                    finish()
-                    true
-                }
-                R.id.UserProfile -> {
-                    startActivity(Intent(applicationContext, ProfilePage::class.java))
-                    finish()
-                    true
-                }
-                R.id.AddPetInformation -> {
-                    startActivity(Intent(applicationContext, AddPetInformation::class.java))
-                    finish()
-                    true
-                }
-
-                else -> false
-            }
-        }
 
         val petCardId = intent.getStringExtra("petCardId")
         val userId = intent.getStringExtra("userId")
@@ -149,6 +125,8 @@ class FullPetProfilePage : AppCompatActivity() {
     private fun navigateToFeedTab() {
         val intent = Intent(this, UserPetMatching::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
     }
 
     @Deprecated("Deprecated in Java")

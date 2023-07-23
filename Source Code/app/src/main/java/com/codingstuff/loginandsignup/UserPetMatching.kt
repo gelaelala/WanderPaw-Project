@@ -42,12 +42,14 @@ class UserPetMatching : AppCompatActivity() {
                 R.id.UserPetMatching -> true
                 R.id.UserProfile -> {
                     startActivity(Intent(applicationContext, ProfilePage::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
                 R.id.AddPetInformation -> {
                     startActivity(Intent(applicationContext, AddPetInformation::class.java))
                     finish()
+                    overridePendingTransition(R.anim.slide_up, R.anim.stay)
                     true
                 }
 
