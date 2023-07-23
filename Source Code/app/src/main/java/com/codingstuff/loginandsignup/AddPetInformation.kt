@@ -160,49 +160,20 @@ class AddPetInformation : AppCompatActivity() {
             val userId = currentUser?.uid
             val petCardID = databaseRef.push().key
 
-            val inputList = mutableListOf(
-                binding.petName.text.toString(),
-                binding.petAge.text.toString(),
-                binding.petLocation.text.toString(),
-                binding.petBio.text.toString(),
-                binding.aboutPet.text.toString(),
-                binding.petBreed.text.toString(),
-                binding.petMedicalConditions.text.toString(),
-                binding.petVaccinesTaken.text.toString(),
-                binding.petDiet.text.toString(),
-                binding.petReasonforAdoption.text.toString(),
-                binding.petOtherNeeds.text.toString(),
-                binding.adopterRequirements.text.toString(),
-                binding.userContactInfo.text.toString()
-            )
-
-            val nameInit = if (isNAText(inputList[0])) "Nothing to show here" else inputList[0]
-            val age = if (isNAText(inputList[1])) "Nothing to show here" else inputList[1]
-            val locationInit = if (isNAText(inputList[2])) "Nothing to show here" else inputList[2]
-            val bioInit = if (isNAText(inputList[3])) "Nothing to show here" else inputList[3]
-            val aboutMeInit = if (isNAText(inputList[4])) "Nothing to show here" else inputList[4]
-            val breedInit = if (isNAText(inputList[5])) "Nothing to show here" else inputList[5]
-            val medConInit = if (isNAText(inputList[6])) "Nothing to show here" else inputList[6]
-            val vaccineInit = if (isNAText(inputList[7])) "Nothing to show here" else inputList[7]
-            val dietInit = if (isNAText(inputList[8])) "Nothing to show here" else inputList[8]
-            val reasonInit = if (isNAText(inputList[9])) "Nothing to show here" else inputList[9]
-            val otherNeedsInit = if (isNAText(inputList[10])) "Nothing to show here" else inputList[10]
-            val requirementsInit = if (isNAText(inputList[11])) "Nothing to show here" else inputList[11]
-            val contactInit = if (isNAText(inputList[12])) "Nothing to show here" else inputList[12]
-
-            val name = nameInit.toUpperCase(Locale.ROOT)
+            val name = binding.petName.text.toString().toUpperCase(Locale.ROOT)
+            val age = binding.petAge.text.toString().trim()
             val gender = binding.genderInputField.selectedItem
-            val location = capitalizeWords(locationInit)
-            val bio = formatStringWithCapital(bioInit)
-            val aboutMe = formatStringWithCapital(aboutMeInit)
-            val breed = capitalizeWords(breedInit)
-            val medicalConditions = capitalizeWords(medConInit)
-            val vaccine = capitalizeWords(vaccineInit)
-            val diet = formatStringWithCapital(dietInit)
-            val reason = formatStringWithCapital(reasonInit)
-            val otherNeeds = formatStringWithCapital(otherNeedsInit)
-            val requirements = formatStringWithCapital(requirementsInit)
-            val contact = capitalizeWords(contactInit)
+            val location = capitalizeWords(binding.petLocation.text.toString())
+            val bio = formatStringWithCapital(binding.petBio.text.toString())
+            val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
+            val breed = capitalizeWords(binding.petBreed.text.toString())
+            val medicalConditions = capitalizeWords(binding.petMedicalConditions.text.toString())
+            val vaccine = capitalizeWords(binding.petVaccinesTaken.text.toString())
+            val diet = formatStringWithCapital(binding.petDiet.text.toString())
+            val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
+            val otherNeeds = formatStringWithCapital(binding.petOtherNeeds.text.toString())
+            val requirements = formatStringWithCapital(binding.adopterRequirements.text.toString())
+            val contact = capitalizeWords(binding.userContactInfo.text.toString())
 
             val fieldsNotEmpty = areFieldsNotEmpty(
                 name,
@@ -225,21 +196,23 @@ class AddPetInformation : AppCompatActivity() {
                             if (isNetworkConnected(this@AddPetInformation)) {
                                 // Create a HashMap to store user data
                                 val petCardData = HashMap<String, Any>().apply {
-                                    put("Name", name)
-                                    put("Age", age)
+                                    put("Name", if (isNAText(name)) "Nothing to show here" else name)
+                                    put("Age", if (isNAText(age)) "Nothing to show here" else age)
                                     put("Gender", gender)
-                                    put("Location", location)
-                                    put("Bio", bio)
-                                    put("About Me", aboutMe)
-                                    put("Breed", breed)
-                                    put("Medical Conditions", medicalConditions)
-                                    put("Vaccine_s Taken", vaccine)
-                                    put("Pet's Diet", diet)
-                                    put("Reason for Adoption", reason)
-                                    put("Other Needs", otherNeeds)
-                                    put("Requirements for Adopter", requirements)
-                                    put("Contact Information", contact)
-                                    //                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
+                                    put("Location", if (isNAText(location)) "Nothing to show here" else location)
+                                    put("Bio", if (isNAText(bio)) "Nothing to show here" else bio)
+                                    put("About Me", if (isNAText(aboutMe)) "Nothing to show here" else aboutMe)
+                                    put("Breed", if (isNAText(breed)) "Nothing to show here" else breed)
+                                    put("Medical Conditions", if (isNAText(medicalConditions)) "Nothing to show here" else medicalConditions)
+                                    put("Vaccine_s Taken", if (isNAText(vaccine)) "Nothing to show here" else vaccine)
+                                    put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
+                                    put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
+                                    put("Other Needs", if (isNAText(otherNeeds) || otherNeeds == "") "Nothing to show here" else otherNeeds)
+                                    put("Requirements for Adopter", if (isNAText(requirements) || requirements == "") "Nothing to show here" else requirements)
+                                    put("Contact Information", if (isNAText(contact)) "Nothing to show here" else contact)
+
+
+                                //                    put("About Me", listOf(aboutMe) + aboutMeEditTextList.map { editText -> editText.text.toString() })
                                 }
                                 //                                if (binding.imageHolder == null) {
                                 databaseRef.child("Users").child(userId)
@@ -251,7 +224,8 @@ class AddPetInformation : AppCompatActivity() {
                                             // Pet card data successfully written to the database
                                             // Perform any additional actions or show success message
                                             uploadFile(petCardID)
-                                            finish()
+                                            Toast.makeText(this, "Pet profile has been created.", Toast.LENGTH_SHORT).show()
+                                            navigateToProfilePage()
                                         } else {
                                             // Error occurred while writing pet card data to the database
                                             // Handle the error appropriately (e.g., show error message)
