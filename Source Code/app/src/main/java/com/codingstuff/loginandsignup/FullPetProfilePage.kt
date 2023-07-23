@@ -80,8 +80,15 @@ class FullPetProfilePage : AppCompatActivity() {
                     val bio = dataSnapshot.child("Bio").getValue(String::class.java)
                     val aboutMe = dataSnapshot.child("About Me").getValue(String::class.java)
                     val breed = dataSnapshot.child("Breed").getValue(String::class.java)
-                    val medicalConditions =
-                        dataSnapshot.child("Medical Conditions").getValue(String::class.java)
+
+                    val medicalConditionsString = StringBuilder()
+                    val medicalConditionsSnapshot = dataSnapshot.child("Medical Conditions")
+                    medicalConditionsSnapshot.children.forEach { data ->
+                        medicalConditionsString.append("\u2022 ").append(data.value).append("\n")
+                    }
+                    // Remove the last newline character
+                    val finalMedicalConditions = medicalConditionsString.trimEnd()
+
                     val vaccine = dataSnapshot.child("Vaccine_s Taken").getValue(String::class.java)
                     val diet = dataSnapshot.child("Pet's Diet").getValue(String::class.java)
                     val reason = dataSnapshot.child("Reason for Adoption").getValue(String::class.java)
@@ -98,7 +105,7 @@ class FullPetProfilePage : AppCompatActivity() {
                     binding.BioData.text = bio
                     binding.AboutMeData.text = aboutMe
                     binding.BreedData.text = breed
-                    binding.MedicalConditionsData.text = medicalConditions
+                    binding.MedicalConditionsData.text = finalMedicalConditions
                     binding.VaccineData.text = vaccine
                     binding.DietData.text = diet
                     binding.ReasonData.text = reason
