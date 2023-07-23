@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"/>
         
         <TextView
-            android:text="Are you sure you want to end your session with this device?"
+            android:text="message"
             android:gravity="center"
             android:id="@+id/messageTV"
             android:textColor="@color/gray"
