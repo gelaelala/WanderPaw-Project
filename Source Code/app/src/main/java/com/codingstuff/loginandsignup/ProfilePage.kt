@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class ProfilePage : AppCompatActivity() {
+class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
     private lateinit var binding: ActivityProfilePageBinding
     private var firebaseAuth: FirebaseAuth? = null
@@ -48,11 +48,13 @@ class ProfilePage : AppCompatActivity() {
                 R.id.UserProfile -> true
                 R.id.UserPetMatching -> {
                     startActivity(Intent(applicationContext, UserPetMatching::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
                 R.id.AddPetInformation -> {
                     startActivity(Intent(applicationContext, AddPetInformation::class.java))
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
                     finish()
                     true
                 }
@@ -101,7 +103,7 @@ class ProfilePage : AppCompatActivity() {
                         }
                     }
 
-                    mAdapter = ImageAdapter(this@ProfilePage, mUploads)
+                    mAdapter = ImageAdapter(this@ProfilePage, mUploads, this@ProfilePage)
                     mRecyclerView.adapter = mAdapter
                 }
 
@@ -187,6 +189,18 @@ class ProfilePage : AppCompatActivity() {
         dialog.show()
     }
 
+    override fun onItemClick(petCardId: String) {
+        startPetProfilePageActivity(petCardId)
+    }
+
+    private fun startPetProfilePageActivity(petCardId: String) {
+        val intent = Intent(this, PetProfilePage::class.java)
+        intent.putExtra("petCardId", petCardId)
+        startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onStart() {
         super.onStart()
@@ -202,6 +216,7 @@ class ProfilePage : AppCompatActivity() {
     private fun navigateToHomePage() {
         val intent = Intent(this, UserPetMatching::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
         finish()
     }
 

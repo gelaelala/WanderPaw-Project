@@ -44,16 +44,19 @@ class PetProfilePage : AppCompatActivity() {
             when (item.itemId) {
                 R.id.UserProfile -> {
                     startActivity(Intent(applicationContext, ProfilePage::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
                 R.id.UserPetMatching -> {
                     startActivity(Intent(applicationContext, UserPetMatching::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
                 R.id.AddPetInformation -> {
                     startActivity(Intent(applicationContext, AddPetInformation::class.java))
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
                     finish()
                     true
                 }
@@ -245,6 +248,8 @@ class PetProfilePage : AppCompatActivity() {
     private fun navigateToUserProfile() {
         val intent = Intent(this, ProfilePage::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
     }
 
     @Deprecated("Deprecated in Java")

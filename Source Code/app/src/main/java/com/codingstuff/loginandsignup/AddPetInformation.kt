@@ -752,6 +752,7 @@ class AddPetInformation : AppCompatActivity() {
     private fun navigateToProfilePage() {
         val intent = Intent(this, ProfilePage::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
         finish()
     }
 

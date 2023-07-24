@@ -10,8 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class ImageAdapter(private val mContext: Context, private val mUploads: List<ImageUpload>) :
+class ImageAdapter(private val mContext: Context, private val mUploads: List<ImageUpload>, private val itemClickListener: ProfilePage) :
     RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(petCardId: String)
+    }
 
     private var connectivityCallbackRegistered = false
 
@@ -38,9 +42,7 @@ class ImageAdapter(private val mContext: Context, private val mUploads: List<Ima
 
         holder.itemView.setOnClickListener {
             val petCardId = mUploads[position].petCardId
-            val intent = Intent(mContext, PetProfilePage::class.java)
-            intent.putExtra("petCardId", petCardId)
-            mContext.startActivity(intent)
+            itemClickListener.onItemClick(petCardId)
         }
     }
 

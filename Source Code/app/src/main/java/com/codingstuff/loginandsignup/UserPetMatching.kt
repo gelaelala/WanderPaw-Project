@@ -1,7 +1,6 @@
 package com.codingstuff.loginandsignup
 
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -17,7 +16,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class UserPetMatching : AppCompatActivity() {
+class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener  {
 
     private lateinit var binding: ActivityUserPetMatchingBinding
     private var firebaseAuth: FirebaseAuth? = null
@@ -42,11 +41,13 @@ class UserPetMatching : AppCompatActivity() {
                 R.id.UserPetMatching -> true
                 R.id.UserProfile -> {
                     startActivity(Intent(applicationContext, ProfilePage::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
                 R.id.AddPetInformation -> {
                     startActivity(Intent(applicationContext, AddPetInformation::class.java))
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
                     finish()
                     true
                 }
@@ -102,7 +103,7 @@ class UserPetMatching : AppCompatActivity() {
                         }
                     }
 
-                        nAdapter = CardAdapter(this@UserPetMatching, nUploads)
+                        nAdapter = CardAdapter(this@UserPetMatching, nUploads, this@UserPetMatching)
                         nRecyclerView.adapter = nAdapter
                     }
 
@@ -115,6 +116,19 @@ class UserPetMatching : AppCompatActivity() {
                     }
                 })
         }
+    }
+
+    override fun onItemClick(userId: String, petCardId: String) {
+        startFullPetProfilePageActivity(userId, petCardId)
+    }
+
+    private fun startFullPetProfilePageActivity(userId: String, petCardId: String) {
+        val intent = Intent(this, FullPetProfilePage::class.java)
+        intent.putExtra("petCardId", petCardId)
+        intent.putExtra("userId", userId)
+        startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

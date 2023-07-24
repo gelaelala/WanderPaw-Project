@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityWelcomePageBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 
 class WelcomePage : AppCompatActivity() {
 
@@ -23,13 +22,15 @@ class WelcomePage : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_up, R.anim.push_out)
+            overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
+            finish()
         }
 
         binding.signupButton.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_up, R.anim.push_out)
+            overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
+            finish()
         }
     }
 

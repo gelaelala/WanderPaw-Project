@@ -142,13 +142,22 @@ class SignUpActivity : AppCompatActivity() {
     private fun navigateToWelcomePage() {
         val intent = Intent(this, WelcomePage::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        finish()
     }
 
     // starting logged in page code
     private fun navigateToHomePage() {
         val intent = Intent(this, UserPetMatching::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
         finish()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        navigateToWelcomePage()
     }
 
 }

@@ -44,16 +44,19 @@ class FullPetProfilePage : AppCompatActivity() {
             when (item.itemId) {
                 R.id.UserPetMatching -> {
                     startActivity(Intent(applicationContext, UserPetMatching::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
                 R.id.UserProfile -> {
                     startActivity(Intent(applicationContext, ProfilePage::class.java))
+                    overridePendingTransition(R.anim.stay, R.anim.stay)
                     finish()
                     true
                 }
                 R.id.AddPetInformation -> {
                     startActivity(Intent(applicationContext, AddPetInformation::class.java))
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
                     finish()
                     true
                 }
@@ -229,6 +232,8 @@ class FullPetProfilePage : AppCompatActivity() {
     private fun navigateToFeedTab() {
         val intent = Intent(this, UserPetMatching::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
     }
 
     @Deprecated("Deprecated in Java")
