@@ -40,9 +40,6 @@ import com.squareup.picasso.Picasso
 import java.util.Locale
 import android.Manifest
 import android.app.AlertDialog
-import android.content.DialogInterface
-import androidx.annotation.NonNull
-import com.google.android.gms.common.PackageVerificationResult
 
 
 @Suppress("DEPRECATION")
@@ -172,6 +169,7 @@ class AddPetInformation : AppCompatActivity() {
                 }
             }
         }
+
 
         // Write the pet card data to the database under the user's petCards node
         binding.SaveButton.setOnClickListener {
@@ -423,6 +421,8 @@ class AddPetInformation : AppCompatActivity() {
                 .into(binding.imageHolder, object : Callback {
                     override fun onSuccess() {
                         isImageSelected = true
+                        val placeholderLayout: LinearLayout = findViewById(R.id.placeholderIcon)
+                        placeholderLayout.visibility = View.GONE
                     }
 
                     override fun onError(e: Exception) {
