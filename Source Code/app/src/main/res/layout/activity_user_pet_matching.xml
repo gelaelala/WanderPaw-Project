@@ -25,17 +25,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/listView">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/inter"
-                android:text="Profile"
-                android:textColor="@color/dark_brown"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+            app:layout_constraintBottom_toTopOf="@id/listView"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:src="@drawable/feed_logo"/>
         </RelativeLayout>
 
         <ScrollView
