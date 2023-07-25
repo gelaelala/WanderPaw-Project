@@ -68,6 +68,10 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             message.showSettings()
         }
 
+        binding.BookmarkButton.setOnClickListener{
+            navigateToBookmarkPage()
+        }
+
 
         // RecyclerView set up
         mRecyclerView = binding.petProfilesRecyclerView
@@ -212,9 +216,15 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         ConnectivityUtils.unregisterConnectivityCallback()
     }
 
-    // starting logged in page code
-    private fun navigateToHomePage() {
-        val intent = Intent(this, UserPetMatching::class.java)
+    private fun navigateToUserProfile() {
+        val intent = Intent(this, ProfilePage::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
+    }
+
+    private fun navigateToBookmarkPage() {
+        val intent = Intent(this, BookmarkPage::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.stay, R.anim.stay)
         finish()
@@ -223,7 +233,7 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        navigateToHomePage()
+        navigateToUserProfile()
     }
 }
 

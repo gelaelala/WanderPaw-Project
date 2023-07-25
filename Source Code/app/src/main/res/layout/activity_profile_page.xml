@@ -90,6 +90,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/BookmarkButton"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:backgroundTint="@color/neutral_green"

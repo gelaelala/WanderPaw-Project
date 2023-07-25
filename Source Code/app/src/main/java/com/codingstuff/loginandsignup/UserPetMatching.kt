@@ -103,18 +103,18 @@ class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener  {
                         }
                     }
 
-                        nAdapter = CardAdapter(this@UserPetMatching, nUploads, this@UserPetMatching)
-                        nRecyclerView.adapter = nAdapter
-                    }
+                    nAdapter = CardAdapter(this@UserPetMatching, nUploads, this@UserPetMatching)
+                    nRecyclerView.adapter = nAdapter
+                }
 
 
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        // Handle the database error
-                        runOnUiThread {
-                            authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
-                        }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle the database error
+                    runOnUiThread {
+                        authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
                     }
-                })
+                }
+            })
         }
     }
 
@@ -148,5 +148,4 @@ class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener  {
         finishAffinity()
     }
 }
-
 
