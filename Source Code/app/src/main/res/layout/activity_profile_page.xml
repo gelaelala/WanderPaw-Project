@@ -138,7 +138,8 @@
                     android:clipToPadding="false"
                     android:padding="8dp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2" />
+                    app:spanCount="1"
+                    android:layout_gravity="center_horizontal"/>
 
             </LinearLayout>
         </ScrollView>

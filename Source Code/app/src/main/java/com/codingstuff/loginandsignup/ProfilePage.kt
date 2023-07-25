@@ -72,7 +72,7 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         // RecyclerView set up
         mRecyclerView = binding.petProfilesRecyclerView
         mRecyclerView.setHasFixedSize(true)
-        mRecyclerView.layoutManager = GridLayoutManager(this, 3)
+        mRecyclerView.layoutManager = GridLayoutManager(this, 1)
 
         // list of items in recyclerview
         mUploads = mutableListOf()
