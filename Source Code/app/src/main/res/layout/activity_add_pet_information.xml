@@ -61,7 +61,8 @@
                 android:layout_gravity="center"
                 app:cardCornerRadius="20dp"
                 android:layout_marginLeft="22dp"
-                android:layout_margin="22dp">
+                android:layout_margin="22dp"
+                app:cardBackgroundColor="@color/light_gray">
 
                 <ImageView
                     android:id="@+id/imageHolder"
