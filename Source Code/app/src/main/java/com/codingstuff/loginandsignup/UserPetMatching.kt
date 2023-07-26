@@ -127,7 +127,7 @@ class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener  {
         intent.putExtra("petCardId", petCardId)
         intent.putExtra("userId", userId)
         startActivity(intent)
-        overridePendingTransition(R.anim.stay, R.anim.stay)
+        overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
         finish()
     }
 

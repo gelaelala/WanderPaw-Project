@@ -201,7 +201,7 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         val intent = Intent(this, PetProfilePage::class.java)
         intent.putExtra("petCardId", petCardId)
         startActivity(intent)
-        overridePendingTransition(R.anim.stay, R.anim.stay)
+        overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
         finish()
     }
 
