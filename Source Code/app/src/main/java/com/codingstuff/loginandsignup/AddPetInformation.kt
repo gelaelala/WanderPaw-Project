@@ -291,6 +291,7 @@ class AddPetInformation : AppCompatActivity() {
                                         if (task.isSuccessful) {
                                             // Pet card data successfully written to the database
                                             // Perform any additional actions or show success message
+
                                             uploadFile(petCardID)
                                             Toast.makeText(this, "Pet profile is uploading..", Toast.LENGTH_SHORT).show()
                                             navigateToProfilePage()
@@ -384,6 +385,7 @@ class AddPetInformation : AppCompatActivity() {
         if (requestCode == STORAGE_CODE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this@AddPetInformation, "Permission granted.", Toast.LENGTH_SHORT).show()
+                openFileChooser()
             } else {
                 Toast.makeText(this@AddPetInformation, "Permission denied.", Toast.LENGTH_SHORT).show()
             }
