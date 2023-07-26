@@ -40,6 +40,13 @@ import com.squareup.picasso.Picasso
 import java.util.Locale
 import android.Manifest
 import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Handler
+import android.os.Looper
+import android.view.Window
+import android.widget.Button
 
 
 @Suppress("DEPRECATION")
@@ -170,158 +177,9 @@ class AddPetInformation : AppCompatActivity() {
             }
         }
 
-
-        // Write the pet card data to the database under the user's petCards node
-        binding.SaveButton.setOnClickListener {
-
-            val currentUser = firebaseAuth.currentUser
-            val userId = currentUser?.uid
-            val petCardID = databaseRef.push().key
-
-            val name = binding.petName.text.toString().toUpperCase(Locale.ROOT)
-            val age = binding.petAge.text.toString().trim()
-            val gender = binding.genderInputField.selectedItem
-            val location = capitalizeWords(binding.petLocation.text.toString())
-            val bio = formatStringWithCapital(binding.petBio.text.toString())
-            val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
-            val breed = capitalizeWords(binding.petBreed.text.toString())
-
-
-            val medicalCon: String? = capitalizeWords(binding.petMedicalConditions.text.toString())
-            val medicalConditions = mutableListOf<String>()
-            if (!medicalCon.isNullOrBlank()) {
-                medicalConditions.add(medicalCon)
-            }
-            medicalConditions.addAll(medicalConditionTextList.map { textInputEditText ->
-                capitalizeWords(textInputEditText.text.toString())
-            }.filter { it.isNotBlank() })
-            val medicalConditionsValue = if (isNAList(medicalConditions)) "Nothing to show here" else medicalConditions
-
-            val vaccineInputOne: String? = capitalizeWords(binding.petVaccinesTaken.text.toString())
-            val vaccine = mutableListOf<String>()
-            if (!vaccineInputOne.isNullOrBlank()) {
-                vaccine.add(vaccineInputOne)
-            }
-            vaccine.addAll(vaccinesTextList.map { textInputEditText ->
-                capitalizeWords(textInputEditText.text.toString())
-            }.filter { it.isNotBlank() })
-            val vaccineValue = if (isNAList(vaccine)) "Nothing to show here" else vaccine
-
-            val diet = formatStringWithCapital(binding.petDiet.text.toString())
-            val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
-
-
-            val needsInputOne: String? = formatStringWithCapital(binding.petOtherNeeds.text.toString())
-            val otherNeeds = mutableListOf<String>()
-            if (!needsInputOne.isNullOrBlank()) {
-                otherNeeds.add(needsInputOne)
-            }
-            otherNeeds.addAll(otherNeedsTextList.map { textInputEditText ->
-                formatStringWithCapital(textInputEditText.text.toString())
-            }.filter { it.isNotBlank() })
-            val needsValue = if (isNAList(otherNeeds)) "Nothing to show here" else otherNeeds
-
-
-            val reqsInputOne: String? = formatStringWithCapital(binding.adopterRequirements.text.toString())
-            val requirements = mutableListOf<String>()
-            if (!reqsInputOne.isNullOrBlank()) {
-                requirements.add(reqsInputOne)
-            }
-            requirements.addAll(requirementsTextList.map { textInputEditText ->
-                formatStringWithCapital(textInputEditText.text.toString())
-            }.filter { it.isNotBlank() })
-            val reqsValue = if (isNAList(requirements)) "Nothing to show here" else requirements
-
-
-            val contactCon: String? = capitalizeWords(binding.userContactInfo.text.toString())
-            val contact = mutableListOf<String>()
-            if (!contactCon.isNullOrBlank()) {
-                contact.add(contactCon)
-            }
-            contact.addAll(contactInfoTextList.map { textInputEditText ->
-                capitalizeWords(textInputEditText.text.toString())
-            }.filter { it.isNotBlank() })
-            val contactValue = if (isNAList(contact)) "Nothing to show here" else contact
-
-
-            val fieldsNotEmpty = areFieldsNotEmpty(
-                name,
-                age,
-                gender as String,
-                location,
-                bio,
-                aboutMe,
-                breed,
-                medicalConditions,
-                vaccine,
-                reason,
-                contact
-            )
-
-            if (userId != null) {
-                if (petCardID != null) {
-                    if (fieldsNotEmpty) {
-                        if (isImageSelected) {
-                            if (isNetworkConnected(this@AddPetInformation)) {
-                                // Create a HashMap to store user data
-                                val petCardData = HashMap<String, Any>().apply {
-                                    put("Name", if (isNAText(name)) "Nothing to show here" else name)
-                                    put("Age", if (isNAText(age)) "Nothing to show here" else age)
-                                    put("Gender", gender)
-                                    put("Location", if (isNAText(location)) "Nothing to show here" else location)
-                                    put("Bio", if (isNAText(bio)) "Nothing to show here" else bio)
-                                    put("About Me", if (isNAText(aboutMe)) "Nothing to show here" else aboutMe)
-                                    put("Breed", if (isNAText(breed)) "Nothing to show here" else breed)
-                                    put("Medical Conditions",medicalConditionsValue)
-                                    put("Vaccine_s Taken", vaccineValue)
-                                    put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
-                                    put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
-                                    put("Other Needs", needsValue)
-                                    put("Requirements for Adopter", reqsValue)
-                                    put("Contact Information", contactValue)
-
-
-                                }
-                                //                                if (binding.imageHolder == null) {
-                                databaseRef.child("Users").child(userId)
-                                    .child("Animal Profiles Created")
-                                    .child(petCardID)
-                                    .updateChildren(petCardData)
-                                    .addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            // Pet card data successfully written to the database
-                                            // Perform any additional actions or show success message
-
-                                            uploadFile(petCardID)
-                                            Toast.makeText(this, "Pet profile is uploading..", Toast.LENGTH_SHORT).show()
-                                            navigateToProfilePage()
-                                        } else {
-                                            // Error occurred while writing pet card data to the database
-                                            // Handle the error appropriately (e.g., show error message)
-                                            handleAddPetProfileFailure(task.exception)
-                                        }
-                                    }
-                            } else {
-                                Toast.makeText(
-                                    this@AddPetInformation,
-                                    "There is a network connectivity issue. Please check your network.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        } else {
-                            Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(
-                            this@AddPetInformation,
-                            "Some required fields are empty! Please put N/A or none or choose other options available.",
-                            Toast.LENGTH_LONG
-                        ).show()
-
-                    }
-                }
-            }
-
+        binding.SaveButton.setOnClickListener{
+            val reminder = "Are you sure you to save this pet profile?"
+            reminder.showSavePetProfile()
         }
 
         binding.addMedCon.setOnClickListener{
@@ -343,6 +201,213 @@ class AddPetInformation : AppCompatActivity() {
         binding.addContact.setOnClickListener{
             addNewContactInputField()
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun String?.showSavePetProfile() {
+        val dialog = Dialog(this@AddPetInformation)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.save_pet_profile)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val messageTV: TextView = dialog.findViewById(R.id.messageTV)
+        val yesButton: Button = dialog.findViewById(R.id.yesButton)
+        val noButton: Button = dialog.findViewById(R.id.noButton)
+
+        messageTV.text = this
+
+        yesButton.setOnClickListener {
+            savePetProfile()
+        }
+
+        noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    // Write the pet card data to the database under the user's petCards node
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun savePetProfile(){
+
+        val currentUser = firebaseAuth.currentUser
+        val userId = currentUser?.uid
+        val petCardID = databaseRef.push().key
+
+        val name = binding.petName.text.toString().toUpperCase(Locale.ROOT)
+        val age = binding.petAge.text.toString().trim()
+        val gender = binding.genderInputField.selectedItem
+        val location = capitalizeWords(binding.petLocation.text.toString())
+        val bio = formatStringWithCapital(binding.petBio.text.toString())
+        val aboutMe = formatStringWithCapital(binding.aboutPet.text.toString())
+        val breed = capitalizeWords(binding.petBreed.text.toString())
+
+
+        val medicalCon: String? = capitalizeWords(binding.petMedicalConditions.text.toString())
+        val medicalConditions = mutableListOf<String>()
+        if (!medicalCon.isNullOrBlank()) {
+            medicalConditions.add(medicalCon)
+        }
+        medicalConditions.addAll(medicalConditionTextList.map { textInputEditText ->
+            capitalizeWords(textInputEditText.text.toString())
+        }.filter { it.isNotBlank() })
+        val medicalConditionsValue = if (isNAList(medicalConditions)) "Nothing to show here" else medicalConditions
+
+        val vaccineInputOne: String? = capitalizeWords(binding.petVaccinesTaken.text.toString())
+        val vaccine = mutableListOf<String>()
+        if (!vaccineInputOne.isNullOrBlank()) {
+            vaccine.add(vaccineInputOne)
+        }
+        vaccine.addAll(vaccinesTextList.map { textInputEditText ->
+            capitalizeWords(textInputEditText.text.toString())
+        }.filter { it.isNotBlank() })
+        val vaccineValue = if (isNAList(vaccine)) "Nothing to show here" else vaccine
+
+        val diet = formatStringWithCapital(binding.petDiet.text.toString())
+        val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
+
+
+        val needsInputOne: String? = formatStringWithCapital(binding.petOtherNeeds.text.toString())
+        val otherNeeds = mutableListOf<String>()
+        if (!needsInputOne.isNullOrBlank()) {
+            otherNeeds.add(needsInputOne)
+        }
+        otherNeeds.addAll(otherNeedsTextList.map { textInputEditText ->
+            formatStringWithCapital(textInputEditText.text.toString())
+        }.filter { it.isNotBlank() })
+        val needsValue = if (isNAList(otherNeeds)) "Nothing to show here" else otherNeeds
+
+
+        val reqsInputOne: String? = formatStringWithCapital(binding.adopterRequirements.text.toString())
+        val requirements = mutableListOf<String>()
+        if (!reqsInputOne.isNullOrBlank()) {
+            requirements.add(reqsInputOne)
+        }
+        requirements.addAll(requirementsTextList.map { textInputEditText ->
+            formatStringWithCapital(textInputEditText.text.toString())
+        }.filter { it.isNotBlank() })
+        val reqsValue = if (isNAList(requirements)) "Nothing to show here" else requirements
+
+
+        val contactCon: String? = capitalizeWords(binding.userContactInfo.text.toString())
+        val contact = mutableListOf<String>()
+        if (!contactCon.isNullOrBlank()) {
+            contact.add(contactCon)
+        }
+        contact.addAll(contactInfoTextList.map { textInputEditText ->
+            capitalizeWords(textInputEditText.text.toString())
+        }.filter { it.isNotBlank() })
+        val contactValue = if (isNAList(contact)) "Nothing to show here" else contact
+
+
+        val fieldsNotEmpty = areFieldsNotEmpty(
+            name,
+            age,
+            gender as String,
+            location,
+            bio,
+            aboutMe,
+            breed,
+            medicalConditions,
+            vaccine,
+            reason,
+            contact
+        )
+
+        if (userId != null) {
+            if (petCardID != null) {
+                if (fieldsNotEmpty) {
+                    if (isImageSelected) {
+                        if (isNetworkConnected(this@AddPetInformation)) {
+                            // Create a HashMap to store user data
+                            val petCardData = HashMap<String, Any>().apply {
+                                put("Name", if (isNAText(name)) "Nothing to show here" else name)
+                                put("Age", if (isNAText(age)) "Nothing to show here" else age)
+                                put("Gender", gender)
+                                put("Location", if (isNAText(location)) "Nothing to show here" else location)
+                                put("Bio", if (isNAText(bio)) "Nothing to show here" else bio)
+                                put("About Me", if (isNAText(aboutMe)) "Nothing to show here" else aboutMe)
+                                put("Breed", if (isNAText(breed)) "Nothing to show here" else breed)
+                                put("Medical Conditions",medicalConditionsValue)
+                                put("Vaccine_s Taken", vaccineValue)
+                                put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
+                                put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
+                                put("Other Needs", needsValue)
+                                put("Requirements for Adopter", reqsValue)
+                                put("Contact Information", contactValue)
+
+
+                            }
+                            //                                if (binding.imageHolder == null) {
+                            databaseRef.child("Users").child(userId)
+                                .child("Animal Profiles Created")
+                                .child(petCardID)
+                                .updateChildren(petCardData)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        // Pet card data successfully written to the database
+                                        // Perform any additional actions or show success message
+
+                                        uploadFile(petCardID)
+                                        Toast.makeText(this, "Pet profile is uploading..", Toast.LENGTH_SHORT).show()
+                                        delay(2000){
+                                            val reminder = "Pet profile has been saved!"
+                                            reminder.saveSuccessful()
+                                        }
+                                    } else {
+                                        // Error occurred while writing pet card data to the database
+                                        // Handle the error appropriately (e.g., show error message)
+                                        handleAddPetProfileFailure(task.exception)
+                                    }
+                                }
+                        } else {
+                            Toast.makeText(
+                                this@AddPetInformation,
+                                "There is a network connectivity issue. Please check your network.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        this@AddPetInformation,
+                        "Some required fields are empty! Please put N/A or none or choose other options available.",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                }
+            }
+        }
+    }
+
+    private fun String?.saveSuccessful() {
+        val dialog = Dialog(this@AddPetInformation)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.save_pet_profile_success)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val messageTV: TextView = dialog.findViewById(R.id.messageTV)
+        val continueButton: Button = dialog.findViewById(R.id.continueButton)
+
+        messageTV.text = this
+
+        continueButton.setOnClickListener {
+            navigateToProfilePage()
+        }
+        dialog.show()
+    }
+
+    //for delay
+    private fun delay(time: Long, func: () -> Unit){
+        Handler(Looper.getMainLooper())
+            .postDelayed({
+                func()
+            }, time)
     }
 
     private fun requestStoragePermission() {
