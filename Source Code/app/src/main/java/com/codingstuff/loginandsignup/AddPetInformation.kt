@@ -211,24 +211,24 @@ class AddPetInformation : AppCompatActivity() {
             val reason = formatStringWithCapital(binding.petReasonforAdoption.text.toString())
 
 
-            val needsInputOne: String? = capitalizeWords(binding.petOtherNeeds.text.toString())
+            val needsInputOne: String? = formatStringWithCapital(binding.petOtherNeeds.text.toString())
             val otherNeeds = mutableListOf<String>()
             if (!needsInputOne.isNullOrBlank()) {
                 otherNeeds.add(needsInputOne)
             }
             otherNeeds.addAll(otherNeedsTextList.map { textInputEditText ->
-                capitalizeWords(textInputEditText.text.toString())
+                formatStringWithCapital(textInputEditText.text.toString())
             }.filter { it.isNotBlank() })
             val needsValue = if (isNAList(otherNeeds)) "Nothing to show here" else otherNeeds
 
 
-            val reqsInputOne: String? = capitalizeWords(binding.adopterRequirements.text.toString())
+            val reqsInputOne: String? = formatStringWithCapital(binding.adopterRequirements.text.toString())
             val requirements = mutableListOf<String>()
             if (!reqsInputOne.isNullOrBlank()) {
                 requirements.add(reqsInputOne)
             }
             requirements.addAll(requirementsTextList.map { textInputEditText ->
-                capitalizeWords(textInputEditText.text.toString())
+                formatStringWithCapital(textInputEditText.text.toString())
             }.filter { it.isNotBlank() })
             val reqsValue = if (isNAList(requirements)) "Nothing to show here" else requirements
 
