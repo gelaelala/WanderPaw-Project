@@ -36,7 +36,7 @@ class PetProfilePage : AppCompatActivity() {
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
         storageRef = FirebaseStorage.getInstance()
-        
+
         val currentUser = firebaseAuth.currentUser
         val userId = currentUser?.uid
 
