@@ -7,83 +7,92 @@
     tools:context=".WelcomePage"
     android:background="@drawable/gradient_background">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView6"
             android:layout_width="302dp"
             android:layout_height="181dp"
-            android:layout_marginStart="55dp"
-            android:layout_marginEnd="58dp"
-            android:layout_marginBottom="619dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-30dp"
             app:srcCompat="@drawable/wanderpaw_logo__header_welcome_2_" />
 
         <ImageView
             android:id="@+id/imageView8"
             android:layout_width="236dp"
-            android:layout_height="555dp"
-            android:layout_marginTop="-55dp"
-            android:layout_marginEnd="65dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="450dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/wanderpaw_logo__main_" />
 
         <ImageView
             android:id="@+id/imageView7"
             android:layout_width="302dp"
             android:layout_height="181dp"
-            android:layout_marginTop="308dp"
-            android:layout_marginEnd="28dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="310dp"
             app:srcCompat="@drawable/wanderpaw_logo__header_welcome_" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login_button"
-        android:layout_width="320sp"
-        android:layout_height="50sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="490dp"
-        android:background="@drawable/roundedbutton"
-        android:fontFamily="@font/inter"
-        android:text="@string/log_in"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_conversion_absoluteHeight="50dp"
-        tools:layout_conversion_absoluteWidth="395dp" />
+        <TextView
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textColor="@color/dark_brown"
+            android:textSize="16sp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="175dp"
+            android:text="Let's start your furbaby search adventure here!"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signup_button"
-        android:layout_width="320sp"
-        android:layout_height="50sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="620dp"
-        android:background="@drawable/roundedbutton"
-        android:fontFamily="@font/inter"
-        android:text="Sign up"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_conversion_absoluteHeight="50dp"
-        tools:layout_conversion_absoluteWidth="395dp" />
+    </FrameLayout>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login_button"
+            android:layout_width="290dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="490dp"
+            android:background="@drawable/roundedbutton"
+            android:fontFamily="@font/inter"
+            android:text="@string/log_in"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="290dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signup_button"
+            android:layout_width="290dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="620dp"
+            android:background="@drawable/roundedbutton"
+            android:fontFamily="@font/inter"
+            android:text="Sign up"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_conversion_absoluteHeight="50dp"
+            tools:layout_conversion_absoluteWidth="290dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
