@@ -275,11 +275,8 @@ class AddPetInformation : AppCompatActivity() {
                                 dialog.setContentView(R.layout.save_pet_profile)
                                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                                val messageTV: TextView = dialog.findViewById(R.id.messageTV)
                                 val yesButton: Button = dialog.findViewById(R.id.yesButton)
                                 val noButton: Button = dialog.findViewById(R.id.noButton)
-
-                                messageTV.text = "Are you sure you to save this pet profile?"
 
                                 dialog.show()
 

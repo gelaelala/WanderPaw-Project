@@ -17,16 +17,16 @@
         <TextView
             android:fontFamily="@font/inter"
             android:textSize="18sp"
-            android:textColor="@color/light_brown"
+            android:textColor="@color/maroon"
             android:textStyle="bold"
-            android:text="Save Profile"
+            android:text="Delete Profile"
             android:gravity="center"
             android:background="@drawable/bottom_border_for_popups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="Are you sure to save this pet profile?"
+            android:text="Are you sure to delete this pet profile?"
             android:gravity="center"
             android:id="@+id/messageTV"
             android:textColor="@color/gray"
@@ -62,7 +62,7 @@
                 android:layout_height="0dp" />
 
             <Button
-                android:backgroundTint="@color/light_brown"
+                android:backgroundTint="@color/maroon"
                 android:id="@+id/yesButton"
                 android:textSize="14sp"
                 android:textStyle="bold"

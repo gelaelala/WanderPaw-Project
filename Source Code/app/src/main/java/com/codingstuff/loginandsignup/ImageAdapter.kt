@@ -1,7 +1,6 @@
 package com.codingstuff.loginandsignup
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class ImageAdapter(private val mContext: Context, private val mUploads: List<ImageUpload>, private val itemClickListener: ProfilePage) :
-    RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(
+    private val mContext: Context,
+    private val mUploads: List<ImageUpload>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(petCardId: String)

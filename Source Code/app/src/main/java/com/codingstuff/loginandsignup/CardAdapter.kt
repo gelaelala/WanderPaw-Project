@@ -24,6 +24,9 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
         val dataViewName: TextView = itemView.findViewById(R.id.animal_name)
         val dataViewGenderAge: TextView = itemView.findViewById(R.id.gender_age)
         val dataViewLocation: TextView = itemView.findViewById(R.id.anim_location)
+//        val icon = ContextCompat.getDrawable(this, R.drawable.ic_my_icon)
+//        dataViewLocation.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
+
         val dataViewBio: TextView = itemView.findViewById(R.id.animal_bio)
         val imageView: ImageView = itemView.findViewById(R.id.animal_image)
     }

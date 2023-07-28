@@ -1,8 +1,14 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -189,20 +195,47 @@ class PetProfilePage : AppCompatActivity() {
             navigateToUserProfile()
         }
 
-        binding.deleteButton.setOnClickListener{
-            val imageRef = storageRef.getReferenceFromUrl(profilePictureUrl!!)
-            imageRef.delete().addOnSuccessListener {
-                if (petCardId != null) {
-                    if (userId != null) {
-                        databaseRef.child("Users").child(userId)
-                            .child("Animal Profiles Created").child(petCardId).removeValue()
-                        Toast.makeText(this, "Pet profile has been deleted.", Toast.LENGTH_SHORT).show()
-                        navigateToUserProfile()
-                    }
+        binding.deleteButton.setOnClickListener {
+            if (petCardId != null) {
+                if (userId != null) {
+                    showDelete(petCardId, userId)
                 }
             }
-
         }
+    }
+
+    private fun showDelete(petCardId: String, userId: String) {
+        val dialog = Dialog(this@PetProfilePage)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.delete_pet_profile)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val messageTV: TextView = dialog.findViewById(R.id.messageTV)
+        val yesButton: Button = dialog.findViewById(R.id.yesButton)
+        val noButton: Button = dialog.findViewById(R.id.noButton)
+
+
+        yesButton.setOnClickListener {
+            val imageRef = storageRef.getReferenceFromUrl(profilePictureUrl!!)
+            imageRef.delete().addOnSuccessListener {
+                databaseRef.child("Users").child(userId)
+                    .child("Animal Profiles Created").child(petCardId).removeValue()
+                Toast.makeText(this, "Pet profile has been deleted.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PetProfilePage,
+                    "Pet profile has been deleted.",
+                    Toast.LENGTH_SHORT
+                ).show()
+                navigateToUserProfile()
+            }
+        }
+
+        noButton.setOnClickListener{
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
