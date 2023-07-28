@@ -40,6 +40,11 @@ import com.squareup.picasso.Picasso
 import java.util.Locale
 import android.Manifest
 import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.Window
+import android.widget.Button
 
 
 @Suppress("DEPRECATION")
@@ -263,60 +268,79 @@ class AddPetInformation : AppCompatActivity() {
                     if (fieldsNotEmpty) {
                         if (isImageSelected) {
                             if (isNetworkConnected(this@AddPetInformation)) {
-                                // Create a HashMap to store user data
-                                val petCardData = HashMap<String, Any>().apply {
-                                    put("Name", if (isNAText(name)) "Nothing to show here" else name)
-                                    put("Age", if (isNAText(age)) "Nothing to show here" else age)
-                                    put("Gender", gender)
-                                    put("Location", if (isNAText(location)) "Nothing to show here" else location)
-                                    put("Bio", if (isNAText(bio)) "Nothing to show here" else bio)
-                                    put("About Me", if (isNAText(aboutMe)) "Nothing to show here" else aboutMe)
-                                    put("Breed", if (isNAText(breed)) "Nothing to show here" else breed)
-                                    put("Medical Conditions",medicalConditionsValue)
-                                    put("Vaccine_s Taken", vaccineValue)
-                                    put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
-                                    put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
-                                    put("Other Needs", needsValue)
-                                    put("Requirements for Adopter", reqsValue)
-                                    put("Contact Information", contactValue)
+
+                                val dialog = Dialog(this@AddPetInformation)
+                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                                dialog.setCancelable(true)
+                                dialog.setContentView(R.layout.save_pet_profile)
+                                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                                val messageTV: TextView = dialog.findViewById(R.id.messageTV)
+                                val yesButton: Button = dialog.findViewById(R.id.yesButton)
+                                val noButton: Button = dialog.findViewById(R.id.noButton)
+
+                                messageTV.text = "Are you sure you to save this pet profile?"
+
+                                dialog.show()
+
+                                yesButton.setOnClickListener {
+                                    // Create a HashMap to store user data
+                                    val petCardData = HashMap<String, Any>().apply {
+                                        put("Name", if (isNAText(name)) "Nothing to show here" else name)
+                                        put("Age", if (isNAText(age)) "Nothing to show here" else age)
+                                        put("Gender", gender)
+                                        put("Location", if (isNAText(location)) "Nothing to show here" else location)
+                                        put("Bio", if (isNAText(bio)) "Nothing to show here" else bio)
+                                        put("About Me", if (isNAText(aboutMe)) "Nothing to show here" else aboutMe)
+                                        put("Breed", if (isNAText(breed)) "Nothing to show here" else breed)
+                                        put("Medical Conditions",medicalConditionsValue)
+                                        put("Vaccine_s Taken", vaccineValue)
+                                        put("Pet's Diet", if (isNAText(diet) || diet == "") "Nothing to show here" else diet)
+                                        put("Reason for Adoption", if (isNAText(reason)) "Nothing to show here" else reason)
+                                        put("Other Needs", needsValue)
+                                        put("Requirements for Adopter", reqsValue)
+                                        put("Contact Information", contactValue)
 
 
-                                }
-                                //                                if (binding.imageHolder == null) {
-                                databaseRef.child("Users").child(userId)
-                                    .child("Animal Profiles Created")
-                                    .child(petCardID)
-                                    .updateChildren(petCardData)
-                                    .addOnCompleteListener { task ->
-                                        if (task.isSuccessful) {
-                                            // Pet card data successfully written to the database
-                                            // Perform any additional actions or show success message
-
-                                            uploadFile(petCardID)
-                                            Toast.makeText(this, "Pet profile is uploading..", Toast.LENGTH_SHORT).show()
-                                            navigateToProfilePage()
-                                        } else {
-                                            // Error occurred while writing pet card data to the database
-                                            // Handle the error appropriately (e.g., show error message)
-                                            handleAddPetProfileFailure(task.exception)
-                                        }
                                     }
+                                    //                                if (binding.imageHolder == null) {
+                                    databaseRef.child("Users").child(userId)
+                                        .child("Animal Profiles Created")
+                                        .child(petCardID)
+                                        .updateChildren(petCardData)
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                // Pet card data successfully written to the database
+                                                // Perform any additional actions or show success message
+                                                uploadFile(petCardID)
+                                                Toast.makeText(this, "Pet profile is uploading..", Toast.LENGTH_SHORT).show()
+                                                navigateToProfilePage()
+                                            } else {
+                                                // Error occurred while writing pet card data to the database
+                                                // Handle the error appropriately (e.g., show error message)
+                                                handleAddPetProfileFailure(task.exception)
+                                            }
+                                        }
+                                }
+
+                                noButton.setOnClickListener {
+                                    dialog.dismiss()
+                                }
+
                             } else {
-                                Toast.makeText(
-                                    this@AddPetInformation,
+                                authToastLess.showToast(
                                     "There is a network connectivity issue. Please check your network.",
                                     Toast.LENGTH_SHORT
-                                ).show()
+                                )
                             }
                         } else {
                             Toast.makeText(this@AddPetInformation, "Please choose a profile picture for the pet.", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(
-                            this@AddPetInformation,
+                        authToastLess.showToast(
                             "Some required fields are empty! Please put N/A or none or choose other options available.",
                             Toast.LENGTH_LONG
-                        ).show()
+                        )
 
                     }
                 }
@@ -357,7 +381,7 @@ class AddPetInformation : AppCompatActivity() {
                 setPositiveButton("ALLOW") { _, _ ->
                     ActivityCompat.requestPermissions(
                         this@AddPetInformation,
-                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         STORAGE_CODE_PERMISSION
                     )
                 }
@@ -370,7 +394,7 @@ class AddPetInformation : AppCompatActivity() {
         } else {
             ActivityCompat.requestPermissions(
                 this@AddPetInformation,
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                 STORAGE_CODE_PERMISSION
             )
         }
