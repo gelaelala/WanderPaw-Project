@@ -1,6 +1,7 @@
 package com.codingstuff.loginandsignup
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +26,6 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
         val dataViewName: TextView = itemView.findViewById(R.id.animal_name)
         val dataViewGenderAge: TextView = itemView.findViewById(R.id.gender_age)
         val dataViewLocation: TextView = itemView.findViewById(R.id.anim_location)
-//        val icon = ContextCompat.getDrawable(this, R.drawable.location_icon)
-//        dataViewLocation.setCompoundDrawablesWithIntrinsicBounds(icon,null,null)
 
         val dataViewBio: TextView = itemView.findViewById(R.id.animal_bio)
         val imageView: ImageView = itemView.findViewById(R.id.animal_image)
@@ -48,12 +47,6 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
         holder.dataViewLocation.text = uploadCurrent.location
         holder.dataViewBio.text = uploadCurrent.bio
         Picasso.get().load(uploadCurrent.imageUrl).fit().centerCrop().into(holder.imageView)
-
-        holder.itemView.setOnClickListener {
-            val userId = nUploads[position].userId
-            val petCardId = nUploads[position].petCardId
-            itemClickListener.onItemClick(userId, petCardId)
-        }
     }
 
     // return the total number of items in the mUploads list.
