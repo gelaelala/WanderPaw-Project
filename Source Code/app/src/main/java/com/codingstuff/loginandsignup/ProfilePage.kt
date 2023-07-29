@@ -6,9 +6,13 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +25,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 
 class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
@@ -128,11 +134,30 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val displayNameValue = dataSnapshot.child("Display Name").getValue(String::class.java)
+                val userProfilePictureUrl = dataSnapshot.child("User Profile Picture").child("downloadUrl").getValue(String::class.java)
                 if (!displayNameValue.isNullOrEmpty()) {
                     runOnUiThread {
                         val displayNameTextView = binding.displayNameTextView
                         displayNameTextView.text = displayNameValue
                     }
+                }
+                if (!userProfilePictureUrl.isNullOrEmpty()) {
+                    Picasso.get().load(userProfilePictureUrl)
+                        //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
+                        .into(binding.userProfilePic, object : Callback {
+                            override fun onSuccess() {
+                                val placeholder: ImageView = findViewById(R.id.userIcon)
+                                placeholder.visibility = View.GONE
+                            }
+
+                            override fun onError(e: Exception) {
+                                Toast.makeText(
+                                    this@ProfilePage,
+                                    "Error loading the image.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                 }
             }
             // think of possible errors - use toast
