@@ -16,5 +16,7 @@
     <string name="spinner_prompt">Select Here</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="google">google</string>
+    <string name="default_web_client_id">1065689910430-2uknqfrq8np697onn5lcdg6k9ff3lui1.apps.googleusercontent.com</string>
 
 </resources>
