@@ -1,13 +1,11 @@
 package com.codingstuff.loginandsignup
 
 import android.content.Context
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
@@ -47,6 +45,12 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
         holder.dataViewLocation.text = uploadCurrent.location
         holder.dataViewBio.text = uploadCurrent.bio
         Picasso.get().load(uploadCurrent.imageUrl).fit().centerCrop().into(holder.imageView)
+
+        holder.itemView.setOnClickListener {
+            val userId = nUploads[position].userId
+            val petCardId = nUploads[position].petCardId
+            itemClickListener.onItemClick(userId, petCardId)
+        }
     }
 
     // return the total number of items in the mUploads list.
