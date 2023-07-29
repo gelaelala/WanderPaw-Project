@@ -47,7 +47,7 @@ import android.view.Window
 import android.widget.Button
 
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "IMPLICIT_CAST_TO_ANY")
 class AddPetInformation : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPetInformationBinding
