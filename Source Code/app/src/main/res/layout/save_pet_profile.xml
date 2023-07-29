@@ -17,7 +17,7 @@
         <TextView
             android:fontFamily="@font/inter"
             android:textSize="18sp"
-            android:textColor="@color/light_brown"
+            android:textColor="@color/dark_brown"
             android:textStyle="bold"
             android:text="Save Profile"
             android:gravity="center"
@@ -28,7 +28,6 @@
         <TextView
             android:text="Are you sure to save this pet profile?"
             android:gravity="center"
-            android:id="@+id/messageTV"
             android:textColor="@color/gray"
             android:textStyle="bold"
             android:textSize="16sp"

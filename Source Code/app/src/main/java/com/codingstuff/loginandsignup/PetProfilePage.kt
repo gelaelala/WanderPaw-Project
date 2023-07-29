@@ -211,7 +211,6 @@ class PetProfilePage : AppCompatActivity() {
         dialog.setContentView(R.layout.delete_pet_profile)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val messageTV: TextView = dialog.findViewById(R.id.messageTV)
         val yesButton: Button = dialog.findViewById(R.id.yesButton)
         val noButton: Button = dialog.findViewById(R.id.noButton)
 
