@@ -15,8 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginAndSignUp">
         <activity
+            android:name=".EditProfilePage"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".BookmarkPage"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".FullPetProfilePage"
             android:exported="false"

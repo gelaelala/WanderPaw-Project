@@ -159,6 +159,10 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
         tvMessage.text = this
 
+        buttonEdit.setOnClickListener {
+            navigateToEditProfilePage()
+        }
+
         buttonLogout.setOnClickListener{
             val reminder = "Are you sure you want to end your session with this device?"
             reminder.showLogout()
@@ -227,6 +231,13 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         val intent = Intent(this, BookmarkPage::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
+    }
+
+    private fun navigateToEditProfilePage() {
+        val intent = Intent(this, EditProfilePage::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
         finish()
     }
 

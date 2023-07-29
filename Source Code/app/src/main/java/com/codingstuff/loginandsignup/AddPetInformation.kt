@@ -67,8 +67,8 @@ class AddPetInformation : AppCompatActivity() {
     private var isImageSelected: Boolean = false
 
     companion object {
-        private const val pickImageRequest = 1
-        private const val STORAGE_CODE_PERMISSION = 1
+        const val pickImageRequest = 1
+        const val STORAGE_CODE_PERMISSION = 1
 
     }
 
