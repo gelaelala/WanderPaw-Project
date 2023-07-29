@@ -43,11 +43,13 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
 import android.view.Window
 import android.widget.Button
+import com.google.firebase.database.DatabaseError
 
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "CAST_NEVER_SUCCEEDS")
 class AddPetInformation : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPetInformationBinding
@@ -60,6 +62,8 @@ class AddPetInformation : AppCompatActivity() {
     private val otherNeedsTextList = mutableListOf<TextInputEditText>()
     private val requirementsTextList = mutableListOf<TextInputEditText>()
     private val contactInfoTextList = mutableListOf<TextInputEditText>()
+
+    private val noNeedToEdit: String = "yes"
 
     private val authToastLess = AuthToastLess(this)
     private lateinit var imageUri: Uri
@@ -160,6 +164,72 @@ class AddPetInformation : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
         }
+
+        val noNeedToEdit = intent.getStringExtra("noNeedToEdit")
+
+        if (noNeedToEdit.equals("no")) {
+            val name = intent.getStringExtra("name")
+            binding.petName.text = (name ?: "") as Editable?
+
+            val gender = intent.getStringExtra("gender")
+            val genderList = listOf("Select Here", "Female", "Male", "Prefer not to say") // Replace this with your list of gender options
+
+            // Find the position of the selected gender in the list
+            val selectedPosition = genderList.indexOf(gender)
+
+            // Set the selected item in the Spinner
+            if (selectedPosition != -1) {
+                binding.genderInputField.setSelection(selectedPosition)
+            } else {
+                // If the gender is not found in the list, set a default selection (e.g., "Select here")
+                binding.genderInputField.setSelection(0) // Change the index (0) to the desired default selection index
+            }
+            val age = intent.getStringExtra("age")
+            binding.petAge.text = (age ?: "") as Editable?
+
+            val location = intent.getStringExtra("location")
+            binding.petLocation.text = (location ?: "") as Editable?
+
+            val bio = intent.getStringExtra("bio")
+            binding.petBio.text = (bio ?: "") as Editable?
+
+            val aboutMe = intent.getStringExtra("aboutMe")
+            binding.aboutPet.text = (aboutMe ?: "") as Editable?
+
+            val breed = intent.getStringExtra("breed")
+            binding.petBreed.text = (breed ?: "") as Editable?
+
+//            val finalMedicalConditions = intent.getStringExtra("finalMedicalConditions")
+//            val finalVaccine = intent.getStringExtra("finalVaccine")
+            val diet = intent.getStringExtra("diet")
+            binding.petDiet.text = (diet ?: "") as Editable?
+            val reason = intent.getStringExtra("reason")
+            binding.petReasonforAdoption.text = (reason ?: "") as Editable?
+
+//            val finalNeeds = intent.getStringExtra("finalNeeds")
+//            val finalReqs = intent.getStringExtra("finalReqs")
+//            val finalContact = intent.getStringExtra("finalContact")
+
+            val profilePictureUrl = intent.getStringExtra("profilePictureUrl")
+
+            Picasso.get().load(profilePictureUrl)
+                //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
+                .into(binding.imageHolder, object : Callback {
+                    override fun onSuccess() {
+                        isImageSelected = true
+                        val placeholderLayout: LinearLayout = findViewById(R.id.placeholderIcon)
+                        placeholderLayout.visibility = View.GONE
+                    }
+
+                    override fun onError(e: Exception) {
+                        isImageSelected = false
+                        Toast.makeText(this@AddPetInformation, "Error loading the image.", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
+
+
+
 
         binding.imageButton.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -29,8 +28,24 @@ class PetProfilePage : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storageRef: FirebaseStorage
+    private var name: String? = null
+    private var gender: String? = null
+    private var age: String? = null
+    private var location: String? = null
+    private var bio: String? = null
+    private var aboutMe: String? = null
+    private var breed: String? = null
+    private var finalMedicalConditions: String? = null
+    private var finalVaccine: String? = null
+    private var diet: String? = null
+    private var reason: String? = null
+    private var finalNeeds: String? = null
+    private var finalReqs: String? = null
+    private var finalContact: String? = null
     private var profilePictureUrl: String? = null
     private val authToastLess = AuthToastLess(this)
+
+    private var noNeedToEdit: String = "no"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,12 +71,25 @@ class PetProfilePage : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     // Retrieve the children of the petCardId node
                     val name = dataSnapshot.child("Name").getValue(String::class.java)
+                    this@PetProfilePage.name = name.toString()
+
                     val age = dataSnapshot.child("Age").getValue(String::class.java)
+                    this@PetProfilePage.age = age.toString()
+
                     val gender = dataSnapshot.child("Gender").getValue(String::class.java)
+                    this@PetProfilePage.gender = gender.toString()
+
                     val location = dataSnapshot.child("Location").getValue(String::class.java)
+                    this@PetProfilePage.location = location.toString()
+
                     val bio = dataSnapshot.child("Bio").getValue(String::class.java)
+                    this@PetProfilePage.bio = bio.toString()
+
                     val aboutMe = dataSnapshot.child("About Me").getValue(String::class.java)
+                    this@PetProfilePage.aboutMe = aboutMe.toString()
+
                     val breed = dataSnapshot.child("Breed").getValue(String::class.java)
+                    this@PetProfilePage.breed = breed.toString()
 
 
                     val medicalConditionsSnapshot = dataSnapshot.child("Medical Conditions")
@@ -76,6 +104,7 @@ class PetProfilePage : AppCompatActivity() {
                     }
                     // Remove the last newline character
                     val finalMedicalConditions = medicalConditionsString.trimEnd()
+                    this@PetProfilePage.finalMedicalConditions = finalMedicalConditions.toString()
 
 
                     val vaccineSnapshot = dataSnapshot.child("Vaccine_s Taken")
@@ -93,10 +122,14 @@ class PetProfilePage : AppCompatActivity() {
 
                     // Remove the last newline character
                     val finalVaccine = vaccineString.trimEnd()
+                    this@PetProfilePage.finalVaccine = finalVaccine.toString()
 
 
                     val diet = dataSnapshot.child("Pet's Diet").getValue(String::class.java)
+                    this@PetProfilePage.diet = diet
+
                     val reason = dataSnapshot.child("Reason for Adoption").getValue(String::class.java)
+                    this@PetProfilePage.reason = reason
 
 
                     val needsSnapshot = dataSnapshot.child("Other Needs")
@@ -114,6 +147,7 @@ class PetProfilePage : AppCompatActivity() {
 
                     // Remove the last newline character
                     val finalNeeds = needsString.trimEnd()
+                    this@PetProfilePage.finalNeeds = finalNeeds.toString()
 
 
                     val reqsSnapshot = dataSnapshot.child("Requirements for Adopter")
@@ -131,6 +165,7 @@ class PetProfilePage : AppCompatActivity() {
 
                     // Remove the last newline character
                     val finalReqs = reqsString.trimEnd()
+                    this@PetProfilePage.finalReqs = finalReqs.toString()
 
 
                     val contactSnapshot = dataSnapshot.child("Contact Information")
@@ -148,7 +183,7 @@ class PetProfilePage : AppCompatActivity() {
 
                     // Remove the last newline character
                     val finalContact = contactString.trimEnd()
-
+                    this@PetProfilePage.finalContact = finalContact.toString()
 
                     val profilePictureUrl = dataSnapshot.child("Profile Picture").child("downloadUrl").getValue(String::class.java)
                     this@PetProfilePage.profilePictureUrl = profilePictureUrl
@@ -202,6 +237,35 @@ class PetProfilePage : AppCompatActivity() {
                 }
             }
         }
+
+        binding.editButton.setOnClickListener {
+            if (petCardId != null) {
+                if (userId != null) {
+                    noNeedToEdit = "no"
+                    val intent = Intent(this, AddPetInformation::class.java)
+                    intent.putExtra("noNeedToEdit", noNeedToEdit)
+                    intent.putExtra("profilePictureUrl", profilePictureUrl)
+                    intent.putExtra("name", name)
+                    intent.putExtra("gender", gender)
+                    intent.putExtra("age", age)
+                    intent.putExtra("location", location)
+                    intent.putExtra("bio", bio)
+                    intent.putExtra("aboutMe", aboutMe)
+                    intent.putExtra("breed", breed)
+//                    intent.putExtra("finalMedicalConditions", finalMedicalConditions)
+//                    intent.putExtra("finalVaccine", finalVaccine)
+                    intent.putExtra("diet", diet)
+                    intent.putExtra("reason", reason)
+//                    intent.putExtra("finalNeeds", finalNeeds)
+//                    intent.putExtra("finalReqs", finalReqs)
+//                    intent.putExtra("finalContact", finalContact)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
+                    finish()
+                }
+            }
+        }
+
     }
 
     private fun showDelete(petCardId: String, userId: String) {
@@ -211,7 +275,6 @@ class PetProfilePage : AppCompatActivity() {
         dialog.setContentView(R.layout.delete_pet_profile)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val messageTV: TextView = dialog.findViewById(R.id.messageTV)
         val yesButton: Button = dialog.findViewById(R.id.yesButton)
         val noButton: Button = dialog.findViewById(R.id.noButton)
 

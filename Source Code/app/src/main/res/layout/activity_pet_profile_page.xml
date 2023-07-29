@@ -73,6 +73,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/editButton"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:backgroundTint="@color/light_brown"
