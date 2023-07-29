@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
@@ -24,8 +25,8 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
         val dataViewName: TextView = itemView.findViewById(R.id.animal_name)
         val dataViewGenderAge: TextView = itemView.findViewById(R.id.gender_age)
         val dataViewLocation: TextView = itemView.findViewById(R.id.anim_location)
-//        val icon = ContextCompat.getDrawable(this, R.drawable.ic_my_icon)
-//        dataViewLocation.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
+//        val icon = ContextCompat.getDrawable(this, R.drawable.location_icon)
+//        dataViewLocation.setCompoundDrawablesWithIntrinsicBounds(icon,null,null)
 
         val dataViewBio: TextView = itemView.findViewById(R.id.animal_bio)
         val imageView: ImageView = itemView.findViewById(R.id.animal_image)

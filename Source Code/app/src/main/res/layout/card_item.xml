@@ -44,14 +44,29 @@
                 android:textSize="16sp"
                 android:fontFamily="@font/inter"/>
 
-            <TextView
-                android:id="@+id/anim_location"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Name"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/inter"/>
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/locationIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/location_icon"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/anim_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/inter"
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@id/locationIcon"/>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/animal_bio"
