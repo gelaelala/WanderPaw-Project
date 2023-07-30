@@ -1,11 +1,19 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.AuthExceptionHandler.Companion.handleException
 import com.codingstuff.loginandsignup.databinding.ActivitySignUpBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Locale
@@ -17,6 +25,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef: DatabaseReference
+    private lateinit var googleSignInClient: GoogleSignInClient
     private val authToastLess = AuthToastLess(this)
     private val authExceptionHandler = AuthExceptionHandler()
 
@@ -27,6 +36,13 @@ class SignUpActivity : AppCompatActivity() {
 
         databaseRef = FirebaseDatabase.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         setupClickListener()
     }
@@ -40,7 +56,63 @@ class SignUpActivity : AppCompatActivity() {
         binding.backIcon.setOnClickListener {
             navigateToWelcomePage()
         }
+
+        binding.googleButton.setOnClickListener {
+            signInGoogle()
+        }
     }
+
+    private fun signInGoogle() {
+        val signInIntent = googleSignInClient.signInIntent
+        launcher.launch(signInIntent)
+    }
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            handleResults(task)
+        }
+    }
+
+    private fun handleResults(task: Task<GoogleSignInAccount>) {
+        if (task.isSuccessful) {
+            val account : GoogleSignInAccount = task.result
+            updateUI(account)
+        } else {
+            handleSignUpFailure(task.exception)
+        }
+    }
+
+    private fun updateUI(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = firebaseAuth.currentUser
+                if (user != null) {
+                    // Access the necessary user information from the GoogleSignInAccount
+                    val displayName = account.displayName ?: ""
+                    // Save user information to the Realtime Database
+                    saveUserToDatabase(user.uid, displayName)
+                    navigateToHomePage()
+                } else {
+                    handleSignUpFailure(it.exception)
+                }
+            } else {
+                handleSignUpFailure(it.exception)
+
+            }
+        }
+    }
+
+    private fun saveUserToDatabase(userId: String, displayName: String) {
+        val userRef = databaseRef.child("Users").child(userId)
+
+        // Save user information to the database
+        userRef.child("Display Name").setValue(displayName)
+    }
+
 
     private fun formatStringWithCapital(input: String): String {
         return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
