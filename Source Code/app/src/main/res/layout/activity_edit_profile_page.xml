@@ -59,7 +59,7 @@
             android:layout_marginTop="15dp"
             android:fontFamily="@font/inter"
             android:textColor="@color/dark_brown"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
@@ -111,40 +111,42 @@
             android:fontFamily="@font/inter"
             android:text="Change Photo"
             android:textColor="@color/light_brown"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:typeface="normal" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="15dp"/>
 
         <TextView
             android:text="Edit Display Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="38dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="15dp"
             android:fontFamily="@font/inter"
             android:textColor="@color/dark_brown"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/userNameInput"
             style="@style/LoginTextInputOuterFieldStyle"
-            android:layout_width="319dp"
+            android:layout_width="327dp"
             android:layout_height="50dp"
             android:cursorVisible="true"
-            android:gravity="center"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:textColorHint="@color/light_brown"
             app:boxStrokeColor="@color/light_brown"
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
-            app:hintTextColor="@color/light_brown"
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="44dp">
+            app:hintTextColor="@color/light_brown">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/userName"
                 style="@style/LoginTextInputInnerFieldStyle"
-                android:layout_width="319dp"
+                android:layout_width="327dp"
                 android:layout_height="50dp"
                 android:background="@drawable/input_field_add_pet"
                 android:fontFamily="@font/inter"
@@ -161,9 +163,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/content">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/discardButton"
@@ -176,7 +179,6 @@
             android:layout_weight="1"
             android:background="@drawable/smaller_rounded_button"
             android:fontFamily="@font/inter"
-            android:padding="5dp"
             android:text="Discard"
             android:textColor="@color/white"
             android:textSize="14sp"
