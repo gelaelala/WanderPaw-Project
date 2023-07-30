@@ -53,6 +53,8 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
                 context.overridePendingTransition(R.anim.stay, R.anim.stay)
             }
         }
+
+        private var isThereAProfile = false
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -143,7 +145,9 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         }
 
         binding.userProfilePic.setOnClickListener {
-            showFullScreenImage(this@ProfilePage, userProfilePictureUrl)
+            if (isThereAProfile) {
+                showFullScreenImage(this@ProfilePage, userProfilePictureUrl)
+            }
         }
     }
 
@@ -165,6 +169,7 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
                     }
                 }
                 if (!userProfilePictureUrl.isNullOrEmpty()) {
+                    isThereAProfile = true
                     Picasso.get().load(userProfilePictureUrl)
                         //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
                         .into(binding.userProfilePic, object : Callback {

@@ -111,7 +111,7 @@ class LogInActivity : AppCompatActivity() {
         userRef.child("Display Name").setValue(displayName)
         userRef.child("User Profile Picture").child("downloadUrl").setValue(photoUrl)
     }
-    
+
     // log in verification
     private fun handleLogin() {
         val email = binding.emailEt.text.toString()
