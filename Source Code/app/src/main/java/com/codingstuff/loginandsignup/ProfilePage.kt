@@ -1,6 +1,8 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -41,6 +43,20 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
     private lateinit var mAdapter: ImageAdapter
     private lateinit var mUploads : List<ImageUpload>
 
+    private lateinit var userProfilePictureUrl: String
+
+    companion object {
+        fun showFullScreenImage(context: Context, imageUrl: String) {
+            val intent = Intent(context, FullScreenImageActivity::class.java)
+            intent.putExtra(FullScreenImageActivity.IMAGE_URL_EXTRA, imageUrl)
+            context.startActivity(intent)
+
+            if (context is Activity) {
+                context.overridePendingTransition(R.anim.stay, R.anim.stay)
+                context.finish()
+            }
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,6 +144,10 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
                 }
             })
         }
+
+        binding.userProfilePic.setOnClickListener {
+            showFullScreenImage(this@ProfilePage, userProfilePictureUrl)
+        }
     }
 
     // change the listener if there is time for settings
@@ -137,6 +157,10 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val displayNameValue = dataSnapshot.child("Display Name").getValue(String::class.java)
                 val userProfilePictureUrl = dataSnapshot.child("User Profile Picture").child("downloadUrl").getValue(String::class.java)
+                if (userProfilePictureUrl != null) {
+                    this@ProfilePage.userProfilePictureUrl = userProfilePictureUrl
+                }
+
                 if (!displayNameValue.isNullOrEmpty()) {
                     runOnUiThread {
                         val displayNameTextView = binding.displayNameTextView

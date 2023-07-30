@@ -1,0 +1,11 @@
+<!-- activity_full_screen_image.xml -->
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fullScreenImageView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="fitCenter"
+    android:background="@android:color/black"
+    android:clickable="true"
+    android:contentDescription="@string/app_name"
+    android:onClick="finish" />
