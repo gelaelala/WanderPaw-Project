@@ -90,8 +90,9 @@ class LogInActivity : AppCompatActivity() {
                 if (user != null) {
                     // Access the necessary user information from the GoogleSignInAccount
                     val displayName = account.displayName ?: ""
+                    val photoUrl = account.photoUrl?.toString() ?: ""
                     // Save user information to the Realtime Database
-                    saveUserToDatabase(user.uid, displayName)
+                    saveUserToDatabase(user.uid, displayName, photoUrl)
                     navigateToHomePage()
                 } else {
                     handleLoginFailure(it.exception)
@@ -103,16 +104,14 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
-
-
-    private fun saveUserToDatabase(userId: String, displayName: String) {
+    private fun saveUserToDatabase(userId: String, displayName: String, photoUrl: String) {
         val userRef = databaseRef.child("Users").child(userId)
 
         // Save user information to the database
         userRef.child("Display Name").setValue(displayName)
+        userRef.child("User Profile Picture").child("downloadUrl").setValue(photoUrl)
     }
-
-
+    
     // log in verification
     private fun handleLogin() {
         val email = binding.emailEt.text.toString()

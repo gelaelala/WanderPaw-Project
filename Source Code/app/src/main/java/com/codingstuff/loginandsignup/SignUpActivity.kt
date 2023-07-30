@@ -93,8 +93,9 @@ class SignUpActivity : AppCompatActivity() {
                 if (user != null) {
                     // Access the necessary user information from the GoogleSignInAccount
                     val displayName = account.displayName ?: ""
+                    val photoUrl = account.photoUrl?.toString() ?: ""
                     // Save user information to the Realtime Database
-                    saveUserToDatabase(user.uid, displayName)
+                    saveUserToDatabase(user.uid, displayName, photoUrl)
                     navigateToHomePage()
                 } else {
                     handleSignUpFailure(it.exception)
@@ -106,13 +107,13 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserToDatabase(userId: String, displayName: String) {
+    private fun saveUserToDatabase(userId: String, displayName: String, photoUrl: String) {
         val userRef = databaseRef.child("Users").child(userId)
 
         // Save user information to the database
         userRef.child("Display Name").setValue(displayName)
+        userRef.child("User Profile Picture").child("downloadUrl").setValue(photoUrl)
     }
-
 
     private fun formatStringWithCapital(input: String): String {
         return input.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
