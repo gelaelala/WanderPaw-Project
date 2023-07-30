@@ -81,7 +81,8 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center">
+                        android:layout_gravity="center"
+                        android:visibility="visible">
 
                         <ImageView
                             android:layout_width="80dp"

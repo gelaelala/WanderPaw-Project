@@ -220,7 +220,6 @@ class PetProfilePage : AppCompatActivity() {
             imageRef.delete().addOnSuccessListener {
                 databaseRef.child("Users").child(userId)
                     .child("Animal Profiles Created").child(petCardId).removeValue()
-                Toast.makeText(this, "Pet profile has been deleted.", Toast.LENGTH_SHORT).show()
                 Toast.makeText(
                     this@PetProfilePage,
                     "Pet profile has been deleted.",

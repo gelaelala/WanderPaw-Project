@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Callback
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
@@ -146,11 +148,13 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
                         //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
                         .into(binding.userProfilePic, object : Callback {
                             override fun onSuccess() {
-                                val placeholder: ImageView = findViewById(R.id.userIcon)
+                                val placeholder= binding.userIcon
                                 placeholder.visibility = View.GONE
                             }
 
                             override fun onError(e: Exception) {
+                                val placeholder = binding.userIcon
+                                placeholder.visibility = View.VISIBLE
                                 Toast.makeText(
                                     this@ProfilePage,
                                     "Error loading the image.",

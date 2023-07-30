@@ -124,7 +124,7 @@ class EditProfilePage : AppCompatActivity() {
 
                 if (isImageSelected) {
                     uploadFile()
-                    Toast.makeText(this, "User profile has been saved.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "User profile changes will be reflected after page refresh.", Toast.LENGTH_SHORT).show()
                 }
 
                 navigateToProfilePage()
@@ -152,6 +152,7 @@ class EditProfilePage : AppCompatActivity() {
                 }
 
                 if (!profilePictureUrl.isNullOrEmpty()) {
+                    Picasso.get().invalidate(profilePictureUrl) // Invalidate the cached image for the given URL
                     Picasso.get().load(profilePictureUrl)
                         //.error(R.drawable.error_placeholder) // Replace with your error placeholder drawable
                         .into(binding.imageHolder, object : Callback {
@@ -269,9 +270,6 @@ class EditProfilePage : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun uploadFile() {
-        // This line creates a new StorageReference named fileReference by appending a child path to the storageRef. The child
-        // path is formed using the current timestamp (System.currentTimeMillis()) concatenated with a period (.) and the file
-        // extension obtained using the getFileExtension function.
         if (isNetworkConnected(this)) {
             val fileReference: StorageReference? =
                 userId?.let {
@@ -307,7 +305,7 @@ class EditProfilePage : AppCompatActivity() {
             }
 
         } else {
-            Toast.makeText(this, "There is a network connectivity issue. Please check your network.", Toast.LENGTH_SHORT).show()
+            authToastLess.showToast("There is a network connectivity issue. Please check your network.")
         }
     }
 
