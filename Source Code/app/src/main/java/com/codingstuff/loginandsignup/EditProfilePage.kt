@@ -107,12 +107,7 @@ class EditProfilePage : AppCompatActivity() {
                                 if (task.isSuccessful) {
                                     // Pet card data successfully written to the database
                                     // Perform any additional actions or show success message
-                                    Toast.makeText(
-                                        this,
-                                        "User profile has been saved.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-
+                                    Toast.makeText(this, "User profile changes will be reflected after page refresh.", Toast.LENGTH_LONG).show()
                                 } else {
                                     // Error occurred while writing pet card data to the database
                                     // Handle the error appropriately (e.g., show error message)
@@ -122,12 +117,12 @@ class EditProfilePage : AppCompatActivity() {
                     }
                 }
 
-                if (isImageSelected) {
-                    uploadFile()
-                    Toast.makeText(this, "User profile changes will be reflected after page refresh.", Toast.LENGTH_SHORT).show()
-                }
-
+            if (isImageSelected) {
+                uploadFile()
+                Toast.makeText(this, "User profile changes will be reflected after page refresh.", Toast.LENGTH_LONG).show()
+            }
                 navigateToProfilePage()
+
             }
         }
     }
