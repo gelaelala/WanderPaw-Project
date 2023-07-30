@@ -63,38 +63,13 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/inter"/>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="100dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:backgroundTint="@color/light_brown"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:cornerRadius="100dp"
-                    app:icon="@drawable/edit_icon"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    app:iconSize="23dp"
-                    app:iconTint="@color/white"
-                    app:rippleColor="@null" />
-
-                <Space
-                    android:layout_width="40dp"
-                    android:layout_height="0dp" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/deleteButton"
-                    android:layout_width="45dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:backgroundTint="@color/light_brown"
                     android:insetLeft="0dp"
@@ -102,13 +77,18 @@
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
                     app:cornerRadius="100dp"
+                    android:text="Delete Profile"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
                     app:icon="@drawable/delete_icon"
                     app:iconGravity="textStart"
-                    app:iconPadding="0dp"
+                    app:iconPadding="5dp"
                     app:iconSize="23dp"
                     app:iconTint="@color/white"
-                    app:rippleColor="@null" />
-            </LinearLayout>
+                    app:rippleColor="@null"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
 
             <Space
                 android:layout_width="0dp"

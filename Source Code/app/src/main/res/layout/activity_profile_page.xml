@@ -89,39 +89,13 @@
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="120dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/BookmarkButton"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:backgroundTint="@color/neutral_green"
-                        android:insetLeft="0dp"
-                        android:insetTop="0dp"
-                        android:insetRight="0dp"
-                        android:insetBottom="0dp"
-                        app:cornerRadius="100dp"
-                        app:icon="@drawable/heart_for_bookmark_icon"
-                        app:iconGravity="textStart"
-                        app:iconPadding="0dp"
-                        app:iconSize="20dp"
-                        app:iconTint="@color/white"
-                        app:rippleColor="@null" />
-
-                    <Space
-                        android:layout_width="30dp"
-                        android:layout_height="0dp" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="10dp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/settingsButton"
-                        android:layout_width="45dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:backgroundTint="@color/neutral_green"
                         android:insetLeft="0dp"
@@ -129,13 +103,18 @@
                         android:insetRight="0dp"
                         android:insetBottom="0dp"
                         app:cornerRadius="100dp"
+                        android:text="Settings"
+                        android:fontFamily="@font/inter"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
                         app:icon="@drawable/setting_icon"
                         app:iconGravity="textStart"
-                        app:iconPadding="0dp"
+                        app:iconPadding="5dp"
                         app:iconSize="25dp"
                         app:iconTint="@color/white"
-                        app:rippleColor="@null" />
-                </LinearLayout>
+                        app:rippleColor="@null"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
 
                 <Space
                     android:layout_width="0dp"
