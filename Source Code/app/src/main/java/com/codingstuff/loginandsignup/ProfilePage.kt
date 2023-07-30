@@ -53,7 +53,6 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
             if (context is Activity) {
                 context.overridePendingTransition(R.anim.stay, R.anim.stay)
-                context.finish()
             }
         }
     }

@@ -40,6 +40,14 @@ class FullPetProfilePage : AppCompatActivity() {
         val petCardId = intent.getStringExtra("petCardId")
         val userId = intent.getStringExtra("userId")
 
+        binding.PetProfileData.setOnClickListener {
+            profilePictureUrl?.let { it1 ->
+                ProfilePage.showFullScreenImage(this@FullPetProfilePage,
+                    it1
+                )
+            }
+        }
+
         if (userId != null) {
 
             petCardId?.let {

@@ -1,6 +1,8 @@
 package com.codingstuff.loginandsignup
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -32,7 +34,6 @@ class PetProfilePage : AppCompatActivity() {
     private var profilePictureUrl: String? = null
     private val authToastLess = AuthToastLess(this)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPetProfilePageBinding.inflate(layoutInflater)
@@ -46,6 +47,14 @@ class PetProfilePage : AppCompatActivity() {
         val userId = currentUser?.uid
 
         val petCardId = intent.getStringExtra("petCardId")
+
+        binding.PetProfileData.setOnClickListener {
+            profilePictureUrl?.let { it1 ->
+                ProfilePage.showFullScreenImage(this@PetProfilePage,
+                    it1
+                )
+            }
+        }
 
         if (userId != null) {
 

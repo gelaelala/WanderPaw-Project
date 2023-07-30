@@ -27,17 +27,10 @@ class FullScreenImageActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun navigateToProfilePage() {
-        val intent = Intent(this, ProfilePage::class.java)
-        startActivity(intent)
-        overridePendingTransition(R.anim.stay, R.anim.stay)
-        finish()
-    }
-
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        navigateToProfilePage()
+        overridePendingTransition(R.anim.stay, R.anim.stay)
+        finish()
     }
 }
