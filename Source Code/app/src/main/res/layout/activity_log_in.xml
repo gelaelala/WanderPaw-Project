@@ -28,10 +28,11 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <LinearLayout
+        android:id="@+id/LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="vertical"
         android:background="@drawable/rectangle_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,14 +40,14 @@
         app:layout_constraintTop_toTopOf="@id/line_half"
         app:layout_constraintVertical_bias="1.0">
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
             style="@style/LoginTextInputOuterFieldStyle"
             android:layout_width="360dp"
             android:layout_height="60sp"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="26dp"
             android:layout_marginBottom="9dp"
             android:cursorVisible="true"
@@ -57,11 +58,7 @@
             app:boxStrokeColor="@color/light_brown"
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
-            app:hintTextColor="@color/light_brown"
-            app:layout_constraintBottom_toTopOf="@+id/passwordLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:hintTextColor="@color/light_brown">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEt"
@@ -76,13 +73,14 @@
                 android:typeface="normal" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLayout"
             style="@style/LoginTextInputInnerFieldStyle"
             android:layout_width="360dp"
             android:layout_height="60sp"
+            android:layout_marginTop="-5dp"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginStart="26dp"
             android:layout_marginEnd="26dp"
             android:layout_marginBottom="120dp"
             android:cursorVisible="true"
@@ -93,10 +91,6 @@
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
             app:hintTextColor="@color/light_brown"
-            app:layout_constraintBottom_toTopOf="@+id/button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailLayout"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/light_brown">
 
@@ -119,10 +113,8 @@
             android:id="@+id/button"
             android:layout_width="320dp"
             android:layout_height="50dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="-50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="284dp"
             android:background="@drawable/roundedbutton"
             android:fontFamily="@font/inter"
             android:gravity="center"
@@ -137,29 +129,38 @@
             tools:layout_conversion_absoluteHeight="50dp"
             tools:layout_conversion_absoluteWidth="395dp" />
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="OR LOG IN WITH"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textColor="@color/light_brown"
+            android:textSize="14sp"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/googleButton"
             android:layout_width="320dp"
             android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="284dp"
+            android:layout_marginHorizontal="16dp"
             android:background="@drawable/roundedbutton"
             android:fontFamily="@font/inter"
             android:gravity="center"
             android:text="Google"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.52"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
-            tools:layout_conversion_absoluteHeight="50dp"
-            tools:layout_conversion_absoluteWidth="395dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView"
@@ -169,7 +170,7 @@
         android:layout_marginTop="73dp"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/LinearLayout"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -183,7 +184,7 @@
         android:layout_marginTop="49dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="31dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/LinearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
