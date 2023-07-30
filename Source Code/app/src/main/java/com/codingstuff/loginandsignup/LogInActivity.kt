@@ -14,11 +14,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LogInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLogInBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var databaseRef: DatabaseReference
     private lateinit var googleSignInClient: GoogleSignInClient
     private val authToastLess = AuthToastLess(this)
 
@@ -28,6 +31,7 @@ class LogInActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        databaseRef = FirebaseDatabase.getInstance().reference
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -77,16 +81,37 @@ class LogInActivity : AppCompatActivity() {
             handleLoginFailure(task.exception)
         }
     }
+
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                navigateToHomePage()
+                val user = firebaseAuth.currentUser
+                if (user != null) {
+                    // Access the necessary user information from the GoogleSignInAccount
+                    val displayName = account.displayName ?: ""
+                    // Save user information to the Realtime Database
+                    saveUserToDatabase(user.uid, displayName)
+                    navigateToHomePage()
+                } else {
+                    handleLoginFailure(it.exception)
+                }
             } else {
                 handleLoginFailure(it.exception)
+
             }
         }
     }
+
+
+
+    private fun saveUserToDatabase(userId: String, displayName: String) {
+        val userRef = databaseRef.child("Users").child(userId)
+
+        // Save user information to the database
+        userRef.child("Display Name").setValue(displayName)
+    }
+
 
     // log in verification
     private fun handleLogin() {
