@@ -13,7 +13,9 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.webkit.MimeTypeMap
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -244,6 +246,8 @@ class EditProfilePage : AppCompatActivity() {
                 .into(binding.imageHolder, object : Callback {
                     override fun onSuccess() {
                         isImageSelected = true
+                        val placeholderLayout: LinearLayout = findViewById(R.id.placeholderIcon)
+                        placeholderLayout.visibility = View.GONE
                     }
 
                     override fun onError(e: Exception) {
