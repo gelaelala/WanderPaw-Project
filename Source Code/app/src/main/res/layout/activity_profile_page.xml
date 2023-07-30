@@ -17,121 +17,121 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:id="@+id/HeaderTitle"
+    <RelativeLayout
+        android:id="@+id/HeaderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_border"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ScrollView">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/inter"
+            android:text="Profile"
+            android:textColor="@color/dark_brown"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/flFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/HeaderTitle">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bottom_border"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/ScrollView">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/inter"
-                android:text="Profile"
-                android:textColor="@color/dark_brown"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                app:cardCornerRadius="100dp">
 
-        </RelativeLayout>
-        
-        <ScrollView
-            android:id="@+id/ScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/flFragment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/HeaderTitle">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.cardview.widget.CardView
+                <ImageView
+                    android:id="@+id/userProfilePic"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    app:cardCornerRadius="100dp">
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/genderless_icon" />
 
-                    <ImageView
-                        android:id="@+id/userProfilePic"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/genderless_icon" />
+                <ImageView
+                    android:id="@+id/userIcon"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/genderless_icon" />
+            </androidx.cardview.widget.CardView>
 
-                    <ImageView
-                        android:id="@+id/userIcon"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/genderless_icon" />
-                </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/displayNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/dark_brown"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/displayNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:fontFamily="@font/inter"
-                    android:textColor="@color/dark_brown"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="10dp" />
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="10dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/neutral_green"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="100dp"
+                android:text="Settings"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:icon="@drawable/setting_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="5dp"
+                app:iconSize="25dp"
+                app:iconTint="@color/white"
+                app:rippleColor="@null"
+                android:layout_gravity="center"
+                android:gravity="center"/>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/settingsButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="45dp"
-                        android:backgroundTint="@color/neutral_green"
-                        android:insetLeft="0dp"
-                        android:insetTop="0dp"
-                        android:insetRight="0dp"
-                        android:insetBottom="0dp"
-                        app:cornerRadius="100dp"
-                        android:text="Settings"
-                        android:fontFamily="@font/inter"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:icon="@drawable/setting_icon"
-                        app:iconGravity="textStart"
-                        app:iconPadding="5dp"
-                        app:iconSize="25dp"
-                        app:iconTint="@color/white"
-                        app:rippleColor="@null"
-                        android:layout_gravity="center"
-                        android:gravity="center"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="15dp" />
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="15dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/petProfilesRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:padding="8dp"
+                app:spanCount="1"
+                android:layout_gravity="center_horizontal"
+                android:nestedScrollingEnabled="false"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/petProfilesRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:padding="8dp"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="1"
-                    android:layout_gravity="center_horizontal"/>
-
-            </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- if floating button
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -146,7 +146,7 @@
         app:tint="@color/white"
         app:fabCustomSize="60dp"/> -->
 
-    
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
