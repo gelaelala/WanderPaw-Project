@@ -25,8 +25,6 @@ class FullPetProfilePage : AppCompatActivity() {
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storageRef: FirebaseStorage
     private var profilePictureUrl: String? = null
-    private val petCardId = intent.getStringExtra("petCardId")
-    private val userId = intent.getStringExtra("userId")
     private val authToastLess = AuthToastLess(this)
 
 
@@ -50,12 +48,54 @@ class FullPetProfilePage : AppCompatActivity() {
             }
         }
 
-        binding.bookmarkButton.setOnClickListener {
-            savePetCardId()
+        binding.toggleButton.setOnClickListener {
+            // Check the current state of the button
+            val isActive = binding.toggleButton.isChecked
+
+            val currentUser = firebaseAuth!!.currentUser
+            val accountUser = currentUser?.uid
+            val petCardRef = accountUser?.let {
+                databaseRef.child("Users").child(it)
+                    .child("Bookmarked Pet Profiles")
+            }
+
+            // Update the button state in the Realtime Database under "button_state" node
+            petCardRef?.child("button_state")?.setValue(isActive)?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (isActive) {
+                        // Perform action when the button is active (e.g., store data in database)
+                        if (petCardId != null) {
+                            storeDataInDatabase(petCardRef, petCardId)
+                        }
+                    } else {
+                        // Perform action when the button is inactive (e.g., delete data from database)
+                        if (petCardId != null) {
+                            deleteDataFromDatabase(petCardRef, petCardId)
+                        }
+                    }
+                } else {
+                    // Handle error if data is not saved to the database
+                }
+            }
         }
 
-        if (userId != null) {
+        // Listen for changes in the button state from the Realtime Database
+        databaseRef.child("button_state").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Update the button state based on the value retrieved from the database
+                val isActive = snapshot.getValue(Boolean::class.java) ?: false
+                binding.toggleButton.isChecked = isActive
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+            // Handle error if data retrieval is canceled
+            }
+        })
+
+
+
+
+        if (userId != null) {
             petCardId?.let {
                 databaseRef.child("Users").child(userId)
                     .child("Animal Profiles Created").child(it)
@@ -204,25 +244,32 @@ class FullPetProfilePage : AppCompatActivity() {
 
     }
 
-    private fun savePetCardId() {
-        if (userId != null && petCardId != null) {
-            val petCardRef = databaseRef.child("Users").child(userId)
-                .child("Bookmarked Pet profiles")
-                .child(petCardId)
-
-            petCardRef.setValue(true)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Pet profile bookmarked.", Toast.LENGTH_SHORT).show()
-                    } else {
-                        // Error occurred while writing pet card data to the database
-                        // Handle the error appropriately (e.g., show error message)
-                        handleAddPetCardIdFailure(task.exception)
-                    }
+    private fun storeDataInDatabase(petCardRef: DatabaseReference, petCardId: String) {
+        // Set the value of the specific petCardId to true to indicate it's bookmarked
+        petCardRef.child(petCardId).setValue(true)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Pet profile bookmarked.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Error occurred while writing pet card data to the database
+                    // Handle the error appropriately (e.g., show error message)
+                    handleAddPetCardIdFailure(task.exception)
                 }
-        }
+            }
     }
 
+    private fun deleteDataFromDatabase(petCardRef: DatabaseReference, petCardId: String) {
+        // Remove the specific petCardId node to delete it from "Bookmarked Pet Profiles"
+        petCardRef.child(petCardId).removeValue()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Pet profile removed from bookmarks.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Error occurred while deleting data
+                    handleAddPetCardIdFailure(task.exception)
+                }
+            }
+    }
 
     // function for stripping firebase exceptions
     private fun handleAddPetCardIdFailure(exception: Exception?) {

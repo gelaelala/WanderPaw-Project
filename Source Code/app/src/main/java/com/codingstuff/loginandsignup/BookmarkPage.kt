@@ -16,9 +16,16 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class BookmarkPage : AppCompatActivity() {
+class BookmarkPage : AppCompatActivity(), CardAdapter.OnItemClickListener  {
 
     private lateinit var binding: ActivityBookmarkPageBinding
+    private var firebaseAuth: FirebaseAuth? = null
+    private lateinit var databaseRef: DatabaseReference
+    private val authToastLess = AuthToastLess(this)
+
+    private lateinit var nRecyclerView: RecyclerView
+    private lateinit var nAdapter: CardAdapter
+    private lateinit var nUploads : List<CardUpload>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +67,20 @@ class BookmarkPage : AppCompatActivity() {
         binding.BackButton.setOnClickListener {
             navigateToUserProfile()
         }
+
+        // RecyclerView set up
+        nRecyclerView = binding.petProfilesList
+        nRecyclerView.setHasFixedSize(true)
+        nRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        // list of items in recyclerview
+        nUploads = mutableListOf()
+
+        databaseRef = FirebaseDatabase.getInstance().reference
+        this.firebaseAuth = FirebaseAuth.getInstance()
+
+        val currentUser = firebaseAuth!!.currentUser
+        val userId = currentUser?.uid
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -84,5 +105,9 @@ class BookmarkPage : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         navigateToUserProfile()
+    }
+
+    override fun onItemClick(userId: String, petCardId: String) {
+        TODO("Not yet implemented")
     }
 }

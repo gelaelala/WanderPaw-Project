@@ -63,23 +63,14 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/inter"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bookmarkButton"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:backgroundTint="@color/light_brown"
-                android:insetLeft="0dp"
-                android:insetTop="0dp"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
-                app:cornerRadius="100dp"
-                android:layout_gravity="center"
-                app:icon="@drawable/edit_icon"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconSize="23dp"
-                app:iconTint="@color/white"
-                app:rippleColor="@null" />
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Toggle Button"
+                android:textOn="Active"
+                android:textOff="Inactive"
+                android:checked="false" />
 
             <Space
                 android:layout_width="0dp"

@@ -134,7 +134,6 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
                     mRecyclerView.adapter = mAdapter
                 }
 
-
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Handle the database error
                     runOnUiThread {
