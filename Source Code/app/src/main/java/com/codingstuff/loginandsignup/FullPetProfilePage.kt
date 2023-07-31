@@ -61,12 +61,17 @@ class FullPetProfilePage : AppCompatActivity() {
                 petCardRef?.child("button_state")?.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val isActive = snapshot.getValue(Boolean::class.java) ?: false
+                        // Initialize button state as inactive (false) if it doesn't exist
                         if (!snapshot.exists()) {
-                            // If button state does not exist (null or empty), initialize it as inactive (false)
-                            petCardRef?.child("button_state")?.setValue(false)
+                            petCardRef!!.child("button_state").setValue(false)
+                            // Set the button to inactive (false)
+                            binding.toggleButton.isChecked = false
+                        } else {
+                            // Set the button to the retrieved state
+                            binding.toggleButton.isChecked = isActive
                         }
-                        binding.toggleButton.isChecked = isActive
-                        buttonStateRetrieved = true // Set the flag to true once the button state is retrieved
+                        // Set the flag to true once the button state is retrieved
+                        buttonStateRetrieved = true
                     }
 
                     override fun onCancelled(error: DatabaseError) {

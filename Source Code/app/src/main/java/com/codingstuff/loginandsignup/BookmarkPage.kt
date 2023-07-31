@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class BookmarkPage : AppCompatActivity(), CardAdapter.OnItemClickListener  {
+class BookmarkPage : AppCompatActivity(), BookmarkAdapter.OnItemClickListener  {
 
     private lateinit var binding: ActivityBookmarkPageBinding
     private var firebaseAuth: FirebaseAuth? = null
@@ -24,8 +24,8 @@ class BookmarkPage : AppCompatActivity(), CardAdapter.OnItemClickListener  {
     private val authToastLess = AuthToastLess(this)
 
     private lateinit var oRecyclerView: RecyclerView
-    private lateinit var oAdapter: CardAdapter
-    private lateinit var nUploads : List<CardUpload>
+    private lateinit var oAdapter: BookmarkAdapter
+    private lateinit var nUploads : List<BookmarkUpload>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,60 +85,61 @@ class BookmarkPage : AppCompatActivity(), CardAdapter.OnItemClickListener  {
         if (userId != null) {
             databaseRef.child("Users").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    (nUploads as MutableList<CardUpload>).clear() // Clear the list to avoid duplicate data
+                    (nUploads as MutableList<BookmarkUpload>).clear() // Clear the list to avoid duplicate data
 
-                    // Loop through each user node
-                    for (userSnapshot in dataSnapshot.children) {
-                        // Get the user's ID
-                        val userIds = userSnapshot.key
+                    // Get the "Bookmarked Pet Profiles" node of the current user
+                    val bookmarkedPetProfilesNode = dataSnapshot.child(userId).child("Bookmarked Pet Profiles")
 
-                        // Get the "Bookmarked Pet Profiles" node of the user
-                        val bookmarkedPetProfilesNode = userSnapshot.child("Bookmarked Pet Profiles")
+                    // Loop through each child node under "Bookmarked Pet Profiles" for the current user
+                    for (petSnapshot in bookmarkedPetProfilesNode.children) {
+                        // Get the key of the child node (petCardId)
+                        val petCardId = petSnapshot.key
 
-                        // Loop through each child node under "Bookmarked Pet Profiles"
-                        for (petSnapshot in bookmarkedPetProfilesNode.children) {
-                            // Get the key of the child node (excluding "button_state")
-                            val petCardId = petSnapshot.key
+                        // Check if the "button_state" child is true
+                        val buttonState = petSnapshot.child("button_state").getValue(Boolean::class.java)
 
-                            // Check if the "button_state" child is true
-                            val buttonState = petSnapshot.child("button_state").getValue(Boolean::class.java)
+                        if (buttonState == true) {
+                            // Loop through each user node again to find matching pet profiles
+                            for (userSnapshot in dataSnapshot.children) {
+                                // Skip the current user's node, we don't want to match with their own profiles
+//                                if (userSnapshot.key) {
+                                    // Get the "Animal Profiles Created" node of the current user in the loop
+                                    val animalProfilesNode = userSnapshot.child("Animal Profiles Created")
 
-                            if (buttonState == true) {
-                                // Find matches in "Animal Profiles Created" of the current user
-                                val animalProfilesNode = userSnapshot.child("Animal Profiles Created")
-                                val petProfileNode = petCardId?.let { animalProfilesNode.child(it) }
+                                    // Check if the "Animal Profiles Created" node contains the petCardId
+                                    if (petCardId?.let { animalProfilesNode.hasChild(it) } == true) {
+                                        // Get the profile details of the matching petCardId
+                                        val petProfileSnapshot = animalProfilesNode.child(petCardId)
 
-                                // Retrieve necessary data from "Animal Profiles Created" node
-                                val name = petProfileNode?.child("Name")?.getValue(String::class.java)
-                                    .toString()
-                                val gender = petProfileNode?.child("Gender")?.getValue(String::class.java)
-                                    .toString()
-                                val age = petProfileNode?.child("Age")?.getValue(String::class.java)
-                                    .toString()
-                                val genderAge = "($gender, $age)"
-                                val location = petProfileNode?.child("Location")?.getValue(String::class.java)
-                                    .toString()
-                                val bio = petProfileNode?.child("Bio")?.getValue(String::class.java)
-                                    .toString()
-                                val profilePictureUrl = petProfileNode?.child("Profile Picture")
-                                    ?.child("downloadUrl")?.getValue(String::class.java)
+                                        // Retrieve necessary data from "Animal Profiles Created" node
+                                        val name = petProfileSnapshot.child("Name").getValue(String::class.java).toString()
+                                        val gender = petProfileSnapshot.child("Gender").getValue(String::class.java).toString()
+                                        val age = petProfileSnapshot.child("Age").getValue(String::class.java).toString()
+                                        val genderAge = "($gender, $age)"
+                                        val location = petProfileSnapshot.child("Location").getValue(String::class.java).toString()
+                                        val bio = petProfileSnapshot.child("Bio").getValue(String::class.java).toString()
+                                        val profilePictureUrl = petProfileSnapshot.child("Profile Picture")
+                                            .child("downloadUrl")
+                                            .getValue(String::class.java)
 
-                                if (petCardId != null && profilePictureUrl != null) {
-                                    val upload = userIds?.let {
-                                        CardUpload(
-                                            profilePictureUrl, name, genderAge,
-                                            location, bio, it, petCardId
-                                        )
+                                        if (profilePictureUrl != null) {
+                                            val upload = userSnapshot.key?.let {
+                                                BookmarkUpload(
+                                                    profilePictureUrl, name, genderAge,
+                                                    location, bio, it, petCardId
+                                                )
+                                            }
+                                            if (upload != null) {
+                                                (nUploads as MutableList<BookmarkUpload>).add(upload)
+                                            }
+                                        }
                                     }
-                                    if (upload != null) {
-                                        (nUploads as MutableList<CardUpload>).add(upload)
-                                    }
-                                }
+//                                }
                             }
                         }
                     }
 
-                    oAdapter = CardAdapter(this@BookmarkPage, nUploads, this@BookmarkPage)
+                    oAdapter = BookmarkAdapter(this@BookmarkPage, nUploads, this@BookmarkPage)
                     oRecyclerView.adapter = oAdapter
                 }
 
@@ -150,7 +151,6 @@ class BookmarkPage : AppCompatActivity(), CardAdapter.OnItemClickListener  {
                 }
             })
         }
-
     }
 
     override fun onItemClick(userId: String, petCardId: String) {

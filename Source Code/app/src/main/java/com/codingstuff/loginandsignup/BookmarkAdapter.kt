@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class CardAdapter(private val nContext: Context, private val nUploads: List<CardUpload>, private val itemClickListener: OnItemClickListener) :
-    RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
+class BookmarkAdapter(private val nContext: Context, private val nUploads: List<BookmarkUpload>, private val itemClickListener: OnItemClickListener) :
+    RecyclerView.Adapter<BookmarkAdapter.CardViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(userId: String, petCardId: String)
@@ -80,9 +80,7 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
     }
 }
 
-
-// stores the two properties
-data class CardUpload(
+data class BookmarkUpload(
     val imageUrl: String,
     val name: String,
     val genderAge: String,
