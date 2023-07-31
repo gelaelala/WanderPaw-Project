@@ -41,27 +41,28 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/PhotoPreviews">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
+            android:layout_marginRight="15dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/PetName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/inter"
                 android:text="N/A"
                 android:textColor="@color/dark_brown"
                 android:textSize="32sp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/inter"/>
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="0dp"
@@ -70,11 +71,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="BASIC INFORMATION"
                 android:textColor="@color/neutral_green"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="0dp"
@@ -82,28 +83,28 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/GenderHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark_brown"
+                    android:fontFamily="@font/inter"
                     android:text="Gender:"
-                    android:textStyle="bold"
+                    android:textColor="@color/dark_brown"
                     android:textSize="18sp"
-                    android:fontFamily="@font/inter" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/GenderData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/GenderHeader"
                     android:fontFamily="@font/inter"
-                    android:textSize="18dp"
+                    android:text="N/A"
                     android:textColor="@color/dark_brown"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="18dp" />
 
             </RelativeLayout>
 
@@ -113,28 +114,28 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/AgeHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark_brown"
+                    android:fontFamily="@font/inter"
                     android:text="Age:"
-                    android:textStyle="bold"
+                    android:textColor="@color/dark_brown"
                     android:textSize="18sp"
-                    android:fontFamily="@font/inter" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/AgeData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="N/A"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/AgeHeader"
                     android:fontFamily="@font/inter"
-                    android:textSize="18dp"
+                    android:text="N/A"
                     android:textColor="@color/dark_brown"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="18dp" />
 
             </RelativeLayout>
 
@@ -144,28 +145,28 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/LocationHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark_brown"
+                    android:fontFamily="@font/inter"
                     android:text="Location:"
-                    android:textStyle="bold"
+                    android:textColor="@color/dark_brown"
                     android:textSize="18sp"
-                    android:fontFamily="@font/inter" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/LocationData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/LocationHeader"
-                    android:text="N/A"
                     android:fontFamily="@font/inter"
-                    android:textSize="18dp"
+                    android:text="N/A"
                     android:textColor="@color/dark_brown"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="18dp" />
 
             </RelativeLayout>
 
@@ -175,28 +176,28 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/BioHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark_brown"
+                    android:fontFamily="@font/inter"
                     android:text="Bio:"
-                    android:textStyle="bold"
+                    android:textColor="@color/dark_brown"
                     android:textSize="18sp"
-                    android:fontFamily="@font/inter" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/BioData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/BioHeader"
-                    android:text="N/A"
                     android:fontFamily="@font/inter"
-                    android:textSize="18dp"
+                    android:text="N/A"
                     android:textColor="@color/dark_brown"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="18dp" />
 
             </RelativeLayout>
 
@@ -207,11 +208,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
                 android:text="ABOUT ME"
                 android:textColor="@color/neutral_green"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="0dp"
@@ -221,13 +222,13 @@
                 android:id="@+id/AboutMeData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                android:textStyle="italic"
-                android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/inter"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal" />
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                android:textStyle="italic" />
 
             <Space
                 android:layout_width="0dp"
@@ -236,11 +237,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text= "OTHER INFORMATION"
+                android:fontFamily="@font/inter"
+                android:text="OTHER INFORMATION"
                 android:textColor="@color/neutral_green"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <Space
                 android:layout_width="0dp"
@@ -249,28 +250,28 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/BreedHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark_brown"
+                    android:fontFamily="@font/inter"
                     android:text="Breed:"
-                    android:textStyle="bold"
+                    android:textColor="@color/dark_brown"
                     android:textSize="18sp"
-                    android:fontFamily="@font/inter" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/BreedData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/BreedHeader"
-                    android:text="N/A"
                     android:fontFamily="@font/inter"
-                    android:textSize="18dp"
+                    android:text="N/A"
                     android:textColor="@color/dark_brown"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="18dp" />
 
             </RelativeLayout>
 
@@ -281,11 +282,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/inter"
                 android:text="Medical Condition/s:"
-                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/MedicalConditionsData"
@@ -304,11 +305,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/inter"
                 android:text="Vaccine/s Taken:"
-                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/VaccineData"
@@ -327,11 +328,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/inter"
                 android:text="Diet:"
-                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/DietData"
@@ -350,11 +351,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/inter"
                 android:text="Reason for Adoption:"
-                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ReasonData"
@@ -374,11 +375,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/inter"
                 android:text="Other Needs:"
-                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/OtherNeedsData"
@@ -397,11 +398,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/inter"
                 android:text="Requirements for Adopter:"
-                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/RequirementsData"
@@ -420,11 +421,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/inter"
                 android:text="Contact Information:"
-                android:textStyle="bold"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
-                android:fontFamily="@font/inter" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ContactData"
@@ -439,6 +440,17 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="10dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabArrowUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_arrow_up"
+                android:visibility="gone" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

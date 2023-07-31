@@ -31,4 +31,5 @@
         <item name="android:singleLine">true</item>
         <item name="colorPrimary">@color/black</item>
     </style>
+
 </resources>
