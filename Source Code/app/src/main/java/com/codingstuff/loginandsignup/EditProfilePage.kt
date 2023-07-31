@@ -121,7 +121,7 @@ class EditProfilePage : AppCompatActivity() {
 
             if (isImageSelected) {
                 uploadFile()
-                Toast.makeText(this, "User profile changes will be reflected after page refresh.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "User profile changes will be reflected after page refresh.", Toast.LENGTH_SHORT).show()
             }
                 navigateToProfilePage()
 

@@ -25,6 +25,8 @@ class FullPetProfilePage : AppCompatActivity() {
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storageRef: FirebaseStorage
     private var profilePictureUrl: String? = null
+    private val petCardId = intent.getStringExtra("petCardId")
+    private val userId = intent.getStringExtra("userId")
     private val authToastLess = AuthToastLess(this)
 
 
@@ -46,6 +48,10 @@ class FullPetProfilePage : AppCompatActivity() {
                     it1
                 )
             }
+        }
+
+        binding.bookmarkButton.setOnClickListener {
+            savePetCardId()
         }
 
         if (userId != null) {
@@ -196,6 +202,35 @@ class FullPetProfilePage : AppCompatActivity() {
             navigateToFeedTab()
         }
 
+    }
+
+    private fun savePetCardId() {
+        if (userId != null && petCardId != null) {
+            val petCardRef = databaseRef.child("Users").child(userId)
+                .child("Bookmarked Pet profiles")
+                .child(petCardId)
+
+            petCardRef.setValue(true)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Pet profile bookmarked.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Error occurred while writing pet card data to the database
+                        // Handle the error appropriately (e.g., show error message)
+                        handleAddPetCardIdFailure(task.exception)
+                    }
+                }
+        }
+    }
+
+
+    // function for stripping firebase exceptions
+    private fun handleAddPetCardIdFailure(exception: Exception?) {
+        authToastLess.cancelToast() // Cancel any active Toast message since empty fields and password mismatch are determined first before auth exceptions
+        val errorMessage = exception?.let { AuthExceptionHandler.handleException(it) }
+        if (errorMessage != null) {
+            authToastLess.showToast(errorMessage)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

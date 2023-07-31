@@ -154,7 +154,7 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
     // change the listener if there is time for settings
     private fun retrieveUserData(userId: String) {
         val userRef = databaseRef.child("Users").child(userId)
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val displayNameValue = dataSnapshot.child("Display Name").getValue(String::class.java)
                 val userProfilePictureUrl = dataSnapshot.child("User Profile Picture").child("downloadUrl").getValue(String::class.java)
