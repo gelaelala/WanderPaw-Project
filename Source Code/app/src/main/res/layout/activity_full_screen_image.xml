@@ -6,6 +6,4 @@
     android:layout_height="match_parent"
     android:scaleType="fitCenter"
     android:background="@android:color/black"
-    android:clickable="true"
-    android:contentDescription="@string/app_name"
-    android:onClick="finish" />
+    android:contentDescription="Full Screen Image" />
