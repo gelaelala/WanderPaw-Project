@@ -25,8 +25,9 @@ class FullPetProfilePage : AppCompatActivity() {
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storageRef: FirebaseStorage
     private var profilePictureUrl: String? = null
+    private var petCardRef: DatabaseReference? = null
+    private var buttonStateRetrieved = false // A flag to check if button state is retrieved
     private val authToastLess = AuthToastLess(this)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,8 @@ class FullPetProfilePage : AppCompatActivity() {
 
         val petCardId = intent.getStringExtra("petCardId")
         val userId = intent.getStringExtra("userId")
+        val currentUser = firebaseAuth.currentUser
+        val accountUser = currentUser?.uid
 
         binding.PetProfileData.setOnClickListener {
             profilePictureUrl?.let { it1 ->
@@ -48,30 +51,50 @@ class FullPetProfilePage : AppCompatActivity() {
             }
         }
 
+        // Fetch the button state only if it's not initialized yet (null or empty)
+        petCardId?.let {
+            if (accountUser != null) {
+                petCardRef = databaseRef.child("Users").child(accountUser)
+                    .child("Bookmarked Pet Profiles")
+                    .child(it)
+
+                petCardRef?.child("button_state")?.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val isActive = snapshot.getValue(Boolean::class.java) ?: false
+                        if (!snapshot.exists()) {
+                            // If button state does not exist (null or empty), initialize it as inactive (false)
+                            petCardRef?.child("button_state")?.setValue(false)
+                        }
+                        binding.toggleButton.isChecked = isActive
+                        buttonStateRetrieved = true // Set the flag to true once the button state is retrieved
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Handle error if data retrieval is canceled
+                        buttonStateRetrieved = true // Set the flag to true even in case of an error to prevent further action
+                    }
+                })
+            }
+        }
+
         binding.toggleButton.setOnClickListener {
+            // If button state is not retrieved yet, prevent further action
+            if (!buttonStateRetrieved) {
+                return@setOnClickListener
+            }
             // Check the current state of the button
             val isActive = binding.toggleButton.isChecked
 
-            val currentUser = firebaseAuth!!.currentUser
-            val accountUser = currentUser?.uid
-            val petCardRef = accountUser?.let {
-                databaseRef.child("Users").child(it)
-                    .child("Bookmarked Pet Profiles")
-            }
-
-            // Update the button state in the Realtime Database under "button_state" node
+            // Update the button state for the specific petCardId in the Realtime Database
             petCardRef?.child("button_state")?.setValue(isActive)?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     if (isActive) {
-                        // Perform action when the button is active (e.g., store data in database)
-                        if (petCardId != null) {
-                            storeDataInDatabase(petCardRef, petCardId)
-                        }
+                        // Perform action when the button is active (e.g., store data in the database)
+                        storeDataInDatabase(petCardRef!!)
+
                     } else {
-                        // Perform action when the button is inactive (e.g., delete data from database)
-                        if (petCardId != null) {
-                            deleteDataFromDatabase(petCardRef, petCardId)
-                        }
+                        // Perform action when the button is inactive (e.g., delete data from the database)
+                        deleteDataFromDatabase(petCardRef!!)
                     }
                 } else {
                     // Handle error if data is not saved to the database
@@ -79,21 +102,21 @@ class FullPetProfilePage : AppCompatActivity() {
             }
         }
 
-        // Listen for changes in the button state from the Realtime Database
-        databaseRef.child("button_state").addValueEventListener(object : ValueEventListener {
+
+        petCardRef?.child("button_state")?.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // Update the button state based on the value retrieved from the database
                 val isActive = snapshot.getValue(Boolean::class.java) ?: false
+                if (!snapshot.exists()) {
+                    // If button state does not exist (null or empty), initialize it as inactive (false)
+                    petCardRef!!.child("button_state").setValue(false)
+                }
                 binding.toggleButton.isChecked = isActive
             }
 
             override fun onCancelled(error: DatabaseError) {
-            // Handle error if data retrieval is canceled
+                // Handle error if data retrieval is canceled
             }
         })
-
-
-
 
         if (userId != null) {
             petCardId?.let {
@@ -244,9 +267,9 @@ class FullPetProfilePage : AppCompatActivity() {
 
     }
 
-    private fun storeDataInDatabase(petCardRef: DatabaseReference, petCardId: String) {
-        // Set the value of the specific petCardId to true to indicate it's bookmarked
-        petCardRef.child(petCardId).setValue(true)
+    private fun storeDataInDatabase(petCardRef: DatabaseReference) {
+        // Set the value of the specific petCardId's "button_state" to true to indicate it's bookmarked
+        petCardRef.child("button_state").setValue(true)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Pet profile bookmarked.", Toast.LENGTH_SHORT).show()
@@ -258,9 +281,9 @@ class FullPetProfilePage : AppCompatActivity() {
             }
     }
 
-    private fun deleteDataFromDatabase(petCardRef: DatabaseReference, petCardId: String) {
-        // Remove the specific petCardId node to delete it from "Bookmarked Pet Profiles"
-        petCardRef.child(petCardId).removeValue()
+    private fun deleteDataFromDatabase(petCardRef: DatabaseReference) {
+        // Remove the specific petCardId's "button_state" node to unbookmark it
+        petCardRef.child("button_state").removeValue()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Pet profile removed from bookmarks.", Toast.LENGTH_SHORT).show()

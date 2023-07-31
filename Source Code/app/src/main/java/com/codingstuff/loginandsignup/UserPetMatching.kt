@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener  {
+class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener {
 
     private lateinit var binding: ActivityUserPetMatchingBinding
     private var firebaseAuth: FirebaseAuth? = null
@@ -103,6 +103,7 @@ class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener  {
                         }
                     }
 
+                    // Create and set the CardAdapter with the OnItemClickListener
                     nAdapter = CardAdapter(this@UserPetMatching, nUploads, this@UserPetMatching)
                     nRecyclerView.adapter = nAdapter
                 }

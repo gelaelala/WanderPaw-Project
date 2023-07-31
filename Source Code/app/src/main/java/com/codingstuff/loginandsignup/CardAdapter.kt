@@ -9,11 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class CardAdapter(private val nContext: Context, private val nUploads: List<CardUpload>, private val itemClickListener: UserPetMatching) :
+class CardAdapter(private val nContext: Context, private val nUploads: List<CardUpload>, private val itemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(userId: String, petCardId: String)
+//        fun onPetItemClick(userId: String, petCardId: String)
     }
 
     private var connectivityCallbackRegistered = false
@@ -50,6 +51,7 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
             val userId = nUploads[position].userId
             val petCardId = nUploads[position].petCardId
             itemClickListener.onItemClick(userId, petCardId)
+//            itemClickListener.onPetItemClick(userId, petCardId)
         }
     }
 
@@ -77,6 +79,7 @@ class CardAdapter(private val nContext: Context, private val nUploads: List<Card
         }
     }
 }
+
 
 // stores the two properties
 data class CardUpload(
