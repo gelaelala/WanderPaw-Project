@@ -23,9 +23,9 @@ class BookmarkPage : AppCompatActivity(), CardAdapter.OnItemClickListener  {
     private lateinit var databaseRef: DatabaseReference
     private val authToastLess = AuthToastLess(this)
 
-    private lateinit var nRecyclerView: RecyclerView
-    private lateinit var nAdapter: CardAdapter
-    private lateinit var nUploads : List<CardUpload>
+    private lateinit var oRecyclerView: RecyclerView
+    private lateinit var oAdapter: CardAdapter
+    private lateinit var oUploads : List<CardUpload>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,18 +69,80 @@ class BookmarkPage : AppCompatActivity(), CardAdapter.OnItemClickListener  {
         }
 
         // RecyclerView set up
-        nRecyclerView = binding.petProfilesList
-        nRecyclerView.setHasFixedSize(true)
-        nRecyclerView.layoutManager = LinearLayoutManager(this)
+        oRecyclerView = binding.petProfilesList
+        oRecyclerView.setHasFixedSize(true)
+        oRecyclerView.layoutManager = LinearLayoutManager(this)
 
         // list of items in recyclerview
-        nUploads = mutableListOf()
+        oUploads = mutableListOf()
 
         databaseRef = FirebaseDatabase.getInstance().reference
         this.firebaseAuth = FirebaseAuth.getInstance()
 
+
         val currentUser = firebaseAuth!!.currentUser
         val userId = currentUser?.uid
+
+        if (userId != null) {
+            databaseRef.child("Users").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    (oUploads as MutableList<CardUpload>).clear() // Clear the list to avoid duplicate data
+                    for (userSnapshot in dataSnapshot.children) {
+                        val userIdSnapshot = userSnapshot.key
+                        val selectedPetProfiles = userSnapshot.child("Bookmarked Pet Profiles")
+
+                        val animalProfilesSnapshot = userSnapshot.child("Animal Profiles Created")
+                        for (petSnapshot in animalProfilesSnapshot.children) {
+                            val petCardId = petSnapshot.key
+                            val name = petSnapshot.child("Name").getValue(String::class.java).toString()
+                            val gender = petSnapshot.child("Gender").getValue(String::class.java).toString()
+                            val age = petSnapshot.child("Age").getValue(String::class.java).toString()
+                            val genderAge = "($gender, $age)"
+                            val location = petSnapshot.child("Location").getValue(String::class.java).toString()
+                            val bio = petSnapshot.child("Bio").getValue(String::class.java).toString()
+                            val profilePictureUrl =
+                                petSnapshot.child("Profile Picture").child("downloadUrl")
+                                    .getValue(String::class.java)
+
+                            if (petCardId != null && profilePictureUrl != null) {
+                                val upload = userIdSnapshot?.let {
+                                    CardUpload(profilePictureUrl, name, genderAge,
+                                        location, bio, it, petCardId)
+                                }
+                                if (upload != null) {
+                                    (oUploads as MutableList<CardUpload>).add(upload)
+                                }
+                            }
+                        }
+                    }
+
+                    oAdapter = CardAdapter(this@BookmarkPage, oUploads, this@BookmarkPage)
+                    oRecyclerView.adapter = oAdapter
+                }
+
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle the database error
+                    runOnUiThread {
+                        authToastLess.showToast("Data retrieval cancelled: ${databaseError.message}")
+                    }
+                }
+            })
+        }
+    }
+
+    override fun onItemClick(userId: String, petCardId: String) {
+        startFullPetProfilePageActivity(userId, petCardId)
+    }
+
+
+    private fun startFullPetProfilePageActivity(userId: String, petCardId: String) {
+        val intent = Intent(this, FullPetProfilePage::class.java)
+        intent.putExtra("petCardId", petCardId)
+        intent.putExtra("userId", userId)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
+        finish()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
