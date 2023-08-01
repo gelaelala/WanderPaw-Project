@@ -321,7 +321,7 @@ class FullPetProfilePage : AppCompatActivity() {
         petCardRef.child("button_state").setValue(true)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Pet profile bookmarked.", Toast.LENGTH_SHORT).show()
+                    CustomToast.showToast(this, "Pet profile bookmarked.");
                 } else {
                     // Error occurred while writing pet card data to the database
                     // Handle the error appropriately (e.g., show error message)
@@ -335,7 +335,7 @@ class FullPetProfilePage : AppCompatActivity() {
         petCardRef.child("button_state").removeValue()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this, "Pet profile removed from bookmarks.", Toast.LENGTH_SHORT).show()
+                    CustomToast.showToast(this, "Pet profile removed from bookmarks.");
                 } else {
                     // Error occurred while deleting data
                     handleAddPetCardIdFailure(task.exception)
