@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import com.codingstuff.loginandsignup.databinding.ActivityFullPetProfilePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -124,16 +125,19 @@ class FullPetProfilePage : AppCompatActivity() {
                 val isActive = binding.BookmarkButton.isChecked
 
                 // Update the button state for the specific petCardId in the Realtime Database
+                //val icon = findViewById<MaterialButton>(R.id.BookmarkButton)
                 petCardRef?.child("button_state")?.setValue(isActive)
                     ?.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             if (isActive) {
                                 // Perform action when the button is active (e.g., store data in the database)
                                 storeDataInDatabase(petCardRef!!)
+                                //icon.setIconResource(R.drawable.active_bookmark)
 
                             } else {
                                 // Perform action when the button is inactive (e.g., delete data from the database)
                                 deleteDataFromDatabase(petCardRef!!)
+                                //icon.setIconResource(R.drawable.heart_for_bookmark_icon)
                             }
                         } else {
                             // Handle error if data is not saved to the database
