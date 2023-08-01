@@ -1,6 +1,9 @@
 package com.codingstuff.loginandsignup
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.widget.ScrollView
@@ -103,33 +106,45 @@ class FullPetProfilePage : AppCompatActivity() {
                     override fun onCancelled(error: DatabaseError) {
                         // Handle error if data retrieval is canceled
                         buttonStateRetrieved = true // Set the flag to true even in case of an error to prevent further action
+                        runOnUiThread {
+                            authToastLess.showToast("Data retrieval cancelled: ${error.message}")
+                        }
                     }
                 })
             }
         }
 
         binding.toggleButton.setOnClickListener {
-            // If button state is not retrieved yet, prevent further action
-            if (!buttonStateRetrieved) {
-                return@setOnClickListener
-            }
-            // Check the current state of the button
-            val isActive = binding.toggleButton.isChecked
-
-            // Update the button state for the specific petCardId in the Realtime Database
-            petCardRef?.child("button_state")?.setValue(isActive)?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    if (isActive) {
-                        // Perform action when the button is active (e.g., store data in the database)
-                        storeDataInDatabase(petCardRef!!)
-
-                    } else {
-                        // Perform action when the button is inactive (e.g., delete data from the database)
-                        deleteDataFromDatabase(petCardRef!!)
-                    }
-                } else {
-                    // Handle error if data is not saved to the database
+            if (isNetworkConnected(this@FullPetProfilePage)) {
+                // If button state is not retrieved yet, prevent further action
+                if (!buttonStateRetrieved) {
+                    return@setOnClickListener
                 }
+                // Check the current state of the button
+                val isActive = binding.toggleButton.isChecked
+
+                // Update the button state for the specific petCardId in the Realtime Database
+                petCardRef?.child("button_state")?.setValue(isActive)
+                    ?.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            if (isActive) {
+                                // Perform action when the button is active (e.g., store data in the database)
+                                storeDataInDatabase(petCardRef!!)
+
+                            } else {
+                                // Perform action when the button is inactive (e.g., delete data from the database)
+                                deleteDataFromDatabase(petCardRef!!)
+                            }
+                        } else {
+                            // Handle error if data is not saved to the database
+                            handleAddPetCardIdFailure(task.exception)
+                        }
+                    }
+            } else {
+                authToastLess.showToast(
+                    "There is a network connectivity issue. Please check your network.",
+                    Toast.LENGTH_SHORT
+                )
             }
         }
 
@@ -146,6 +161,9 @@ class FullPetProfilePage : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 // Handle error if data retrieval is canceled
+                runOnUiThread {
+                    authToastLess.showToast("Data retrieval cancelled: ${error.message}")
+                }
             }
         })
 
@@ -332,6 +350,17 @@ class FullPetProfilePage : AppCompatActivity() {
         if (errorMessage != null) {
             authToastLess.showToast(errorMessage)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isNetworkConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val activeNetwork =
+            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+
+        return activeNetwork.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
