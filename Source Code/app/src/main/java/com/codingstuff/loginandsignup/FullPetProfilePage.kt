@@ -3,11 +3,14 @@ package com.codingstuff.loginandsignup
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import com.codingstuff.loginandsignup.databinding.ActivityFullPetProfilePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +34,7 @@ class FullPetProfilePage : AppCompatActivity() {
     private lateinit var callingAdapterClass: Class<*>
     private val authToastLess = AuthToastLess(this)
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFullPetProfilePageBinding.inflate(layoutInflater)
@@ -54,6 +58,23 @@ class FullPetProfilePage : AppCompatActivity() {
                     it1
                 )
             }
+        }
+
+        val scrollView = findViewById<ScrollView>(R.id.ScrollView)
+        val fabArrowUp = findViewById<FloatingActionButton>(R.id.fabArrowUp)
+
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            // Show or hide the FAB based on the scroll position
+            if (scrollY > 0) {
+                fabArrowUp.show()
+            } else {
+                fabArrowUp.hide()
+            }
+        }
+
+        fabArrowUp.setOnClickListener {
+            // Scroll to the top of the ScrollView when the FAB is clicked
+            scrollView.smoothScrollTo(0, 0)
         }
 
         // Fetch the button state only if it's not initialized yet (null or empty)
