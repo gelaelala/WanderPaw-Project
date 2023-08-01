@@ -467,15 +467,29 @@
                 android:layout_width="0dp"
                 android:layout_height="10dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/fabArrowUp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_arrow_up"
-                android:visibility="gone" />
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="@color/neutral_green"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="100dp"
+                app:icon="@drawable/top_arrow"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/white"
+                android:text="Back to Top"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter"
+                android:textStyle="bold"
+                app:rippleColor="@null" />
             
         </LinearLayout>
     </ScrollView>
