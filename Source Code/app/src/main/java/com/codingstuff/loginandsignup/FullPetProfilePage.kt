@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import com.codingstuff.loginandsignup.databinding.ActivityFullPetProfilePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -64,16 +65,8 @@ class FullPetProfilePage : AppCompatActivity() {
         }
 
         val scrollView = findViewById<ScrollView>(R.id.ScrollView)
-        val fabArrowUp = findViewById<FloatingActionButton>(R.id.fabArrowUp)
+        val fabArrowUp = findViewById<MaterialButton>(R.id.fabArrowUp)
 
-        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            // Show or hide the FAB based on the scroll position
-            if (scrollY > 0) {
-                fabArrowUp.show()
-            } else {
-                fabArrowUp.hide()
-            }
-        }
 
         fabArrowUp.setOnClickListener {
             // Scroll to the top of the ScrollView when the FAB is clicked
