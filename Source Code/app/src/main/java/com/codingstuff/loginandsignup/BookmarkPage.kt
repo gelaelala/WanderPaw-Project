@@ -102,7 +102,6 @@ class BookmarkPage : AppCompatActivity(), BookmarkAdapter.OnItemClickListener  {
                             // Loop through each user node again to find matching pet profiles
                             for (userSnapshot in dataSnapshot.children) {
                                 // Skip the current user's node, we don't want to match with their own profiles
-//                                if (userSnapshot.key) {
                                     // Get the "Animal Profiles Created" node of the current user in the loop
                                     val animalProfilesNode = userSnapshot.child("Animal Profiles Created")
 
@@ -134,7 +133,6 @@ class BookmarkPage : AppCompatActivity(), BookmarkAdapter.OnItemClickListener  {
                                             }
                                         }
                                     }
-//                                }
                             }
                         }
                     }
