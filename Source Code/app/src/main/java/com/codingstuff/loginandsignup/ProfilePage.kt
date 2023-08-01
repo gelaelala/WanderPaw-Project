@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.Window
 import android.widget.Button
@@ -43,6 +44,9 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
     private lateinit var userProfilePictureUrl: String
 
+    private lateinit var loadingScreen: View
+
+
     companion object {
         fun showFullScreenImage(context: Context, imageUrl: String) {
             val intent = Intent(context, FullScreenImageActivity::class.java)
@@ -62,6 +66,9 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityProfilePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        loadingScreen = layoutInflater.inflate(R.layout.activity_log_out_loader, null)
+        loadingScreen.visibility = View.VISIBLE
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.UserProfile
@@ -240,8 +247,9 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
 
         yesButton.setOnClickListener{
             firebaseAuth?.signOut()
-            startActivity(Intent(this@ProfilePage, LogInActivity::class.java))
-            finish()
+            Handler().postDelayed({
+                navigateToLogInPage()
+            }, 3000)
         }
 
         noButton.setOnClickListener{
@@ -292,6 +300,12 @@ class ProfilePage : AppCompatActivity(), ImageAdapter.OnItemClickListener {
         val intent = Intent(this, EditProfilePage::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
+        finish()
+    }
+
+    private fun navigateToLogInPage() {
+        val intent = Intent(this, LogInActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
