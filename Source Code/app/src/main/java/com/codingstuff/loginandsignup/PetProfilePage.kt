@@ -10,11 +10,13 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import android.widget.Button
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.codingstuff.loginandsignup.databinding.ActivityPetProfilePageBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -54,6 +56,23 @@ class PetProfilePage : AppCompatActivity() {
                     it1
                 )
             }
+        }
+
+        val scrollView = findViewById<ScrollView>(R.id.ScrollView)
+        val fabArrowUp = findViewById<FloatingActionButton>(R.id.fabArrowUp)
+
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            // Show or hide the FAB based on the scroll position
+            if (scrollY > 0) {
+                fabArrowUp.show()
+            } else {
+                fabArrowUp.hide()
+            }
+        }
+
+        fabArrowUp.setOnClickListener {
+            // Scroll to the top of the ScrollView when the FAB is clicked
+            scrollView.smoothScrollTo(0, 0)
         }
 
         if (userId != null) {
