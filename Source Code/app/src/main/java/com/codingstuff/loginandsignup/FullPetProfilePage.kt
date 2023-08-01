@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
+@Suppress("DEPRECATION")
 class FullPetProfilePage : AppCompatActivity() {
 
     private lateinit var binding: ActivityFullPetProfilePageBinding
@@ -27,6 +28,7 @@ class FullPetProfilePage : AppCompatActivity() {
     private var profilePictureUrl: String? = null
     private var petCardRef: DatabaseReference? = null
     private var buttonStateRetrieved = false // A flag to check if button state is retrieved
+    private lateinit var callingAdapterClass: Class<*>
     private val authToastLess = AuthToastLess(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,9 @@ class FullPetProfilePage : AppCompatActivity() {
         val userId = intent.getStringExtra("userId")
         val currentUser = firebaseAuth.currentUser
         val accountUser = currentUser?.uid
+
+        // Retrieve the calling activity's class
+        callingAdapterClass = intent.getSerializableExtra("callingAdapter") as Class<*>
 
         binding.PetProfileData.setOnClickListener {
             profilePictureUrl?.let { it1 ->
@@ -267,7 +272,7 @@ class FullPetProfilePage : AppCompatActivity() {
         }
 
         binding.BackButton.setOnClickListener{
-            navigateToFeedTab()
+            onBackPressed()
         }
 
     }
@@ -319,16 +324,27 @@ class FullPetProfilePage : AppCompatActivity() {
         ConnectivityUtils.unregisterConnectivityCallback()
     }
 
-    private fun navigateToFeedTab() {
-        val intent = Intent(this, UserPetMatching::class.java)
-        startActivity(intent)
-        overridePendingTransition(R.anim.stay, R.anim.stay)
-        finish()
-    }
-
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        super.onBackPressed()
-        navigateToFeedTab()
+        when (callingAdapterClass) {
+            CardAdapter::class.java -> {
+                val intent = Intent(this, UserPetMatching::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.stay, R.anim.stay)
+                finish()
+            }
+            BookmarkAdapter::class.java -> {
+                val intent = Intent(this, BookmarkPage::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.stay, R.anim.stay)
+                finish()
+            }
+            // Add cases for other calling adapters if needed
+            else -> {
+                // Default behavior if the calling adapter is not recognized
+                super.onBackPressed()
+                overridePendingTransition(R.anim.stay, R.anim.stay)
+            }
+        }
     }
 }

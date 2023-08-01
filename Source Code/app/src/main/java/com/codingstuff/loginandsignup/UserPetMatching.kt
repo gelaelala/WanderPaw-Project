@@ -119,7 +119,7 @@ class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener {
         }
     }
 
-    override fun onItemClick(userId: String, petCardId: String) {
+    override fun onItemClick(userId: String, petCardId: String, callingAdapter: Class<*>) {
         startFullPetProfilePageActivity(userId, petCardId)
     }
 
@@ -131,6 +131,7 @@ class UserPetMatching : AppCompatActivity(), CardAdapter.OnItemClickListener {
         overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
         finish()
     }
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onStart() {

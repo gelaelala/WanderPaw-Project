@@ -1,11 +1,13 @@
 package com.codingstuff.loginandsignup
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
@@ -13,8 +15,7 @@ class BookmarkAdapter(private val nContext: Context, private val nUploads: List<
     RecyclerView.Adapter<BookmarkAdapter.CardViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(userId: String, petCardId: String)
-//        fun onPetItemClick(userId: String, petCardId: String)
+        fun onItemClick(userId: String, petCardId: String, callingAdapter: Class<*>)
     }
 
     private var connectivityCallbackRegistered = false
@@ -50,8 +51,13 @@ class BookmarkAdapter(private val nContext: Context, private val nUploads: List<
         holder.itemView.setOnClickListener {
             val userId = nUploads[position].userId
             val petCardId = nUploads[position].petCardId
-            itemClickListener.onItemClick(userId, petCardId)
-//            itemClickListener.onPetItemClick(userId, petCardId)
+            val intent = Intent(nContext, FullPetProfilePage::class.java)
+            intent.putExtra("callingAdapter", BookmarkAdapter::class.java)
+            intent.putExtra("userId", userId)
+            intent.putExtra("petCardId", petCardId)
+            nContext.startActivity(intent)
+            (nContext as AppCompatActivity).overridePendingTransition(R.anim.slide_in_up, R.anim.stay)
+            nContext.finish()
         }
     }
 
