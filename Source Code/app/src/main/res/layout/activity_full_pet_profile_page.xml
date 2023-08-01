@@ -67,7 +67,27 @@
                 android:layout_width="0dp"
                 android:layout_height="5dp" />
 
-            <ToggleButton
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/BookmarkButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:backgroundTint="@color/neutral_green"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="100dp"
+                app:icon="@drawable/heart_for_bookmark_icon"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/white"
+                app:rippleColor="@null"
+                android:checkable="true"/>
+
+            <!--ToggleButton
                 android:id="@+id/toggleButton"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
@@ -81,7 +101,7 @@
                 android:checked="false"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
-                android:background="@drawable/roundedbutton_bookmark"/>
+                android:background="@drawable/roundedbutton_bookmark"/ -->
 
             <Space
                 android:layout_width="0dp"

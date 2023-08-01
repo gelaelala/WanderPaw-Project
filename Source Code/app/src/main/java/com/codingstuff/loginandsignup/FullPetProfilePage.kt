@@ -94,10 +94,10 @@ class FullPetProfilePage : AppCompatActivity() {
                         if (!snapshot.exists()) {
                             petCardRef!!.child("button_state").setValue(false)
                             // Set the button to inactive (false)
-                            binding.toggleButton.isChecked = false
+                            binding.BookmarkButton.isChecked = false
                         } else {
                             // Set the button to the retrieved state
-                            binding.toggleButton.isChecked = isActive
+                            binding.BookmarkButton.isChecked = isActive
                         }
                         // Set the flag to true once the button state is retrieved
                         buttonStateRetrieved = true
@@ -114,14 +114,14 @@ class FullPetProfilePage : AppCompatActivity() {
             }
         }
 
-        binding.toggleButton.setOnClickListener {
+        binding.BookmarkButton.setOnClickListener {
             if (isNetworkConnected(this@FullPetProfilePage)) {
                 // If button state is not retrieved yet, prevent further action
                 if (!buttonStateRetrieved) {
                     return@setOnClickListener
                 }
                 // Check the current state of the button
-                val isActive = binding.toggleButton.isChecked
+                val isActive = binding.BookmarkButton.isChecked
 
                 // Update the button state for the specific petCardId in the Realtime Database
                 petCardRef?.child("button_state")?.setValue(isActive)
@@ -156,7 +156,7 @@ class FullPetProfilePage : AppCompatActivity() {
                     // If button state does not exist (null or empty), initialize it as inactive (false)
                     petCardRef!!.child("button_state").setValue(false)
                 }
-                binding.toggleButton.isChecked = isActive
+                binding.BookmarkButton.isChecked = isActive
             }
 
             override fun onCancelled(error: DatabaseError) {
