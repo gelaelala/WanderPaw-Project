@@ -489,9 +489,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_arrow_up"
-                android:visibility="gone" />
+                android:src="@drawable/top_arrow" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
