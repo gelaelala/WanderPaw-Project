@@ -63,14 +63,25 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/inter"/>
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="5dp" />
+
             <ToggleButton
                 android:id="@+id/toggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 android:text="Toggle Button"
-                android:textOn="Active"
-                android:textOff="Inactive"
-                android:checked="false" />
+                android:textOn="Bookmarked"
+                android:textOff="Bookmark"
+                android:checked="false"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:background="@drawable/roundedbutton_bookmark"/>
 
             <Space
                 android:layout_width="0dp"
@@ -458,7 +469,6 @@
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_arrow_up"
                 android:visibility="gone" />
-
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
