@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import com.codingstuff.loginandsignup.databinding.ActivityFullPetProfilePageBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -95,10 +94,10 @@ class FullPetProfilePage : AppCompatActivity() {
                         if (!snapshot.exists()) {
                             petCardRef!!.child("button_state").setValue(false)
                             // Set the button to inactive (false)
-                            binding.BookmarkButton.isChecked = false
+                            binding.toggleButton.isChecked = false
                         } else {
                             // Set the button to the retrieved state
-                            binding.BookmarkButton.isChecked = isActive
+                            binding.toggleButton.isChecked = isActive
                         }
                         // Set the flag to true once the button state is retrieved
                         buttonStateRetrieved = true
@@ -115,29 +114,26 @@ class FullPetProfilePage : AppCompatActivity() {
             }
         }
 
-        binding.BookmarkButton.setOnClickListener {
+        binding.toggleButton.setOnClickListener {
             if (isNetworkConnected(this@FullPetProfilePage)) {
                 // If button state is not retrieved yet, prevent further action
                 if (!buttonStateRetrieved) {
                     return@setOnClickListener
                 }
                 // Check the current state of the button
-                val isActive = binding.BookmarkButton.isChecked
+                val isActive = binding.toggleButton.isChecked
 
                 // Update the button state for the specific petCardId in the Realtime Database
-                //val icon = findViewById<MaterialButton>(R.id.BookmarkButton)
                 petCardRef?.child("button_state")?.setValue(isActive)
                     ?.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             if (isActive) {
                                 // Perform action when the button is active (e.g., store data in the database)
                                 storeDataInDatabase(petCardRef!!)
-                                //icon.setIconResource(R.drawable.active_bookmark)
 
                             } else {
                                 // Perform action when the button is inactive (e.g., delete data from the database)
                                 deleteDataFromDatabase(petCardRef!!)
-                                //icon.setIconResource(R.drawable.heart_for_bookmark_icon)
                             }
                         } else {
                             // Handle error if data is not saved to the database
@@ -160,7 +156,7 @@ class FullPetProfilePage : AppCompatActivity() {
                     // If button state does not exist (null or empty), initialize it as inactive (false)
                     petCardRef!!.child("button_state").setValue(false)
                 }
-                binding.BookmarkButton.isChecked = isActive
+                binding.toggleButton.isChecked = isActive
             }
 
             override fun onCancelled(error: DatabaseError) {
